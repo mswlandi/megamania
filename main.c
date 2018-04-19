@@ -1,5 +1,3 @@
-//im zuerinh
-
 #define MIDDLE 1
 #include <SFML/Graphics.h>
 
@@ -16,22 +14,26 @@ int main()
     sfSprite* fire;
     sfEvent event;
     int mouseX, mouseY;
+    int isFireable = 1; //Fire flag
 
     //Create the main window
     window = sfRenderWindow_create(mode, "Megamania", sfResize | sfClose, NULL);
 
-    //Load the some sprites
+    ///Load the some sprites
+    //Ship
     ship = sfSprite_createFromFile("nave.png");
-    sfSprite_scale(ship, (sfVector2f){0.25,0.25});
+    sfSprite_scale(ship, (sfVector2f){0.25,0.25}); //nave.png width: 80px
+    sfSprite_setPosition(ship, (sfVector2f){400, 500});
+    //Fire
     fire = sfSprite_createFromFile("fire.png");
-    sfSprite_scale(fire, (sfVector2f){0.1,0.1});
+    sfSprite_scale(fire, (sfVector2f){0.05,0.05});
     sfSprite_rotate(fire,90);
-    sfSprite_setPosition(ship, (sfVector2f){-1,-1});
+    sfSprite_setPosition(fire, (sfVector2f){-40, -40});
 
-    //Start the game loop
+    ///Start the game loop
     while (sfRenderWindow_isOpen(window))
     {
-        //Process events
+        ///Process events
         while (sfRenderWindow_pollEvent(window, &event))
         {
             //Close window : exit
@@ -39,12 +41,30 @@ int main()
                 sfRenderWindow_close(window);
         }
 
-        //Update logic
+        ///Update logic
         mouseX = sfMouse_getPosition(window).x;
         mouseY = sfMouse_getPosition(window).y;
-        sfSprite_setPosition(ship, (sfVector2f){mouseX,500});
 
-        //Actual drawing
+        //Ship
+        if(sfKeyboard_isKeyPressed(sfKeyLeft) && sfSprite_getPosition(ship).x > 40)
+            sfSprite_move(ship, (sfVector2f){-0.5, 0});
+        if(sfKeyboard_isKeyPressed(sfKeyRight) && sfSprite_getPosition(ship).x < 760)
+            sfSprite_move(ship, (sfVector2f){0.5, 0});
+
+        //Fire
+        if(sfKeyboard_isKeyPressed(sfKeySpace) && isFireable)
+        {
+            sfSprite_setPosition(fire, (sfVector2f){sfSprite_getPosition(ship).x, sfSprite_getPosition(ship).y - 40});
+        }
+        if(sfSprite_getPosition(fire).y >= -40)
+        {
+            sfSprite_move(fire, (sfVector2f){0, -1});
+            isFireable = 0;
+        }
+        else
+            isFireable = 1;
+
+        ///Actual drawing
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
         sfRenderWindow_drawSprite(window, ship, NULL);
         sfRenderWindow_drawSprite(window, fire, NULL);
