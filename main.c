@@ -19,7 +19,7 @@ int main()
     //Create the main window
     window = sfRenderWindow_create(mode, "Megamania", sfResize | sfClose, NULL);
 
-    ///Load the some sprites
+    ///Loads some sprites
     //Ship
     ship = sfSprite_createFromFile("nave.png");
     sfSprite_scale(ship, (sfVector2f){0.25,0.25}); //nave.png width: 80px
