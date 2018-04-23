@@ -27,7 +27,6 @@ int main()
     //Fire
     fire = sfSprite_createFromFile("fire.png");
     sfSprite_scale(fire, (sfVector2f){0.05,0.05});
-    sfSprite_rotate(fire,90);
     sfSprite_setPosition(fire, (sfVector2f){-40, -40});
 
     ///Start the game loop
@@ -46,9 +45,9 @@ int main()
         mouseY = sfMouse_getPosition(window).y;
 
         //Ship
-        if(sfKeyboard_isKeyPressed(sfKeyLeft) && sfSprite_getPosition(ship).x > 40)
+        if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(ship).x > 40)
             sfSprite_move(ship, (sfVector2f){-0.5, 0});
-        if(sfKeyboard_isKeyPressed(sfKeyRight) && sfSprite_getPosition(ship).x < 760)
+        if((sfKeyboard_isKeyPressed(sfKeyRight)||sfKeyboard_isKeyPressed(sfKeyD)) && sfSprite_getPosition(ship).x < 760)
             sfSprite_move(ship, (sfVector2f){0.5, 0});
 
         //Fire
