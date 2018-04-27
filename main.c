@@ -1,5 +1,6 @@
 #define MIDDLE 1
 #include <SFML/Graphics.h>
+#include <string.h>
 
 //Defining some useful functions
 //This bundles together a sprite with a texture, and the origin in the middle
@@ -12,6 +13,13 @@ int main()
     sfRenderWindow* window;
     sfSprite* ship;
     sfSprite* fire;
+    sfSprite* background;
+    //Time's variables
+    sfClock* clock = sfClock_create();
+    sfTime time = sfClock_getElapsedTime(clock);
+    sfTime lasttime = time;
+    float dtime;
+
     sfEvent event;
     int mouseX, mouseY;
     int isFireable = 1; //Fire flag
@@ -28,6 +36,10 @@ int main()
     fire = sfSprite_createFromFile("fire.png");
     sfSprite_scale(fire, (sfVector2f){0.05,0.05});
     sfSprite_setPosition(fire, (sfVector2f){-40, -40});
+    //Background
+    background = sfSprite_createFromFile("background.png");
+    sfSprite_scale(background, (sfVector2f){1, 1});
+    sfSprite_setPosition(background, (sfVector2f){300, 300});
 
     ///Start the game loop
     while (sfRenderWindow_isOpen(window))
@@ -40,15 +52,16 @@ int main()
                 sfRenderWindow_close(window);
         }
 
-        ///Update logic
-        mouseX = sfMouse_getPosition(window).x;
-        mouseY = sfMouse_getPosition(window).y;
+        ///Update logicaa
+        time = sfClock_getElapsedTime(clock);
+        dtime = sfTime_asSeconds(time)-sfTime_asSeconds(lasttime);
+        lasttime = time;
 
         //Ship
         if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(ship).x > 40)
-            sfSprite_move(ship, (sfVector2f){-0.5, 0});
+            sfSprite_move(ship, (sfVector2f){-300*dtime, 0});
         if((sfKeyboard_isKeyPressed(sfKeyRight)||sfKeyboard_isKeyPressed(sfKeyD)) && sfSprite_getPosition(ship).x < 760)
-            sfSprite_move(ship, (sfVector2f){0.5, 0});
+            sfSprite_move(ship, (sfVector2f){300*dtime, 0});
 
         //Fire
         if(sfKeyboard_isKeyPressed(sfKeySpace) && isFireable)
@@ -57,7 +70,7 @@ int main()
         }
         if(sfSprite_getPosition(fire).y >= -40)
         {
-            sfSprite_move(fire, (sfVector2f){0, -1});
+            sfSprite_move(fire, (sfVector2f){0, -600*dtime});
             isFireable = 0;
         }
         else
@@ -65,6 +78,7 @@ int main()
 
         ///Actual drawing
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
+        sfRenderWindow_drawSprite(window, background, NULL);
         sfRenderWindow_drawSprite(window, ship, NULL);
         sfRenderWindow_drawSprite(window, fire, NULL);
         sfRenderWindow_display(window);
@@ -83,7 +97,9 @@ sfSprite* sfSprite_createFromFile(const char* filename)
     sfTexture* texture;
     sfSprite* sprite;
 
-    texture = sfTexture_createFromFile(filename, NULL);
+    char img[6]="imgs/";
+
+    texture = sfTexture_createFromFile(strcat(img,filename), NULL);
     sprite = sfSprite_create();
 
     sfSprite_setTexture(sprite, texture, sfTrue);
