@@ -8,18 +8,19 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/megamania" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/Debug" />
 				<Option object_output="obj/Debug" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="C:/Users/Henry Bernardo/Documents/GitHub/CSFML/include" />
+					<Add directory="../CSFML/include" />
 				</Compiler>
 				<Linker>
-					<Add library="C:/Users/Henry Bernardo/Documents/GitHub/CSFML/lib/gcc/libcsfml-graphics.a" />
-					<Add library="C:/Users/Henry Bernardo/Documents/GitHub/CSFML/lib/gcc/libcsfml-window.a" />
-					<Add library="C:/Users/Henry Bernardo/Documents/GitHub/CSFML/lib/gcc/libcsfml-system.a" />
-					<Add directory="C:/Users/Henry Bernardo/Documents/GitHub/CSFML/lib" />
+					<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
+					<Add library="../CSFML/lib/gcc/libcsfml-window.a" />
+					<Add library="../CSFML/lib/gcc/libcsfml-system.a" />
+					<Add directory="../CSFML/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
