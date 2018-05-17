@@ -5,7 +5,6 @@
 //Defining some useful functions
 //This bundles together a sprite with a texture, and the origin in the middle
 sfSprite* sfSprite_createFromFile(const char* filename);
-void sfSprite_lifesCreate(sfSprite* life1, sfSprite* life2, sfSprite* life3);
 
 int main()
 {
@@ -51,12 +50,17 @@ int main()
     sfSprite_scale(background, (sfVector2f){3.125, 2.3475});
     sfSprite_setPosition(background, (sfVector2f){400, 300});
     //Lifes
-    life1 = sfSprite_createFromFile("life1.png");
+    life1 = sfSprite_createFromFile("life.png");
     sfSprite_setPosition(life1, (sfVector2f){350, 575});
-    life2 = sfSprite_createFromFile("life2.png");
+    life2 = sfSprite_createFromFile("life.png");
     sfSprite_setPosition(life2, (sfVector2f){400, 575});
-    life3 = sfSprite_createFromFile("life3.png");
+    life3 = sfSprite_createFromFile("life.png");
     sfSprite_setPosition(life3, (sfVector2f){450, 575});
+    //Life bar
+    lifebar = sfSprite_createFromFile("lifebar.png");
+    sfSprite_setOrigin(lifebar, (sfVector2f){111, 19.99});
+    sfSprite_scale(lifebar, (sfVector2f){2, 1});
+    sfSprite_setPosition(lifebar, (sfVector2f){400, 525});
 
     ///Start the game loop
     while (sfRenderWindow_isOpen(window))
@@ -121,8 +125,7 @@ sfSprite* sfSprite_createFromFile(const char* filename)
 
     char img[6]="imgs/";
 
-    texture = sfTexture_createFromFile(strcat(img, filename), NULL);
-    system("dir");
+    texture = sfTexture_createFromFile(strcat(img,filename), NULL);
     sprite = sfSprite_create();
 
     sfSprite_setTexture(sprite, texture, sfTrue);
@@ -131,3 +134,4 @@ sfSprite* sfSprite_createFromFile(const char* filename)
 
     return sprite;
 }
+
