@@ -51,7 +51,12 @@ int main()
     sfSprite_scale(background, (sfVector2f){3.125, 2.3475});
     sfSprite_setPosition(background, (sfVector2f){400, 300});
     //Lifes
-    sfSprite_lifesCreate(&life1, &life2, &life3);
+    life1 = sfSprite_createFromFile("life1.png");
+    sfSprite_setPosition(life1, (sfVector2f){350, 575});
+    life2 = sfSprite_createFromFile("life2.png");
+    sfSprite_setPosition(life2, (sfVector2f){400, 575});
+    life3 = sfSprite_createFromFile("life3.png");
+    sfSprite_setPosition(life3, (sfVector2f){450, 575});
 
     ///Start the game loop
     while (sfRenderWindow_isOpen(window))
@@ -125,16 +130,4 @@ sfSprite* sfSprite_createFromFile(const char* filename)
                                             sfSprite_getLocalBounds(sprite).height/2});
 
     return sprite;
-}
-
-void sfSprite_lifesCreate(sfSprite* life1, sfSprite* life2, sfSprite* life3)
-{
-  life1 = sfSprite_createFromFile("life.png");
-  sfSprite_setPosition(life1, (sfVector2f){350, 575});
-
-  life2 = sfSprite_createFromFile("life.png");
-  sfSprite_setPosition(life2, (sfVector2f){400, 575});
-
-  life3 = sfSprite_createFromFile("life.png");
-  sfSprite_setPosition(life3, (sfVector2f){450, 575});
 }
