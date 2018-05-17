@@ -46,6 +46,9 @@
 			<Add library="X:/CSFML/lib/gcc/libcsfml-system.a" />
 			<Add directory="X:/CSFML/lib" />
 		</Linker>
+		<Unit filename="layout.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

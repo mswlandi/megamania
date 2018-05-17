@@ -14,11 +14,20 @@ int main()
     sfSprite* ship;
     sfSprite* fire;
     sfSprite* background;
+    sfSprite* life1;
+    sfSprite* life2;
+    sfSprite* life3;
+    sfSprite* lifebar;
     //Time's variables
     sfClock* clock = sfClock_create();
     sfTime time = sfClock_getElapsedTime(clock);
     sfTime lasttime = time;
     float dtime;
+
+    sfRectangleShape* base = sfRectangleShape_create();
+    sfRectangleShape_setSize(base, (sfVector2f){800, 100});
+    sfRectangleShape_setPosition(base, (sfVector2f){0, 500});
+    sfRectangleShape_setFillColor(base, sfColor_fromRGB(150,0,0));
 
     sfEvent event;
     int mouseX, mouseY;
@@ -30,16 +39,28 @@ int main()
     ///Loads some sprites
     //Ship
     ship = sfSprite_createFromFile("nave.png");
-    sfSprite_scale(ship, (sfVector2f){0.25,0.25}); //nave.png width: 80px
-    sfSprite_setPosition(ship, (sfVector2f){400, 500});
+    sfSprite_scale(ship, (sfVector2f){0.8,0.8}); //nave.png width: 80px
+    sfSprite_setPosition(ship, (sfVector2f){450, 450});
     //Fire
     fire = sfSprite_createFromFile("fire.png");
-    sfSprite_scale(fire, (sfVector2f){0.05,0.05});
+    sfSprite_scale(fire, (sfVector2f){0.5,0.5});
     sfSprite_setPosition(fire, (sfVector2f){-40, -40});
     //Background
     background = sfSprite_createFromFile("background.png");
-    sfSprite_scale(background, (sfVector2f){1, 1});
-    sfSprite_setPosition(background, (sfVector2f){300, 300});
+    sfSprite_scale(background, (sfVector2f){3.125, 2.3475});
+    sfSprite_setPosition(background, (sfVector2f){400, 300});
+    //Lifes
+    life1 = sfSprite_createFromFile("life1.png");
+    sfSprite_setPosition(life1, (sfVector2f){350, 575});
+    life2 = sfSprite_createFromFile("life2.png");
+    sfSprite_setPosition(life2, (sfVector2f){400, 575});
+    life3 = sfSprite_createFromFile("life3.png");
+    sfSprite_setPosition(life3, (sfVector2f){450, 575});
+    //Life bar
+    lifebar = sfSprite_createFromFile("lifebar.png");
+    sfSprite_setOrigin(lifebar, (sfVector2f){111, 19.99});
+    sfSprite_scale(lifebar, (sfVector2f){2, 1});
+    sfSprite_setPosition(lifebar, (sfVector2f){400, 525});
 
     ///Start the game loop
     while (sfRenderWindow_isOpen(window))
@@ -52,7 +73,7 @@ int main()
                 sfRenderWindow_close(window);
         }
 
-        ///Update logicaa
+        ///Update logic
         time = sfClock_getElapsedTime(clock);
         dtime = sfTime_asSeconds(time)-sfTime_asSeconds(lasttime);
         lasttime = time;
@@ -70,7 +91,7 @@ int main()
         }
         if(sfSprite_getPosition(fire).y >= -40)
         {
-            sfSprite_move(fire, (sfVector2f){0, -600*dtime});
+            sfSprite_setPosition(fire, (sfVector2f){sfSprite_getPosition(ship).x, sfSprite_getPosition(fire).y -600*dtime});
             isFireable = 0;
         }
         else
@@ -81,6 +102,11 @@ int main()
         sfRenderWindow_drawSprite(window, background, NULL);
         sfRenderWindow_drawSprite(window, ship, NULL);
         sfRenderWindow_drawSprite(window, fire, NULL);
+        sfRenderWindow_drawRectangleShape(window, base, NULL);
+        sfRenderWindow_drawSprite(window, life1, NULL);
+        sfRenderWindow_drawSprite(window, life2, NULL);
+        sfRenderWindow_drawSprite(window, life3, NULL);
+        sfRenderWindow_drawSprite(window, lifebar, NULL);
         sfRenderWindow_display(window);
     }
 
@@ -108,3 +134,4 @@ sfSprite* sfSprite_createFromFile(const char* filename)
 
     return sprite;
 }
+
