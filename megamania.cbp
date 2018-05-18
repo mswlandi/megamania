@@ -14,13 +14,13 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add directory="X:/CSFML/include" />
+					<Add directory="../CSFML/include" />
 				</Compiler>
 				<Linker>
-					<Add library="X:/CSFML/lib/gcc/libcsfml-graphics.a" />
-					<Add library="X:/CSFML/lib/gcc/libcsfml-window.a" />
-					<Add library="X:/CSFML/lib/gcc/libcsfml-system.a" />
-					<Add directory="X:/CSFML/lib" />
+					<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
+					<Add library="../CSFML/lib/gcc/libcsfml-window.a" />
+					<Add library="../CSFML/lib/gcc/libcsfml-system.a" />
+					<Add directory="../CSFML/lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -38,13 +38,13 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="X:/CSFML/include" />
+			<Add directory="../CSFML/include" />
 		</Compiler>
 		<Linker>
-			<Add library="X:/CSFML/lib/gcc/libcsfml-graphics.a" />
-			<Add library="X:/CSFML/lib/gcc/libcsfml-window.a" />
-			<Add library="X:/CSFML/lib/gcc/libcsfml-system.a" />
-			<Add directory="X:/CSFML/lib" />
+			<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
+			<Add library="../CSFML/lib/gcc/libcsfml-window.a" />
+			<Add library="../CSFML/lib/gcc/libcsfml-system.a" />
+			<Add directory="../CSFML/lib/gcc" />
 		</Linker>
 		<Unit filename="layout.c">
 			<Option compilerVar="CC" />
