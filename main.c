@@ -7,6 +7,8 @@
 //Defining some useful functions
 //This bundles together a sprite with a texture, and the origin in the middle
 sfSprite* sfSprite_createFromFile(const char* filename);
+void drawLifes(sfWindow* window, sfSprite* life1, sfSprite* life2, sfSprite* life3, int* numL);
+void determine_dtime(sfClock* aClock, sfTime* initialtime, sfTime* lasttime, float* dtime);
 
 int main()
 {
@@ -43,16 +45,15 @@ int main()
     float mouseY;
 
 
-    //Float variables
+    //General variables
     float sizex = 436;
     float sizey = 35;
+    int numberlifes = 3;
 
 
 
     //Create the main window
     window = sfRenderWindow_create(mode, "Megamania", sfResize | sfClose, NULL);
-
-
 
 
 
@@ -120,6 +121,8 @@ int main()
         ///Initializing positions
         sizex = 436;
         sfSprite_setPosition(ship, (sfVector2f){WIDTH/2, 450});
+        if(numberlifes == 0)
+            numberlifes = 3;
 
         while(sizex > 0)
         {
@@ -132,9 +135,7 @@ int main()
             }
 
             ///Update logic
-            time = sfClock_getElapsedTime(clock);
-            dtime = sfTime_asSeconds(time)-sfTime_asSeconds(lasttime);
-            lasttime = time;
+            determine_dtime(clock, &time, &lasttime, &dtime);
 
             //Ship
             if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(ship).x > 40)
@@ -157,7 +158,7 @@ int main()
                 isFireable = 1;
 
 
-            sizex -= 100*dtime; // To empty the life bar
+            sizex -= 300*dtime; // To empty the life bar
             sfRectangleShape_setSize(fillLifeBar2, (sfVector2f){sizex, sizey});
 
             ///Actual drawing
@@ -167,28 +168,34 @@ int main()
             sfRenderWindow_drawSprite(window, ship, NULL);
             sfRenderWindow_drawSprite(window, fire, NULL);
             sfRenderWindow_drawRectangleShape(window, base, NULL);
-            sfRenderWindow_drawSprite(window, life1, NULL);
-            sfRenderWindow_drawSprite(window, life2, NULL);
-            sfRenderWindow_drawSprite(window, life3, NULL);
+            drawLifes(window, life1, life2, life3, &numberlifes);
             sfRenderWindow_drawSprite(window, lifebar, NULL);
             sfRenderWindow_drawRectangleShape(window, fillLifeBar, NULL);
             sfRenderWindow_drawRectangleShape(window, fillLifeBar2, NULL);
             sfRenderWindow_display(window);
         }
 
-        do
+        if(numberlifes > 0)
         {
-            sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
-            sfRenderWindow_drawSprite(window, gameover, NULL);
-            sfRenderWindow_display(window);
-        }while(!(sfMouse_isButtonPressed(sfMouseLeft) && (mouseX <= 800 && mouseX >= 0) && (mouseY <= 600 && mouseY >= 0))) ;
+            numberlifes --;
 
+        }
+        if(numberlifes == 0)
+            do
+            {
+                determine_dtime(clock, &time, &lasttime, &dtime);
+
+                sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
+                sfRenderWindow_drawSprite(window, gameover, NULL);
+                sfRenderWindow_display(window);
+            }while(!(sfMouse_isButtonPressed(sfMouseLeft)) && numberlifes == 0);
     }
 
     //Cleanup resources
     sfSprite_destroy(ship);
     sfSprite_destroy(fire);
     sfRenderWindow_destroy(window);
+
 
     return 0;
 }
@@ -210,4 +217,28 @@ sfSprite* sfSprite_createFromFile(const char* filename)
     return sprite;
 }
 
+void drawLifes(sfWindow* window, sfSprite* life1, sfSprite* life2, sfSprite* life3, int* numL)
+{
+    if(*numL == 3)
+    {
+            sfRenderWindow_drawSprite(window, life1, NULL);
+            sfRenderWindow_drawSprite(window, life2, NULL);
+            sfRenderWindow_drawSprite(window, life3, NULL);
+    }
+    if(*numL == 2)
+    {
+            sfRenderWindow_drawSprite(window, life1, NULL);
+            sfRenderWindow_drawSprite(window, life2, NULL);
+    }
+    if(*numL == 1)
+    {
+            sfRenderWindow_drawSprite(window, life1, NULL);
+    }
+}
 
+void determine_dtime(sfClock* aClock, sfTime* initialtime, sfTime* lasttime, float* dtime)
+{
+    *initialtime = sfClock_getElapsedTime(aClock);
+    *dtime = sfTime_asSeconds(*initialtime)-sfTime_asSeconds(*lasttime);
+    *lasttime = *initialtime;
+}

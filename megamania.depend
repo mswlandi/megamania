@@ -669,3 +669,11 @@
 	<SFML/Graphics/Types.h>
 	<SFML/System/Vector2.h>
 
+1526573816 source:c:\users\henry bernardo\documents\github\megamania-forked\layout.c
+	<stdio.h>
+	<SFML/Graphics.h>
+
+1526604207 source:c:\users\henry bernardo\documents\github\megamania-forked\main.c
+	<SFML/Graphics.h>
+	<string.h>
+
