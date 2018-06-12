@@ -44,7 +44,7 @@
 			<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
 			<Add library="../CSFML/lib/gcc/libcsfml-window.a" />
 			<Add library="../CSFML/lib/gcc/libcsfml-system.a" />
-			<Add directory="../CSFML/lib" />
+			<Add directory="../CSFML/lib/gcc" />
 		</Linker>
 		<Unit filename="layout.c">
 			<Option compilerVar="CC" />
