@@ -108,6 +108,7 @@ TYPE_LEVEL level2;
 TYPE_LEVEL chosenLevel; // We didn't use it yet
 
 
+
 int main()
 {
     // Initializing map names
@@ -233,7 +234,6 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         }
         else
             isFireable = 1;
-
 
         energy -= BARSPEED*dtime; // To empty the life bar
         sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
@@ -489,4 +489,3 @@ void returnToLife(TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray)
         enemies[i].flag = 1;            // It's setting the enemy's flag to 1, which means that he is alive
     }
 }
-
