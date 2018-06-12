@@ -45,6 +45,7 @@ typedef struct str_sprites
     sfSprite* background;
     sfSprite* life;
     sfSprite* lifebar;
+    sfSprite* gameover;
     TYPE_ENEMIES enemies[MAXENEMIES];
     sfRectangleShape* fillLifeBar;
     sfRectangleShape* fillLifeBar2;
@@ -267,10 +268,6 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
 void layoutGameOver(sfRenderWindow* window, sfEvent event)
 {
-    sfSprite* gameover = sfSprite_createFromFile("gameover.png",
-                                                 (sfVector2f){1,1},
-                                                 (sfVector2f){WIDTH/2, HEIGHT/2});
-
     do
     {
         /// Code to close the window
@@ -283,7 +280,7 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
 
         sfSleep(sfMilliseconds(10));
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
-        sfRenderWindow_drawSprite(window, gameover, NULL);
+        sfRenderWindow_drawSprite(window, gameSprites.gameover, NULL);
         sfRenderWindow_display(window);
     } while(!(sfMouse_isButtonPressed(sfMouseLeft) && sfRenderWindow_hasFocus(window) && sfMouse_getPosition(window).y > 0));  //Mouse position Y is used to drag the window when the gameover screen is on.
 
@@ -295,52 +292,68 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
 
 void loadGameSprites(const char src[], TYPE_LEVEL* level)
 {
-    if(strcmp(src, "certinho") == 0)
-    {
-        // Ship
-        gameSprites.ship.shipSprite = sfSprite_createFromFile("nave.png",
-                                               (sfVector2f){0.8,0.8},
-                                               (sfVector2f){WIDTH/2, 450});
+    // Loads the sprites according with the sprite mode ("certinho" or "zuadasso")
+    char spriteMode[15];
+    strcpy(spriteMode, src);
+    strcat(spriteMode,"/");
 
-        // Enemies
-        setEnemies(level); // In this function all about enemies and the level is done
+    char spritePath[50];
+    // We have to call this every time we create a new sprite, to reset the path to the spriteMode
+    strcpy(spritePath, spriteMode);
 
-        // Fire
-        gameSprites.fire = sfSprite_createFromFile("fire.png",
-                                               (sfVector2f){0.5,0.5},
-                                               (sfVector2f){-40, -40});
+    gameSprites.ship.shipSprite = sfSprite_createFromFile(strcat(spritePath, "nave.png"),
+                                           (sfVector2f){0.8,0.8},
+                                           (sfVector2f){WIDTH/2, 450});
+    strcpy(spritePath, spriteMode);
 
-        // Background
-        gameSprites.background = sfSprite_createFromFile("background.png",
-                                                     (sfVector2f){3.125, 2.3475},
-                                                     (sfVector2f){WIDTH/2, HEIGHT/2});
+    // Enemies
+    setEnemies(level); // In this function all about enemies and the level is done
 
-        // Lifes
-        gameSprites.life = sfSprite_createFromFile("life.png",
-                                               (sfVector2f){1,1},
-                                               (sfVector2f){350,575});
+    // Fire
+    gameSprites.fire = sfSprite_createFromFile(strcat(spritePath, "fire.png"),
+                                           (sfVector2f){0.5,0.5},
+                                           (sfVector2f){-40, -40});
+    strcpy(spritePath, spriteMode);
 
-        // Life bar
-        gameSprites.lifebar = sfSprite_createFromFile("lifebar.png",
-                                                  (sfVector2f){2, 1},
-                                                  (sfVector2f){WIDTH/2, 525});
+    // Background
+    gameSprites.background = sfSprite_createFromFile(strcat(spritePath, "background.png"),
+                                                 (sfVector2f){3.125, 2.3475},
+                                                 (sfVector2f){WIDTH/2, HEIGHT/2});
+    strcpy(spritePath, spriteMode);
 
-        gameSprites.fillLifeBar = sfRectangleShape_create();
-        sfRectangleShape_setSize(gameSprites.fillLifeBar, (sfVector2f){436, 35});
-        sfRectangleShape_setPosition(gameSprites.fillLifeBar, (sfVector2f){182, 507.5});
-        sfRectangleShape_setFillColor(gameSprites.fillLifeBar, sfColor_fromRGB(255,255,255));
+    // Lifes
+    gameSprites.life = sfSprite_createFromFile(strcat(spritePath, "life.png"),
+                                           (sfVector2f){1,1},
+                                           (sfVector2f){350,575});
+    strcpy(spritePath, spriteMode);
 
-        gameSprites.fillLifeBar2 = sfRectangleShape_create();
-        sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
-        sfRectangleShape_setPosition(gameSprites.fillLifeBar2, (sfVector2f){182, 507.5});
-        sfRectangleShape_setFillColor(gameSprites.fillLifeBar2, sfColor_fromRGB(100,0,0));
+    // Life bar
+    gameSprites.lifebar = sfSprite_createFromFile(strcat(spritePath, "lifebar.png"),
+                                              (sfVector2f){2, 1},
+                                              (sfVector2f){WIDTH/2, 525});
+    strcpy(spritePath, spriteMode);
 
-        // GUI
-        gameSprites.base = sfRectangleShape_create();
-        sfRectangleShape_setSize(gameSprites.base, (sfVector2f){WIDTH, 100});
-        sfRectangleShape_setPosition(gameSprites.base, (sfVector2f){0, 500});
-        sfRectangleShape_setFillColor(gameSprites.base, sfColor_fromRGB(150,0,0));
-    }
+    gameSprites.gameover = sfSprite_createFromFile(strcat(spritePath, "gameover.png"),
+                                                 (sfVector2f){1,1},
+                                                 (sfVector2f){WIDTH/2, HEIGHT/2});
+    //Uncomment this if adding a new sprite:
+    //strcpy(spritePath, spriteMode);
+
+    gameSprites.fillLifeBar = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites.fillLifeBar, (sfVector2f){436, 35});
+    sfRectangleShape_setPosition(gameSprites.fillLifeBar, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameSprites.fillLifeBar, sfColor_fromRGB(255,255,255));
+
+    gameSprites.fillLifeBar2 = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+    sfRectangleShape_setPosition(gameSprites.fillLifeBar2, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameSprites.fillLifeBar2, sfColor_fromRGB(100,0,0));
+
+    // GUI
+    gameSprites.base = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites.base, (sfVector2f){WIDTH, 100});
+    sfRectangleShape_setPosition(gameSprites.base, (sfVector2f){0, 500});
+    sfRectangleShape_setFillColor(gameSprites.base, sfColor_fromRGB(150,0,0));
 }
 
 sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos)
