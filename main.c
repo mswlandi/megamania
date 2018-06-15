@@ -22,7 +22,6 @@
 // Struct for enemy
 typedef struct str_enemy
 {
-    sfSprite* enemySprite;
     float posX;
     float posY;
     int color;
@@ -46,6 +45,10 @@ typedef struct str_sprites
     sfSprite* life;
     sfSprite* lifebar;
     sfSprite* gameover;
+    sfSprite* enemyBlack;
+    sfSprite* enemyRed;
+    sfSprite* enemyBlue;
+    sfSprite* enemyGreen;
     TYPE_ENEMIES enemies[MAXENEMIES];
     sfRectangleShape* fillLifeBar;
     sfRectangleShape* fillLifeBar2;
@@ -64,7 +67,7 @@ typedef struct str_level
 /// Defining some useful functions
 
 // This bundles together a sprite with a texture, and the origin in the middle.
-sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos);
+sfSprite* sfSprite_createFromFile(char* spriteMode, const char* filename, sfVector2f scale, sfVector2f pos);
 // This draws the lifes on the screen (uses sfSprite_createFromFile).
 void drawLifes(sfRenderWindow* window, sfSprite* life, int* numL);
 // This creates one enemy and returns it.
@@ -78,7 +81,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level);
 // This loads Game Over screen
 void layoutGameOver(sfRenderWindow* window, sfEvent event);
 // This load the sprites of the game by a level. src can be "certinho" or "zuadasso".
-void loadGameSprites(const char src[], TYPE_LEVEL* level);
+void loadGameSprites(const char spriteMode[], TYPE_LEVEL* level);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
 int isAtSamePoint(TYPE_ENEMIES* enemies, int *tamArray, sfSprite* sprite);
 // This sets all the enmies's flags to 1, given an array
@@ -290,54 +293,52 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
     numberlifes = 3;
 }
 
-void loadGameSprites(const char src[], TYPE_LEVEL* level)
+void loadGameSprites(const char spriteMode[], TYPE_LEVEL* level)
 {
     // Loads the sprites according with the sprite mode ("certinho" or "zuadasso")
-    char spriteMode[15];
-    strcpy(spriteMode, src);
-    strcat(spriteMode,"/");
+    //char spriteMode[15];
+    //strcpy(spriteMode, src);
+    //strcat(spriteMode,"/");
 
-    char spritePath[50];
+    //char spritePath[50];
     // We have to call this every time we create a new sprite, to reset the path to the spriteMode
-    strcpy(spritePath, spriteMode);
+    //strcpy(spritePath, spriteMode);
 
-    gameSprites.ship.shipSprite = sfSprite_createFromFile(strcat(spritePath, "nave.png"),
-                                           (sfVector2f){0.8,0.8},
-                                           (sfVector2f){WIDTH/2, 450});
-    strcpy(spritePath, spriteMode);
+    gameSprites.ship.shipSprite = sfSprite_createFromFile(spriteMode, "nave.png",
+                                                         (sfVector2f){0.8,0.8},
+                                                         (sfVector2f){WIDTH/2, 450});
 
     // Enemies
     setEnemies(level); // In this function all about enemies and the level is done
 
     // Fire
-    gameSprites.fire = sfSprite_createFromFile(strcat(spritePath, "fire.png"),
-                                           (sfVector2f){0.5,0.5},
-                                           (sfVector2f){-40, -40});
-    strcpy(spritePath, spriteMode);
+    gameSprites.fire = sfSprite_createFromFile(spriteMode, "fire.png",
+                                            (sfVector2f){0.5,0.5},
+                                            (sfVector2f){-40, -40});
 
     // Background
-    gameSprites.background = sfSprite_createFromFile(strcat(spritePath, "background.png"),
-                                                 (sfVector2f){3.125, 2.3475},
-                                                 (sfVector2f){WIDTH/2, HEIGHT/2});
-    strcpy(spritePath, spriteMode);
+    gameSprites.background = sfSprite_createFromFile(spriteMode, "background.png",
+                                                  (sfVector2f){3.125, 2.3475},
+                                                  (sfVector2f){WIDTH/2, HEIGHT/2});
 
     // Lifes
-    gameSprites.life = sfSprite_createFromFile(strcat(spritePath, "life.png"),
-                                           (sfVector2f){1,1},
-                                           (sfVector2f){350,575});
-    strcpy(spritePath, spriteMode);
+    gameSprites.life = sfSprite_createFromFile(spriteMode, "life.png",
+                                            (sfVector2f){1,1},
+                                            (sfVector2f){350,575});
 
     // Life bar
-    gameSprites.lifebar = sfSprite_createFromFile(strcat(spritePath, "lifebar.png"),
-                                              (sfVector2f){2, 1},
-                                              (sfVector2f){WIDTH/2, 525});
-    strcpy(spritePath, spriteMode);
+    gameSprites.lifebar = sfSprite_createFromFile(spriteMode, "lifebar.png",
+                                               (sfVector2f){2, 1},
+                                               (sfVector2f){WIDTH/2, 525});
 
-    gameSprites.gameover = sfSprite_createFromFile(strcat(spritePath, "gameover.png"),
-                                                 (sfVector2f){1,1},
-                                                 (sfVector2f){WIDTH/2, HEIGHT/2});
-    //Uncomment this if adding a new sprite:
-    //strcpy(spritePath, spriteMode);
+    gameSprites.gameover = sfSprite_createFromFile(spriteMode, "gameover.png",
+                                                  (sfVector2f){1,1},
+                                                  (sfVector2f){WIDTH/2, HEIGHT/2});
+
+    gameSprites.enemyBlack = sfSprite_createFromFile(spriteMode, "enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites.enemyRed = sfSprite_createFromFile(spriteMode, "enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites.enemyGreen = sfSprite_createFromFile(spriteMode, "enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites.enemyBlue = sfSprite_createFromFile(spriteMode, "enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
 
     gameSprites.fillLifeBar = sfRectangleShape_create();
     sfRectangleShape_setSize(gameSprites.fillLifeBar, (sfVector2f){436, 35});
@@ -356,12 +357,15 @@ void loadGameSprites(const char src[], TYPE_LEVEL* level)
     sfRectangleShape_setFillColor(gameSprites.base, sfColor_fromRGB(150,0,0));
 }
 
-sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos)
+sfSprite* sfSprite_createFromFile(char* spriteMode, const char* filename, sfVector2f scale, sfVector2f pos)
 {
     sfTexture* texture;
     sfSprite* sprite;
 
-    char img[6]="imgs/";
+    char img[40];
+    strcpy(img, "imgs/");
+    strcat(img, spriteMode);
+    strcat(img,"/");
 
     texture = sfTexture_createFromFile(strcat(img,filename), NULL);
     sprite = sfSprite_create();
@@ -441,30 +445,43 @@ TYPE_ENEMIES createEnemy(int color, int posX, int posY)
     enemy.posY = posY;
     enemy.flag = 1;     // Seting him to alive (1)
 
-    switch(color)
-    {
-            case 0: enemy.enemySprite = sfSprite_createFromFile("enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){posX, posY});
-                    break;
-            case 1: enemy.enemySprite = sfSprite_createFromFile("enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){posX, posY});
-                    break;
-            case 2: enemy.enemySprite = sfSprite_createFromFile("enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){posX, posY});
-                    break;
-            case 3: enemy.enemySprite = sfSprite_createFromFile("enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){posX, posY});
-                    break;
-
-
-    }
     return enemy;
 }
 
 void drawEnemies(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray)
 {
     int i;
+    sfVector2f bufferPos;
 
     for(i = 0; i < sizeArray; i++)
     {
-        if(enemies[i].flag == 1)            // This function only draws alive enemys
-            sfRenderWindow_drawSprite(window, (gameSprites.enemies[i]).enemySprite, NULL);
+        bufferPos.x = gameSprites.enemies[i].posX;
+        bufferPos.y = gameSprites.enemies[i].posY;
+
+        // This function only draws alive enemys
+        if(enemies[i].flag == 1)
+        {
+            switch(gameSprites.enemies[i].color)
+            {
+            case 1:
+                sfSprite_setPosition(gameSprites.enemyRed, bufferPos);
+                sfRenderWindow_drawSprite(window, gameSprites.enemyRed, NULL);
+                break;
+            case 2:
+                sfSprite_setPosition(gameSprites.enemyGreen, bufferPos);
+                sfRenderWindow_drawSprite(window, gameSprites.enemyGreen, NULL);
+                break;
+            case 3:
+                sfSprite_setPosition(gameSprites.enemyGreen, bufferPos);
+                sfRenderWindow_drawSprite(window, gameSprites.enemyGreen, NULL);
+                break;
+            // If its anything else (including 0), it's gonna be black
+            default:
+                sfSprite_setPosition(gameSprites.enemyBlack, bufferPos);
+                sfRenderWindow_drawSprite(window, gameSprites.enemyBlack, NULL);
+
+            }
+        }
     }
 }
 
@@ -473,10 +490,11 @@ int isAtSamePoint(TYPE_ENEMIES* enemies, int *sizeArray, sfSprite* sprite)
     int i;
 
     int numberOfEnemyDead = -1; // If there isn't an enemy dead in this array, it will be -1.
-                           // Else, it will be the number of the enemy dead in it's array.
+                                // Else, it will be the number of the enemy dead in it's array.
 
-    float sizeEnemyX = sfSprite_getLocalBounds(enemies[0].enemySprite).width/2;         // It's divided by two 'cause this function gives the entire size, and we just want a half
-    float sizeEnemyY = sfSprite_getLocalBounds(enemies[0].enemySprite).height/2;
+    // It's divided by two 'cause this function gives the entire size, and we just want a half
+    float sizeEnemyX = sfSprite_getLocalBounds(gameSprites.enemyBlack).width/2;
+    float sizeEnemyY = sfSprite_getLocalBounds(gameSprites.enemyBlack).height/2;
 
     sfVector2f positionSprite = sfSprite_getPosition(sprite);
 
