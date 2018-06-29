@@ -474,6 +474,7 @@ TYPE_ENEMIES createEnemy(int color, int posX, int posY)
 {
     TYPE_ENEMIES enemy;
 
+    enemy.color = color;
     enemy.posX = posX;  // Making easier to lead with coordinates of enemy
     enemy.posY = posY;
     enemy.flag = 1;     // Seting him to alive (1)
