@@ -5,8 +5,8 @@
 // Energy's bar constants
 #define ENERGYMAX 436
 #define ENERGYY 35
-#define BARSPEED 10.9 // 10.9
-// Enemies's constants
+#define BARSPEED 30 // 10.9 - standard
+// Enemies' constants
 #define MAXENEMIES 20
 #define DIST_ENEMY_X 10
 #define DIST_ENEMY_Y 50
@@ -23,7 +23,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
+//#include <time.h>
+#include <math.h>
 
 /// Structs
 
@@ -87,6 +88,7 @@ typedef struct str_level
     int levelSpeed;
     char direction; // Can be 'R', to right, 'L', to left, or 'B', to both synchronously.
     int numberEnemies;
+    int paused;
 } TYPE_LEVEL;
 
 /// Defining some useful functions
@@ -117,7 +119,7 @@ void gameMenu(sfRenderWindow* window);
 void showCredits (sfRenderWindow* window);
 float scoreByEnergyBar (float energy, float maxEnergy);
 void moveEnemies(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, float dtime);
-
+//int fillEnergyBarAnimation(sfRenderWindow* window, TYPE_ALLSPRITES sprites, int dtime, float * energy);
 /// Variables
 
 // General variables
@@ -180,7 +182,16 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
     sfEvent event;
 
     // Flags
-    int isFireable = 1; //Fire flag
+    int isFireable = 1;
+    int pPressedLastTime = 0;
+    int shouldLoop = 1; // Used to indicate whether it should continue looping or not
+
+    // Animations
+    int animating = 1; // 1 - started stage, 2 - just died
+    // These are used to control the amount of time the animations run:
+    float timeOfDeath = 0; // How many seconds the death animation has been running
+    float timeOfLife = 0; // How many seconds the "being born" animation has been running
+    float timeOfPhaseOut = 0; //How many seconds the "getting out of level" animation has been running
 
     // Enemy dead in this frame
     int positionEnemyDead;
@@ -208,10 +219,10 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
     loadGameSprites("certinho", &level);
 
     // Energy Bar
-    energy = ENERGYMAX;
+    energy = 0;
 
     /// Loop of the layout
-    while(numberlifes != 0 && liveEnemies > 0)
+    while(shouldLoop)
     {
         /// Code to close the window
         while(sfRenderWindow_pollEvent(window, &event))
@@ -223,22 +234,54 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
         /// Logic of the layout
 
-        // When the energy ends
-        if(energy <= 0)     // It means that you lost a life
+        // When the energy ends, you lose a life (not valid if it's doing the animation)
+        if(energy <= 0 && !animating)
         {
-            numberlifes--;  // Then, numberlifes has to decrease
-            energy = ENERGYMAX;
-            sfSprite_setPosition(gameSprites.ship.shipSprite, (sfVector2f){WIDTH/2, 450});
-            sfSprite_setPosition(gameSprites.fire, (sfVector2f){ -40, -40});
+            numberlifes--;  // -1 life ;-;
+            animating = 2;
         }
 
-        // Ship - Player movement
-        if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(gameSprites.ship.shipSprite).x > 40 && sfRenderWindow_hasFocus(window))
-            sfSprite_move(gameSprites.ship.shipSprite, (sfVector2f){-300*dtime, 0});
-        if((sfKeyboard_isKeyPressed(sfKeyRight)||sfKeyboard_isKeyPressed(sfKeyD)) && sfSprite_getPosition(gameSprites.ship.shipSprite).x < 760 && sfRenderWindow_hasFocus(window))
-            sfSprite_move(gameSprites.ship.shipSprite, (sfVector2f){300*dtime, 0});
+        /// Pause Logic
+        // Makes sure you don't pause and unpause every frame when the button is pressed
+        if(sfKeyboard_isKeyPressed(sfKeyP))
+        {
+            if(!pPressedLastTime)
+            {
+                level.paused = !level.paused;
+            }
+            pPressedLastTime = 1;
+        }
+        else
+        {
+            pPressedLastTime = 0;
+        }
 
+        if(!level.paused)
+        {
+            ///Player Interactions
+            //they gotta be inside this condition here, so the player can't interact while it's paused.
 
+            // Ship - Player movement
+            if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(gameSprites.ship.shipSprite).x > 40 && sfRenderWindow_hasFocus(window))
+                sfSprite_move(gameSprites.ship.shipSprite, (sfVector2f){-300*dtime, 0});
+            if((sfKeyboard_isKeyPressed(sfKeyRight)||sfKeyboard_isKeyPressed(sfKeyD)) && sfSprite_getPosition(gameSprites.ship.shipSprite).x < 760 && sfRenderWindow_hasFocus(window))
+                sfSprite_move(gameSprites.ship.shipSprite, (sfVector2f){300*dtime, 0});
+
+            // Action of firing the blast
+            if(sfKeyboard_isKeyPressed(sfKeySpace) && isFireable && sfRenderWindow_hasFocus(window))
+            {
+                sfSprite_setPosition(gameSprites.fire, (sfVector2f){sfSprite_getPosition(gameSprites.ship.shipSprite).x, sfSprite_getPosition(gameSprites.ship.shipSprite).y - 40});
+            }
+        }
+
+        // Fire - moves the blast
+        if(sfSprite_getPosition(gameSprites.fire).y >= -40)
+        {
+            sfSprite_setPosition(gameSprites.fire, (sfVector2f){sfSprite_getPosition(gameSprites.ship.shipSprite).x, sfSprite_getPosition(gameSprites.fire).y -600*dtime});
+            isFireable = 0;
+        }
+        else
+            isFireable = 1;
         // Fire - check collisions
         positionEnemyDead = isAtSamePoint(gameSprites.enemies, &nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
 
@@ -251,32 +294,123 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             score += 20;
         }
 
-        // Fire - moves the blast
-        if(sfKeyboard_isKeyPressed(sfKeySpace) && isFireable && sfRenderWindow_hasFocus(window))
-        {
-            sfSprite_setPosition(gameSprites.fire, (sfVector2f){sfSprite_getPosition(gameSprites.ship.shipSprite).x, sfSprite_getPosition(gameSprites.ship.shipSprite).y - 40});
-        }
-        if(sfSprite_getPosition(gameSprites.fire).y >= -40)
-        {
-            sfSprite_setPosition(gameSprites.fire, (sfVector2f){sfSprite_getPosition(gameSprites.ship.shipSprite).x, sfSprite_getPosition(gameSprites.fire).y -600*dtime});
-            isFireable = 0;
-        }
-        else
-            isFireable = 1;
-
         // Enemies
         moveEnemies(level, gameSprites.enemies, nEnemies, dtime);
 
+        // Dying condition, plays the dying animation
+        if(numberlifes == 0 && timeOfDeath < 1)
+            animating = 2;
+
+        // Killed all enemies? play the "get them points son" animation
+        if(liveEnemies == 0)
+            animating = 3;
 
         // Energy bar
-        energy -= BARSPEED*dtime; // To empty the life bar
-        sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+        if(!animating)
+        {
+            energy -= BARSPEED*dtime; // To empty the life bar
+            sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+        }
+        /// Animation
+        else
+        {
+            // No matter what's the animation:
+            // Pause the game
+            level.paused = 1;
+            // Calculate dtime inside
+            time = sfClock_getElapsedTime(clock);
+            dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
+            lasttime = time;
+
+            // If level has just started - "being born"
+            if(animating == 1)
+            {
+                energy += ENERGYMAX*dtime;
+                if(energy > ENERGYMAX)
+                    energy = ENERGYMAX;
+                sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+
+                // Plays the animation for 1 second
+                if(timeOfLife < 1)
+                {
+                    sfSprite_setColor(gameSprites.ship.shipSprite, sfColor_fromRGBA(255,255,255, timeOfLife*255));
+                }
+                else if(energy == ENERGYMAX)
+                {
+                    // End the animation and unpause the game
+                    animating = 0;
+                    level.paused = 0;
+                }
+                timeOfLife += dtime;
+            }
+            // If player has died
+            else if(animating == 2)
+            {
+                // Plays the animation for 1 second
+                if(timeOfDeath < 1)
+                {
+                    sfSprite_setColor(gameSprites.ship.shipSprite, sfColor_fromRGBA(255,(1-timeOfDeath)*255, (1-timeOfDeath)*255, (1-timeOfDeath)*255));
+                }
+                else
+                {
+                    // End the animation, unpause the game and exit loop (replay stage)
+                    animating = 0;
+                    level.paused = 0;
+                    shouldLoop = 0;
+                }
+                timeOfDeath += dtime;
+            }
+            // If you've just beat a stage - "getting out of level"
+            else if(animating == 3)
+            {
+                // Decrease the energy bar, increase the score.
+                energy -= ENERGYMAX*dtime;
+                score += scoreByEnergyBar(ENERGYMAX*dtime, ENERGYMAX);
+
+                // Makes sure the energy never gets below 0, and that you don't get more points than you should
+                if(energy < 0)
+                {
+                    score += scoreByEnergyBar(-energy, ENERGYMAX);
+                    energy = 0;
+                }
+                sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+
+                // If you have full energy, the animation takes 1 second. If not, it takes a fraction of a second
+                if(timeOfPhaseOut < energy/ENERGYMAX)
+                {
+                    // Some math to figure out the ship's alpha value, so that it ends when the energy bar is emptied.
+                    sfSprite_setColor(gameSprites.ship.shipSprite, sfColor_fromRGBA(255,255,255, (1-(ENERGYMAX*timeOfPhaseOut/energy))*255));
+                }
+                else if(energy == 0)
+                {
+                    // End the animation, unpause the game and exit loop (go to next stage)
+                    animating = 0;
+                    level.paused = 0;
+                    shouldLoop = 0;
+                }
+                timeOfPhaseOut += dtime;
+            }
+        }
 
 
         // Text for score
         itoa(score, scoreString, 10);
         sfText_setString(textForScore, scoreString);
 
+        /// Calculate dtime
+        if(level.paused)
+        {
+            dtime = 0;
+            // Still gotta calculate the time passed, so dtime doesn't get crazy
+            time = sfClock_getElapsedTime(clock);
+            lasttime = time;
+        }
+        else
+        {
+            time = sfClock_getElapsedTime(clock);
+            dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
+            lasttime = time;
+        }
 
         /// Actual drawing
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
@@ -290,15 +424,9 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         sfRenderWindow_drawRectangleShape(window, gameSprites.fillLifeBar2, NULL);
         drawEnemies(window, gameSprites.enemies, nEnemies);
         sfRenderWindow_drawText(window, textForScore, NULL);
-
         sfRenderWindow_display(window);
-
-        // Calculate dtime
-        time = sfClock_getElapsedTime(clock);
-        dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
-        lasttime = time;
     }
-    score += scoreByEnergyBar(energy, ENERGYMAX);
+    //score += scoreByEnergyBar(energy, ENERGYMAX);
 }
 
 void layoutGameOver(sfRenderWindow* window, sfEvent event)
@@ -638,7 +766,6 @@ void gameMenu(sfRenderWindow* window)
             else
                 sfRectangleShape_setOutlineColor(patternMenu.buttons[i].base, sfColor_fromRGB( 0, 0, 0));
         }
-
         switch(flagButton)
         {
             case 0:         /// Level 1
@@ -821,7 +948,19 @@ float scoreByEnergyBar (float energy, float maxEnergy)
 {
     float answer;
 
-    answer = energy/(maxEnergy/40) * 50;    // We want that the energy bar has 40 parts. Then, we divide it by 40 and we will get how much is a part.
-                                            //  So, we divide the energy by the current energy and multiply it for 50 (which is defined at PDF)
+    answer = energy/(maxEnergy/40) * 50;    // We want the energy bar to have 40 parts, so we divide it by 40 and divide the current energy by this
+                                            // fraction, that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined at the PDF)
     return answer;
 }
+/*int fillEnergyBarAnimation(sfRenderWindow* window, TYPE_ALLSPRITES sprites, int dtime, float * energy)
+{
+    while(*energy < ENERGYMAX)
+    {
+        *energy += (ENERGYMAX/3)*dtime;
+        if(*energy > ENERGYMAX)
+            *energy = ENERGYMAX;
+        sfRectangleShape_setSize(sprites.fillLifeBar2, (sfVector2f){*energy, ENERGYY});
+        sfRenderWindow_drawSprite(window, sprites.fillLifeBar2, NULL);
+    }
+    return *energy;
+}*/
