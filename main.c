@@ -5,7 +5,7 @@
 // Energy's bar constants
 #define ENERGYMAX 436
 #define ENERGYY 35
-#define BARSPEED 30 // 10.9 - standard
+#define BARSPEED 60 // 10.9 - standard
 // Enemies' constants
 #define MAXENEMIES 20
 #define DIST_ENEMY_X 10
@@ -337,8 +337,9 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
                 }
                 else if(energy == ENERGYMAX)
                 {
-                    // End the animation and unpause the game
+                    // End the animation, reset timeOfLife and unpause the game
                     animating = 0;
+                    timeOfLife = 0;
                     level.paused = 0;
                 }
                 timeOfLife += dtime;
@@ -353,10 +354,17 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
                 }
                 else
                 {
-                    // End the animation, unpause the game and exit loop (replay stage)
+                    // End the animation, unpause the game, reset timeOfDeath and exit loop (replay stage)
                     animating = 0;
                     level.paused = 0;
-                    shouldLoop = 0;
+                    timeOfDeath = 0;
+                    if(numberlifes == 0)
+                        shouldLoop = 0;
+                    else
+                    {
+                        animating = 1;
+                        sfSprite_setPosition(gameSprites.ship.shipSprite, (sfVector2f) {WIDTH/2, 450});
+                    }
                 }
                 timeOfDeath += dtime;
             }
@@ -383,9 +391,10 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
                 }
                 else if(energy == 0)
                 {
-                    // End the animation, unpause the game and exit loop (go to next stage)
+                    // End the animation, unpause the game, reset timeOfPhaseOut and exit loop (go to next stage)
                     animating = 0;
                     level.paused = 0;
+                    timeOfPhaseOut = 0;
                     shouldLoop = 0;
                 }
                 timeOfPhaseOut += dtime;
