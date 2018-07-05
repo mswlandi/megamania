@@ -4,15 +4,13 @@
 
 #include "sprites.h"
 
-sfSprite* sfSprite_createFromFile(char* spriteMode, const char* filename, sfVector2f scale, sfVector2f pos)
+sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos)
 {
     sfTexture* texture;
     sfSprite* sprite;
 
     char img[40];
     strcpy(img, "imgs/");
-    strcat(img, spriteMode);
-    strcat(img,"/");
 
     texture = sfTexture_createFromFile(strcat(img,filename), NULL);
     sprite = sfSprite_create();
