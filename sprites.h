@@ -11,7 +11,7 @@
 
 
 // This bundles together a sprite with a texture, and the origin in the middle.
-sfSprite* sfSprite_createFromFile(char* spriteMode, const char* filename, sfVector2f scale, sfVector2f pos);
+sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos);
 // This function check if the point is at the same point of the sprite
 int sfSprite_CollisionPoint(sfSprite* sprite, sfVector2f point);
 // This will check if the sprite is out of the screen

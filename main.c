@@ -41,7 +41,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level);
 // This loads Game Over screen
 void layoutGameOver(sfRenderWindow* window, sfEvent event);
 // This load the sprites of the game by a level. src can be "certinho" or "zuadasso".
-void loadGameSprites(const char spriteMode[], TYPE_LEVEL* level);
+void loadGameSprites(TYPE_ALLSPRITES* gameSprites);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
 int isAtSamePoint(TYPE_ENEMIES* enemies, int *tamArray, sfSprite* sprite);
 // This creates a button with some text
@@ -81,7 +81,10 @@ TYPE_LEVEL chosenLevel; // We didn't use it yet
 
 int main()
 {
-     // Initializing map names
+    // Loads all of the game's sprites
+    loadGameSprites(&gameSprites);
+
+    // Initializing map names
     level1.mapName = "map_1.txt";
     level2.mapName = "map_2.txt";
 
@@ -155,9 +158,6 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
     sfText_setCharacterSize(textForScore, 40);
     sfText_setString(textForScore, scoreString);
 
-    /// Loading sprites
-    loadGameSprites("certinho", &level);
-
     // Energy Bar
     energy = 0;
 
@@ -225,6 +225,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         }
         else
             isFireable = 1;
+
         // Fire - check collisions
         positionEnemyDead = isAtSamePoint(gameSprites.enemies, &nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
 
@@ -434,71 +435,67 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
     numberlifes = 3;
 }
 
-void loadGameSprites(const char spriteMode[], TYPE_LEVEL* level)
+void loadGameSprites(TYPE_ALLSPRITES* gameSprites)
 {
-    // Loads the sprites according with the sprite mode ("certinho" or "zuadasso")
-    //char spriteMode[15];
-    //strcpy(spriteMode, src);
-    //strcat(spriteMode,"/");
+    /// Initializing background
+    gameSprites->menuBackground = sfSprite_createFromFile("background.png",
+                                                        (sfVector2f){3.125, 2.3475},
+                                                        (sfVector2f){WIDTH/2, HEIGHT/2});
 
-    //char spritePath[50];
-    // We have to call this every time we create a new sprite, to reset the path to the spriteMode
-    //strcpy(spritePath, spriteMode);
-
-    gameSprites.ship.shipSprite = sfSprite_createFromFile(spriteMode, "nave.png",
+    gameSprites->ship.shipSprite = sfSprite_createFromFile("nave.png",
                                                          (sfVector2f){0.8,0.8},
                                                          (sfVector2f){WIDTH/2, 450});
 
     // Fire
-    gameSprites.fire = sfSprite_createFromFile(spriteMode, "fire.png",
+    gameSprites->fire = sfSprite_createFromFile("fire.png",
                                             (sfVector2f){0.5,0.5},
                                             (sfVector2f){-40, -40});
 
     // Enemy fire
-    gameSprites.enemyFire = sfSprite_createFromFile(spriteMode, "fire.png",
+    gameSprites->enemyFire = sfSprite_createFromFile("fire.png",
                                             (sfVector2f){0.5,0.5},
                                             (sfVector2f){-40, -40});
-    sfSprite_setColor(gameSprites.enemyFire, sfColor_fromRGB(255, 100, 255));
+    sfSprite_setColor(gameSprites->enemyFire, sfColor_fromRGB(255, 100, 255));
 
     // Background
-    gameSprites.background = sfSprite_createFromFile(spriteMode, "background.png",
+    gameSprites->background = sfSprite_createFromFile("background.png",
                                                   (sfVector2f){3.125, 2.3475},
                                                   (sfVector2f){WIDTH/2, HEIGHT/2});
 
     // Lifes
-    gameSprites.life = sfSprite_createFromFile(spriteMode, "life.png",
+    gameSprites->life = sfSprite_createFromFile("life.png",
                                             (sfVector2f){1,1},
                                             (sfVector2f){350,575});
 
     // Life bar
-    gameSprites.lifebar = sfSprite_createFromFile(spriteMode, "lifebar.png",
+    gameSprites->lifebar = sfSprite_createFromFile("lifebar.png",
                                                (sfVector2f){2, 1},
                                                (sfVector2f){WIDTH/2, 525});
 
-    gameSprites.gameover = sfSprite_createFromFile(spriteMode, "gameover.png",
+    gameSprites->gameover = sfSprite_createFromFile("gameover.png",
                                                   (sfVector2f){1,1},
                                                   (sfVector2f){WIDTH/2, HEIGHT/2});
 
-    gameSprites.enemyBlack = sfSprite_createFromFile(spriteMode, "enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites.enemyRed = sfSprite_createFromFile(spriteMode, "enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites.enemyGreen = sfSprite_createFromFile(spriteMode, "enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites.enemyBlue = sfSprite_createFromFile(spriteMode, "enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites->enemyBlack = sfSprite_createFromFile("enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites->enemyRed = sfSprite_createFromFile("enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites->enemyGreen = sfSprite_createFromFile("enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameSprites->enemyBlue = sfSprite_createFromFile("enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
 
-    gameSprites.fillLifeBar = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites.fillLifeBar, (sfVector2f){436, 35});
-    sfRectangleShape_setPosition(gameSprites.fillLifeBar, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites.fillLifeBar, sfColor_fromRGB(255,255,255));
+    gameSprites->fillLifeBar = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites->fillLifeBar, (sfVector2f){436, 35});
+    sfRectangleShape_setPosition(gameSprites->fillLifeBar, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameSprites->fillLifeBar, sfColor_fromRGB(255,255,255));
 
-    gameSprites.fillLifeBar2 = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
-    sfRectangleShape_setPosition(gameSprites.fillLifeBar2, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites.fillLifeBar2, sfColor_fromRGB(100,0,0));
+    gameSprites->fillLifeBar2 = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites->fillLifeBar2, (sfVector2f){energy, ENERGYY});
+    sfRectangleShape_setPosition(gameSprites->fillLifeBar2, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameSprites->fillLifeBar2, sfColor_fromRGB(100,0,0));
 
     // GUI
-    gameSprites.base = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites.base, (sfVector2f){WIDTH, 100});
-    sfRectangleShape_setPosition(gameSprites.base, (sfVector2f){0, 500});
-    sfRectangleShape_setFillColor(gameSprites.base, sfColor_fromRGB(150,0,0));
+    gameSprites->base = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameSprites->base, (sfVector2f){WIDTH, 100});
+    sfRectangleShape_setPosition(gameSprites->base, (sfVector2f){0, 500});
+    sfRectangleShape_setFillColor(gameSprites->base, sfColor_fromRGB(150,0,0));
 }
 
 int isAtSamePoint(TYPE_ENEMIES* enemies, int *sizeArray, sfSprite* sprite)
@@ -537,11 +534,6 @@ void gameMenu(sfRenderWindow* window)
     TYPE_MENU patternMenu;
 
     patternMenu.font = sfFont_createFromFile("Quantify Bold v2.6.ttf");
-
-    /// Initializing background
-    patternMenu.menuBackground = sfSprite_createFromFile("certinho", "background.png",
-                                                        (sfVector2f){3.125, 2.3475},
-                                                        (sfVector2f){WIDTH/2, HEIGHT/2});
 
     /// Initializing megamania logo
     patternMenu.megamaniaLogo = sfText_create();
@@ -589,9 +581,7 @@ void gameMenu(sfRenderWindow* window)
         }
         switch(flagButton)
         {
-            case 0:         /// Level 1
-                            // Loading sprites of the game
-                            loadGameSprites("certinho", &level1);
+            case 0:     /// Level 1
                         do
                         {
                             // Setting the Level 1's enemies
@@ -637,7 +627,7 @@ void gameMenu(sfRenderWindow* window)
         /// Drawing on the screen
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
         // Background
-        sfRenderWindow_drawSprite(window, patternMenu.menuBackground, NULL);
+        sfRenderWindow_drawSprite(window, gameSprites.menuBackground, NULL);
         // Logo
         sfRenderWindow_drawText(window, patternMenu.megamaniaLogo, NULL);
         // Buttons
@@ -688,12 +678,6 @@ void showCredits (sfRenderWindow* window)
     sfText* creators;   // It talks about who creates this game
     sfText* spritesPack;    // Where we pick these sprites
     sfText* why;        // Why we did it
-
-    sfSprite* background;
-
-    background = sfSprite_createFromFile("certinho", "background.png",
-                                         (sfVector2f){3.125, 2.3475},
-                                         (sfVector2f){WIDTH/2, HEIGHT/2});
 
     // Setting font
     font = sfFont_createFromFile("Quantify Bold v2.6.ttf"); // Font of the text
@@ -748,7 +732,7 @@ void showCredits (sfRenderWindow* window)
         /// Drawing on the screen
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
             // Background
-        sfRenderWindow_drawSprite(window, background, NULL);
+        sfRenderWindow_drawSprite(window, gameSprites.background, NULL);
             // BackButton
         sfRenderWindow_drawRectangleShape(window, backButton.base, NULL);
         sfRenderWindow_drawText(window, backButton.text, NULL);
