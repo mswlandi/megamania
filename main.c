@@ -5,7 +5,7 @@
 // Energy's bar constants
 #define ENERGYMAX 436
 #define ENERGYY 35
-#define BARSPEED 60 // 10.9 - standard
+#define BARSPEED 0 // 10.9 - standard
 // Enemies' constants
 #define MAXENEMIES 20
 #define DIST_ENEMY_X 10
@@ -192,6 +192,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
     float timeOfDeath = 0; // How many seconds the death animation has been running
     float timeOfLife = 0; // How many seconds the "being born" animation has been running
     float timeOfPhaseOut = 0; //How many seconds the "getting out of level" animation has been running
+    float scoreAtWin = 0;
 
     // Enemy dead in this frame
     int positionEnemyDead;
@@ -302,8 +303,11 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             animating = 2;
 
         // Killed all enemies? play the "get them points son" animation
-        if(liveEnemies == 0)
+        if(liveEnemies == 0 && !animating)
+        {
             animating = 3;
+            scoreAtWin = score + scoreByEnergyBar(energy, ENERGYMAX);
+        }
 
         // Energy bar
         if(!animating)
@@ -396,6 +400,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
                     level.paused = 0;
                     timeOfPhaseOut = 0;
                     shouldLoop = 0;
+                    score = scoreAtWin;
                 }
                 timeOfPhaseOut += dtime;
             }
@@ -961,15 +966,4 @@ float scoreByEnergyBar (float energy, float maxEnergy)
                                             // fraction, that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined at the PDF)
     return answer;
 }
-/*int fillEnergyBarAnimation(sfRenderWindow* window, TYPE_ALLSPRITES sprites, int dtime, float * energy)
-{
-    while(*energy < ENERGYMAX)
-    {
-        *energy += (ENERGYMAX/3)*dtime;
-        if(*energy > ENERGYMAX)
-            *energy = ENERGYMAX;
-        sfRectangleShape_setSize(sprites.fillLifeBar2, (sfVector2f){*energy, ENERGYY});
-        sfRenderWindow_drawSprite(window, sprites.fillLifeBar2, NULL);
-    }
-    return *energy;
-}*/
+
