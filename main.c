@@ -262,7 +262,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
         // Enemy fire
         // Did the time come for some enemy to fire?
-        if(liveEnemies > 0 && level.lastShot >= TIME_TO_FALL/level.levelSpeed)
+        if(level.lastShot >= TIME_TO_FALL/level.levelSpeed)
         {
             //If all enemies' fires are in the air, don't fire
             if(Enemies_HowManyFires(gameSprites.enemies, MAXENEMIES) != liveEnemies)

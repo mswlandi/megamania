@@ -150,14 +150,16 @@ void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemi
 
     srand(time(NULL));
 
-    // If the enemy is dead, it can't shoot
-    do{
-        aux = rand() % numberEnemies;
-    }while(!enemies[aux].flag || enemies[aux].fire.flag);
+    if(Enemies_canShoot(enemies, numberEnemies))
+    {
+        do{
+            aux = rand() % numberEnemies;
+        }while(!enemies[aux].flag || enemies[aux].fire.flag);
 
-    enemies[aux].fire.flag = 1;
-    enemies[aux].fire.posX = enemies[aux].posX;
-    enemies[aux].fire.posY = enemies[aux].posY + 40;
+        enemies[aux].fire.flag = 1;
+        enemies[aux].fire.posX = enemies[aux].posX;
+        enemies[aux].fire.posY = enemies[aux].posY + 40;
+    }
 }
 
 void Enemies_DrawFires(sfRenderWindow *window, sfSprite* sprite, TYPE_ENEMIES enemies[], int numberEnemies)
@@ -189,13 +191,13 @@ int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies,
                 enemies[i].fire.posY += speedY*dtime;
             }
             else
+            {
+                enemies[i].fire.flag = 0;
                 if(sfSprite_CollisionPoint(player.shipSprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY}))
                 {
-                    enemies[i].fire.flag = 0;
                     flag = 1;
                 }
-                else
-                    enemies[i].fire.flag = 0;
+            }
         }
     }
     return flag;
@@ -213,4 +215,18 @@ int Enemies_HowManyFires(TYPE_ENEMIES enemies[], int numberEnemies)
     }
 
     return nbFires;
+}
+
+int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies)
+{
+    int i;
+    int canThey = 0;
+
+    for(i=0; i<numberEnemies; i++)
+    {
+        if(enemies[i].flag && !enemies[i].fire.flag)
+            canThey = 1;
+    }
+
+    return canThey;
 }
