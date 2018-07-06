@@ -230,3 +230,13 @@ int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies)
 
     return canThey;
 }
+
+void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies)
+{
+    int i;
+
+    for(i=0; i<numberEnemies; i++)
+    {
+        enemies[i].fire.flag = 0;
+    }
+}
