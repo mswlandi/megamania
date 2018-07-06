@@ -9,6 +9,7 @@
 #define HEIGHT 600
 
 #include "enemies.h"
+#include "sprites.h"
 
 TYPE_ENEMIES Enemy_Create(int color, int posX, int posY)
 {
@@ -41,7 +42,6 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
     fseek(map, 0, SEEK_SET);
     fscanf(map, "%d", &speed); // It will put the first char, as a number, in speed
     level->levelSpeed = speed;
-    //printf("Velocidade do %s: %d", speed);
     fseek(map, 2, SEEK_SET);    // Jumping to second char of the file
     direction = getc(map);  // Putting the second char of the file, which is the direction of movement of the enemies, in direction
     level->direction = direction;
@@ -63,8 +63,6 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
 
            case 'x':    enemies[*nEnemies] = Enemy_Create(rand()%4, posXAux, posYAux);    // We are using rand, but the intention is to use a defined color
                         enemies[*nEnemies].initialPos = (sfVector2f){posXAux, posYAux};
-                        printf("nEnemies = %d\n", *nEnemies);
-                        printf("liveEnemies = %d\n", *liveEnemies);
                         *nEnemies += 1;
                         *liveEnemies += 1;
                         break;
@@ -145,47 +143,21 @@ void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int 
     }
 }
 
-int Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemies, int levelSpeed)
+void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemies, int levelSpeed)
 {
-    int i;
     int aux;
-
-    int fireNmb = 0;
+    int maxcont;
 
     srand(time(NULL));
 
-    if(livingEnemies >= levelSpeed)     // If livingEnemies >= levelSpeed, this for won't be in an eternal loop. But, if livingEnemies < levelSpeed, then it will.
-        for(i = 0; i < levelSpeed; i++)
-        {
-            aux = rand() % numberEnemies;
+    // If the enemy is dead, it can't shoot
+    do{
+        aux = rand() % numberEnemies;
+    }while(!enemies[aux].flag || enemies[aux].fire.flag);
 
-            if(enemies[aux].flag == 1 && enemies[aux].fire.flag == 0)      // If the enemy is alive, he can shoot
-            {
-                enemies[aux].fire.flag = 1;
-                enemies[aux].fire.posX = enemies[aux].posX;
-                enemies[aux].fire.posY = enemies[aux].posY + 40;
-                fireNmb++;
-            }
-            else                            // Else, he can't shoot. Then, we have to pick other enemy
-                i--;
-        }
-    else
-        for(i = 0; i < livingEnemies; i++)  // As the first for will be in an eternal loop if livingEnemies < levelSpeed, this won't.
-        {
-            aux = rand() % numberEnemies;
-
-            if(enemies[aux].flag == 1 && enemies[aux].fire.flag == 0)      // If the enemy is alive, he can shoot
-            {
-                enemies[aux].fire.flag = 1;
-                enemies[aux].fire.posX = enemies[aux].posX;
-                enemies[aux].fire.posY = enemies[aux].posY + 40;
-                fireNmb++;
-            }
-            else                            // Else, he can't shoot. Then, we have to pick other enemy
-                i--;
-        }
-
-    return fireNmb;
+    enemies[aux].fire.flag = 1;
+    enemies[aux].fire.posX = enemies[aux].posX;
+    enemies[aux].fire.posY = enemies[aux].posY + 40;
 }
 
 void Enemies_DrawFires(sfRenderWindow *window, sfSprite* sprite, TYPE_ENEMIES enemies[], int numberEnemies)

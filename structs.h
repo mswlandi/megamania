@@ -76,6 +76,7 @@ typedef struct str_level
     char direction; // Can be 'R', to right, 'L', to left, or 'B', to both synchronously.
     int numberEnemies;
     int paused;
+    float lastShot;
 } TYPE_LEVEL;
 
 #endif // STRUCTS_H_INCLUDED
