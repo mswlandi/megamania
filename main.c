@@ -180,13 +180,6 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
         /// Logic of the layout
 
-        // When the energy ends, you lose a life (not valid if it's doing the animation)
-        if(energy <= 0 && !animating)
-        {
-            numberlifes--;  // -1 life ;-;
-            animating = 2;
-        }
-
         /// Pause Logic
         // Makes sure you don't pause and unpause every frame when the button is pressed
         if(sfKeyboard_isKeyPressed(sfKeyP))
@@ -262,17 +255,12 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
         // Enemy fire
         // Did the time come for some enemy to fire?
-        if(liveEnemies > 0 && level.lastShot >= TIME_TO_FALL/level.levelSpeed)
+        // No enemy can shoot if the player is being animated
+        if(level.lastShot >= TIME_TO_FALL/level.levelSpeed && !animating)
         {
-            //If all enemies' fires are in the air, don't fire
-            if(Enemies_HowManyFires(gameSprites.enemies, MAXENEMIES) != liveEnemies)
-            {
                 Enemies_Shooting(gameSprites.enemies, nEnemies, liveEnemies, level.levelSpeed);
                 level.lastShot = 0;
-            }
         }
-        if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameSprites.enemies, nEnemies, dtime, gameSprites.ship))
-            energy = 0;
 
         /// Animation Conditions
         // Dying condition, plays the dying animation
@@ -286,11 +274,21 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             scoreAtWin = score + scoreByEnergyBar(energy, ENERGYMAX);
         }
 
-        // Energy bar
+        // Only executes if there's no animation:
         if(!animating)
         {
+            // When the energy ends, you lose a life
+            if(energy <= 0)
+            {
+                numberlifes--;  // -1 life ;-;
+                animating = 2;
+            }
+
             energy -= BARSPEED*dtime; // To empty the life bar
             sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
+
+            if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameSprites.enemies, nEnemies, dtime, gameSprites.ship))
+                energy = 0;
         }
         /// Animation
         else
@@ -303,9 +301,14 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
             lasttime = time;
 
+            // Destroy all of the fires (enemy and player's)
+            Enemies_destroyFires(gameSprites.enemies, nEnemies); ///TODO: define this
+            sfSprite_setPosition(gameSprites.fire, (sfVector2f) {-40,-40});
+
             // If level has just started - "being born"
             if(animating == 1)
             {
+
                 energy += ENERGYMAX*dtime;
                 if(energy > ENERGYMAX)
                     energy = ENERGYMAX;

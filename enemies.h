@@ -25,5 +25,9 @@ void Enemies_DrawFires(sfRenderWindow *window, sfSprite* sprite, TYPE_ENEMIES en
 int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies, float dtime, TYPE_PLAYERSHIP player);
 // This function returns the quantity of current enemies's fires on the screen.
 int Enemies_HowManyFires(TYPE_ENEMIES enemies[], int numberEnemies);
+// This function returns true (1) if at least 1 enemy is able to shoot.
+int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies);
+// This destroys all of the enemies' fires
+void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies);
 
 #endif // ENEMIES_H_INCLUDED
