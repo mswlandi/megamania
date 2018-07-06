@@ -5,7 +5,7 @@
 // Energy's bar constants
 #define ENERGYMAX 436
 #define ENERGYY 35
-#define BARSPEED 0 // 10.9 - standard
+#define BARSPEED 10.9 // 10.9 - standard
 // Enemies' constants
 #define MAXENEMIES 20
 #define DIST_ENEMY_X 10
@@ -13,9 +13,12 @@
 #define SPEED_ENEMY 200
 #define ENEMYFIRE_SPEED 300
 #define FRAMES_TO_DIR 2000
+#define TIME_TO_FALL 1.65 // How much time, approximately, it takes for an enemy fire to reach the ground
 // Button's constants
 #define BUTTON_WIDTH 400
 #define BUTTON_HEIGHT 100
+// Levels' constants
+#define MAX_LEVELS
 
 
 // SFML headers
@@ -43,7 +46,7 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event);
 // This load the sprites of the game by a level. src can be "certinho" or "zuadasso".
 void loadGameSprites(TYPE_ALLSPRITES* gameSprites);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
-int isAtSamePoint(TYPE_ENEMIES* enemies, int *tamArray, sfSprite* sprite);
+int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite);
 // This creates a button with some text
 TYPE_BUTTON createButton(char stringText[50], float textSize, sfVector2f position, sfVector2f baseSize, sfColor cBase);
 // This is the menu of the game
@@ -126,11 +129,11 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
     // Animations
     int animating = 1; // 1 - started stage, 2 - just died
+    float scoreAtWin = 0; // To keep track of the actual "score gain" when the player goes to next level
     // These are used to control the amount of time the animations run:
     float timeOfDeath = 0; // How many seconds the death animation has been running
     float timeOfLife = 0; // How many seconds the "being born" animation has been running
     float timeOfPhaseOut = 0; // How many seconds the "getting out of level" animation has been running
-    float scoreAtWin = 0; // To keep track of the actual "score gain" when the player goes to next level
 
     // Enemy move
     int count = 0;
@@ -227,7 +230,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             isFireable = 1;
 
         // Fire - check collisions
-        positionEnemyDead = isAtSamePoint(gameSprites.enemies, &nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
+        positionEnemyDead = isAtSamePoint(gameSprites.enemies, nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
 
         if(positionEnemyDead != -1)
         {
@@ -239,6 +242,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         }
 
         /// Enemies
+        // Enemies moving in "Both" mode
         if(isB && count < (FRAMES_TO_DIR/level.levelSpeed))
         {
             level.direction = 'R';
@@ -256,14 +260,21 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
 
         Enemies_Move(level, gameSprites.enemies, nEnemies, dtime);
 
-
-        // Enemies's fires
-        if(!Enemies_HowManyFires(gameSprites.enemies, nEnemies))
-            Enemies_Shooting(gameSprites.enemies, nEnemies, liveEnemies, level.levelSpeed);
-
+        // Enemy fire
+        // Did the time come for some enemy to fire?
+        if(liveEnemies > 0 && level.lastShot >= TIME_TO_FALL/level.levelSpeed)
+        {
+            //If all enemies' fires are in the air, don't fire
+            if(Enemies_HowManyFires(gameSprites.enemies, MAXENEMIES) != liveEnemies)
+            {
+                Enemies_Shooting(gameSprites.enemies, nEnemies, liveEnemies, level.levelSpeed);
+                level.lastShot = 0;
+            }
+        }
         if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameSprites.enemies, nEnemies, dtime, gameSprites.ship))
             energy = 0;
 
+        /// Animation Conditions
         // Dying condition, plays the dying animation
         if(numberlifes == 0 && timeOfDeath < 1)
             animating = 2;
@@ -372,7 +383,6 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             }
         }
 
-
         // Text for score
         itoa(score, scoreString, 10);
         sfText_setString(textForScore, scoreString);
@@ -390,6 +400,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             time = sfClock_getElapsedTime(clock);
             dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
             lasttime = time;
+            level.lastShot += dtime;
         }
 
         /// Actual drawing
@@ -498,29 +509,34 @@ void loadGameSprites(TYPE_ALLSPRITES* gameSprites)
     sfRectangleShape_setFillColor(gameSprites->base, sfColor_fromRGB(150,0,0));
 }
 
-int isAtSamePoint(TYPE_ENEMIES* enemies, int *sizeArray, sfSprite* sprite)
+int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite)
 {
     int i;
+
+    sfFloatRect enemyRect;
+    sfFloatRect spriteRect = sfSprite_getGlobalBounds(sprite);
 
     int numberOfEnemyDead = -1; // If there isn't an enemy dead in this array, it will be -1.
                                 // Else, it will be the number of the enemy dead in it's array.
 
-    // It's divided by two 'cause this function gives the entire size, and we just want a half
-    float sizeEnemyX = sfSprite_getLocalBounds(gameSprites.enemyBlack).width/2;
-    float sizeEnemyY = sfSprite_getLocalBounds(gameSprites.enemyBlack).height/2;
+    float sizeEnemyX = sfSprite_getLocalBounds(gameSprites.enemyBlack).width;
+    float sizeEnemyY = sfSprite_getLocalBounds(gameSprites.enemyBlack).height;
 
-    sfVector2f positionSprite = sfSprite_getPosition(sprite);
-
-    for(i = 0; i < *sizeArray; i++)
+    for(i = 0; i < sizeArray; i++)
     {
-        if((((enemies[i].posX + sizeEnemyX) > positionSprite.x) && ((enemies[i].posX - sizeEnemyX) < positionSprite.x))         // The position of fire sprite has to be the same. Then, it has to be in
-           && (((enemies[i].posY + sizeEnemyY) > positionSprite.y) && ((enemies[i].posY - sizeEnemyY) < positionSprite.y))      //  [centerEnemy.x + sizeEnemyX, centerEnemy.x - sizeEnemyX]. (It works at the same way with Y)
-           && (enemies[i].flag == 1))
+        // The top-left corner is calculated according to the position,
+        // which is at the center of the sprite.
+        enemyRect.top = enemies[i].posY - sizeEnemyY/2;
+        enemyRect.left = enemies[i].posX - sizeEnemyX/2;
+        enemyRect.width = sizeEnemyX;
+        enemyRect.height = sizeEnemyY;
+
+        if(sfFloatRect_intersects(&enemyRect, &spriteRect, NULL))
         {
             numberOfEnemyDead = i;
-            i = *sizeArray;         // To finish the loop
         }
     }
+
     return numberOfEnemyDead;
 }
 
@@ -704,7 +720,7 @@ void showCredits (sfRenderWindow* window)
 
     // Setting back's button
     backButton = createButton("B A C K", 40, (sfVector2f){WIDTH - 200, 100}, (sfVector2f){200, 100}, sfColor_fromRGB(18, 16, 18));
-//
+
     do
     {
         /// Code to close the window
@@ -745,7 +761,7 @@ void showCredits (sfRenderWindow* window)
         sfRenderWindow_display(window);
     }while(!flagButton);
 }
-//
+
 float scoreByEnergyBar (float energy, float maxEnergy)
 {
     float answer;
