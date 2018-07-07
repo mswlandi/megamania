@@ -39,6 +39,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="../CSFML/include" />
+			<Add directory="../megamania-master" />
 		</Compiler>
 		<Linker>
 			<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
@@ -46,12 +47,21 @@
 			<Add library="../CSFML/lib/gcc/libcsfml-system.a" />
 			<Add directory="../CSFML/lib/gcc" />
 		</Linker>
+		<Unit filename="enemies.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="enemies.h" />
 		<Unit filename="layout.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="sprites.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="sprites.h" />
+		<Unit filename="structs.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />
