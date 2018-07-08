@@ -1,3 +1,16 @@
+/*
+    Este Programa foi feito para o nosso trabalho final da cadeira de Algoritmos e Programação da UFRGS, em 2018/1.
+    É um clone do jogo Megamania, originalmente lançado para Atari 2600, utilizando a linguagem C e uma biblioteca gráfica.
+
+    A lógica de execução do programa, junto com o resto da descrição do trabalho, está descrita no documento do trabalho
+    sob o título "A Lógica do Jogo".
+
+    Este arquivo, junto com score.h, descreve funções relacionadas ao score de cada jogo. São precedidas pelo prefixo “Score_”.
+
+    Autores: Henry de Avila e Marcos Landi
+
+    08/07/2018
+*/
 #include "global.h"
 #include "score.h"
 
