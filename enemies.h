@@ -16,7 +16,7 @@
 
 #include "global.h"
 
-// This creates one enemy and returns it.
+// This is an useful function that makes it shorter to create an enemy
 TYPE_ENEMIES Enemy_Create(int color, int posX, int posY);
 // This set the enemies by a level, which has the name of the map in its content
 void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *liveEnemies);

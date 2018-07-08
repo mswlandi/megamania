@@ -22,7 +22,7 @@
 int main()
 {
     // Loads all of the game's sprites
-    loadgameObjects(&gameObjects);
+    loadGameSprites(&gameObjects);
 
     // Initializing map names
     level1.mapName = "map_1.txt";

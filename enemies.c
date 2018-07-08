@@ -20,9 +20,9 @@ TYPE_ENEMIES Enemy_Create(int color, int posX, int posY)
     TYPE_ENEMIES enemy;
 
     enemy.color = color;
-    enemy.posX = posX;  // Making easier to lead with coordinates of enemy
+    enemy.posX = posX;
     enemy.posY = posY;
-    enemy.isAlive = 1;     // Seting him to alive (1)
+    enemy.isAlive = 1;
     enemy.fire.isOnScreen = 0;
 
     return enemy;
@@ -35,19 +35,19 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
     map = fopen(level->mapName, "r"); // It will open the file whose name is a parameter (dir: bin/debug)
     puts(level->mapName);
 
-    int posXAux = 40;    // Initializing it
-    int posYAux = 0;    // Initializing it
+    int posXAux = 40;   // starting X position
+    int posYAux = 0;
     int speed;          // It's the first char in the file map
     char direction;     // It's the second char in the file map
-    char buffer = '\n'; // Initializing it
+    char buffer = '\n';
 
     rewind(map);
 
     fseek(map, 0, SEEK_SET);
-    fscanf(map, "%d", &speed); // It will put the first char, as a number, in speed
+    fscanf(map, "%d", &speed);  // It will put the first char, as a number, in speed
     level->levelSpeed = speed;
     fseek(map, 2, SEEK_SET);    // Jumping to second char of the file
-    direction = getc(map);  // Putting the second char of the file, which is the direction of movement of the enemies, in direction
+    direction = getc(map);      // Getting the second char of the file, which is the direction of movement of the enemies
     level->direction = direction;
 
     *nEnemies = 0;
@@ -58,14 +58,14 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
        buffer = getc(map);
        switch(buffer)
        {
-           case '\n':   posYAux += DIST_ENEMY_Y;
-                        posXAux = 40;                // It means that, in the file, we passed the an enemy's line, then we have to put the next enemies in other Y
+           case '\n':   posYAux += DIST_ENEMY_Y;    // A new line means we have to increase the Y position, and also
+                        posXAux = 40;               // go back to the starting X position
                         break;
 
-           case ' ':    posXAux += DIST_ENEMY_X;    // The blanks in the file means the distance between the enemies. This is the reason why we are adding posXAux
+           case ' ':    posXAux += DIST_ENEMY_X;    // Blanks means more space between the enemies
                         break;
 
-           case 'x':    enemies[*nEnemies] = Enemy_Create(rand()%4, posXAux, posYAux);    // We are using rand, but the intention is to use a defined color
+           case 'x':    enemies[*nEnemies] = Enemy_Create(rand()%4, posXAux, posYAux);    // Setting the color to a random one (4 possibilities)
                         enemies[*nEnemies].initialPos = (sfVector2f){posXAux, posYAux};
                         *nEnemies += 1;
                         *liveEnemies += 1;
@@ -79,34 +79,21 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
 
 void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, float dtime)
 {
-    int i; // Count
-    switch(level.direction)
+    int i;
+    for(i = 0; i < sizeArray; i++)
     {
-        case 'R':   for(i = 0; i < sizeArray; i++)
-                    {
-                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
-                        {
-                            enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
-                        }
-                        else
-                        {
-                            enemies[i].posX = 0;
-                        }
-                    }
-                    break;
-        case 'L':   for(i = 0; i < sizeArray; i++)
-                    {
-                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
-                        {
-                            enemies[i].posX -= SPEED_ENEMY*dtime*level.levelSpeed;
-                        }
-                        else
-                        {
-                            enemies[i].posX = 800;
-                        }
-                    }
-                    break;
-        default: break;
+        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
+        {
+            //Moves the enemy like this: StandardSpeed*levelSpeed/second
+            enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
+        }
+        else
+        {
+            if(level.direction == 'R')
+                enemies[i].posX = 0;
+            else if(level.direction == 'L')
+                enemies[i].posX = 800;
+        }
     }
 }
 
@@ -134,8 +121,8 @@ void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int 
                 sfRenderWindow_drawSprite(window, gameObjects.enemyGreen, NULL);
                 break;
             case 3:
-                sfSprite_setPosition(gameObjects.enemyGreen, bufferPos);
-                sfRenderWindow_drawSprite(window, gameObjects.enemyGreen, NULL);
+                sfSprite_setPosition(gameObjects.enemyBlue, bufferPos);
+                sfRenderWindow_drawSprite(window, gameObjects.enemyBlue, NULL);
                 break;
             // If its anything else (including 0), it's gonna be black
             default:
@@ -153,8 +140,11 @@ void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemi
 
     srand(time(NULL));
 
+    // If no one could shoot, but some enemy still be alive, this would be an infinite loop
     if(Enemies_canShoot(enemies, numberEnemies))
     {
+        // Yes, with a lower ammount of enemies, the longer this loop could take, but
+        // it's just too little to make a difference
         do{
             aux = rand() % numberEnemies;
         }while(!enemies[aux].isAlive || enemies[aux].fire.isOnScreen);
@@ -188,6 +178,7 @@ int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies,
     {
         if(enemies[i].fire.isOnScreen == 1)
         {
+            // If the fire is in the screen and not in the player's ship
             if(enemies[i].fire.posY < HEIGHT &&
                !sfSprite_CollisionPoint(player.shipSprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY}))
             {
@@ -196,6 +187,7 @@ int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies,
             else
             {
                 enemies[i].fire.isOnScreen = 0;
+                // If it's in the player's ship
                 if(sfSprite_CollisionPoint(player.shipSprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY}))
                 {
                     didHit = 1;
@@ -225,6 +217,7 @@ int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies)
     int i;
     int canThey = 0;
 
+    // This loop is ment to toggle if one of the enemies can shoot
     for(i=0; i<numberEnemies; i++)
     {
         if(enemies[i].isAlive && !enemies[i].fire.isOnScreen)
@@ -238,6 +231,7 @@ void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies)
 {
     int i;
 
+    // By "destroying", we mean just toggling the flag off
     for(i=0; i<numberEnemies; i++)
     {
         enemies[i].fire.isOnScreen = 0;
@@ -251,21 +245,22 @@ int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite
     sfFloatRect enemyRect;
     sfFloatRect spriteRect = sfSprite_getGlobalBounds(sprite);
 
-    int numberOfEnemyDead = -1; // If there isn't an enemy dead in this array, it will be -1.
-                                // Else, it will be the number of the enemy dead in it's array.
+    int numberOfEnemyDead = -1; // If all the enemies in the array are alive, it will be -1.
+                                // Else, it will be the number of the enemy dead in the array.
 
     float sizeEnemyX = sfSprite_getLocalBounds(gameObjects.enemyBlack).width;
     float sizeEnemyY = sfSprite_getLocalBounds(gameObjects.enemyBlack).height;
 
     for(i = 0; i < sizeArray; i++)
     {
-        // The top-left corner is calculated according to the position,
-        // which is at the center of the sprite.
+        // The top-left corner is calculated according to the position
+        // of the sprite, which is at its center.
         enemyRect.top = enemies[i].posY - sizeEnemyY/2;
         enemyRect.left = enemies[i].posX - sizeEnemyX/2;
         enemyRect.width = sizeEnemyX;
         enemyRect.height = sizeEnemyY;
 
+        // If the enemy intersects with the fire, return the index number of the enemy
         if(sfFloatRect_intersects(&enemyRect, &spriteRect, NULL) && enemies[i].isAlive == 1)
         {
             numberOfEnemyDead = i;

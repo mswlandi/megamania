@@ -18,13 +18,19 @@
 void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
 {
     /// Initializing stuff when the layout opens
+
+    // Event to check if the button to close the window is clicked
+    sfEvent event;
+
     // Time variables
+    // Dtime logic: dtime is used to keep all the movement in the layout stable, no matter what's the fps, which varies according
+    // to computer capabilities. dtime is the time since the last frame ran, in seconds, so if you multiply any movement value by it,
+    // the movement will be whatever it was, in pixel/second. For example, if you add 300*dtime to the position of a sprite each frame,
+    // the sprite will move 300 pixels each second, doesn't matter the fps.
     sfClock* clock = sfClock_create();
     sfTime time = sfClock_getElapsedTime(clock);
     sfTime lasttime = time;
     float dtime = 0;
-
-    sfEvent event;
 
     // Flags
     int isFireable = 1;
@@ -40,25 +46,20 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
     float timeOfLife = 0; // How many seconds the "being born" animation has been running
     float timeOfPhaseOut = 0; // How many seconds the "getting out of level" animation has been running
 
-    // Enemy move
+    // Enemy
     int count = 0;
     char directionEnemyMove = level.direction;
+    int positionEnemyDead; // The dead enemy in this frame
 
-    // Enemy dead in this frame
-    int positionEnemyDead;
-
-    // Font for score
+    // Score
     sfFont* font;
     font = sfFont_createFromFile("Quantify Bold v2.6.ttf");
-
-    // String for score
     char scoreString[7];
     itoa(score, scoreString, 10);
-
-    // Text for score
     sfText* textForScore;
     textForScore = sfText_create();
-        // Initializing textForScore
+
+    // Initializing textForScore
     sfText_setOrigin(textForScore, (sfVector2f){sfText_getLocalBounds(textForScore).width/2, sfText_getLocalBounds(textForScore).height/2});
     sfText_setFont(textForScore, font);
     sfText_setPosition(textForScore, (sfVector2f){650, 550});
@@ -73,9 +74,10 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         isB = 1;
 
     /// Loop of the layout
+    // The shouldLoop is off when the stage ends or repeats, that is, when the player dies, or when he wins
     while(shouldLoop)
     {
-        /// Code to close the window
+        // Code to close the window
         while(sfRenderWindow_pollEvent(window, &event))
         {
             // Close window : exit
@@ -103,7 +105,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         if(!level.paused)
         {
             ///Player Interactions
-            //they gotta be inside this condition here, so the player can't interact while it's paused.
+            // They gotta be inside this condition here, so the player can't interact while it's paused.
 
             // Ship - Player movement
             if((sfKeyboard_isKeyPressed(sfKeyLeft)||sfKeyboard_isKeyPressed(sfKeyA)) && sfSprite_getPosition(gameObjects.ship.shipSprite).x > 40 && sfRenderWindow_hasFocus(window))
@@ -196,11 +198,13 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
                 energy = 0;
         }
         /// Animation
+        // That is, animation of the energy bar and ship when it dies or when it goes to a new level
         else
         {
             // No matter what's the animation:
             // Pause the game
             level.paused = 1;
+
             // Calculate dtime inside
             time = sfClock_getElapsedTime(clock);
             dtime = sfTime_asSeconds(time) - sfTime_asSeconds(lasttime);
@@ -355,7 +359,7 @@ void Layout_GameOver(sfRenderWindow* window, sfEvent event)
     } while(!(sfMouse_isButtonPressed(sfMouseLeft) && sfRenderWindow_hasFocus(window) && sfMouse_getPosition(window).y > 0));
     //Mouse position Y is used to drag the window when the gameover screen is on.
 
-    // Setting config as the first level
+    // Setting the enemies to the first level (if you reach Layout_GameOver, you've died 3 times)
     Enemies_Set(&level1, gameObjects.enemies, &nEnemies, &liveEnemies);
     score = 0;
     numberlifes = 3;
@@ -363,8 +367,8 @@ void Layout_GameOver(sfRenderWindow* window, sfEvent event)
 
 void Layout_GameMenu(sfRenderWindow* window)
 {
-    int i; // Count
-    int flagButton = -1; // 0 - Play / 1 - Options / 2 - Credits
+    int i;
+    int flagButton = -1; // 0 - Play, 1 - Options, 2 - Credits
     int gameoverFlag = 0; // If it's 0, you don't want to play again after the game over screen. If it's 1, you want.
 
     FILE *highscores;
@@ -383,13 +387,13 @@ void Layout_GameMenu(sfRenderWindow* window)
     sfText_setOrigin(patternMenu.megamaniaLogo, (sfVector2f){sfText_getLocalBounds(patternMenu.megamaniaLogo).width/2, sfText_getLocalBounds(patternMenu.megamaniaLogo).height/2});
     sfText_setPosition(patternMenu.megamaniaLogo, (sfVector2f){WIDTH/2, HEIGHT/6});
 
-    /// Initializing play button
+    // Initializing play button
     patternMenu.buttons[0] = Utility_CreateButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
-    /// Initializing option button
+    // Initializing option button
     patternMenu.buttons[1] = Utility_CreateButton("S C O R E B O A R D", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
-    /// Initializing credits button
+    // Initializing credits button
     patternMenu.buttons[2] = Utility_CreateButton("C R E D I T S", 40, (sfVector2f){WIDTH/2, 540}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     /// Loop of the screen
@@ -509,7 +513,7 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background)
         printf("Open highscores.txt error!\n");
     else
     {
-        // Setting back's button
+        // Setting the back button
         backButton = Utility_CreateButton("B A C K", 40, (sfVector2f){WIDTH - 120, 500}, (sfVector2f){200, 100}, sfColor_fromRGB(18, 16, 18));
         // S C O R E
         scoreSign = Utility_TextCreate("H I G H S C O R E", "Quantify Bold v2.6.ttf", 40, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/6});
