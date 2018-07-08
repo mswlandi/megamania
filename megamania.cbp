@@ -65,6 +65,10 @@
 		</Unit>
 		<Unit filename="sprites.h" />
 		<Unit filename="structs.h" />
+		<Unit filename="utility.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utility.h" />
 		<Extensions>
 			<envvars />
 			<code_completion />

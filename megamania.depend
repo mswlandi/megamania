@@ -1082,16 +1082,17 @@
 1531027851 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\utility.c
 	"utility.h"
 
-1531014372 source:f:\mega\megamania-master\enemies.c
+1531052872 source:f:\mega\megamania-master\enemies.c
+	"global.h"
 	"enemies.h"
 	"sprites.h"
 
-1531014372 f:\mega\megamania-master\enemies.h
+1531052872 f:\mega\megamania-master\enemies.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<SFML/Graphics.h>
-	"structs.h"
+	"global.h"
 
 1431774366 f:\mega\csfml\include\sfml\graphics.h
 	<SFML/Window.h>
@@ -1420,62 +1421,69 @@
 	<SFML/Graphics/Types.h>
 	<SFML/System/Vector2.h>
 
-1531014372 f:\mega\megamania-master\structs.h
+1531051534 f:\mega\megamania-master\structs.h
 	<SFML/Graphics.h>
-
-1531014372 f:\mega\megamania-master\sprites.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
-
-1531014372 source:f:\mega\megamania-master\layout.c
+	"utility.h"
+	"sprites.h"
+	"enemies.h"
+	"score.h"
 	"layout.h"
 
-1531014372 f:\mega\megamania-master\layout.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531052522 f:\mega\megamania-master\sprites.h
+	"global.h"
 	"utility.h"
+	"enemies.h"
+	"score.h"
+	"layout.h"
 
-1531014372 f:\mega\megamania-master\utility.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531051822 source:f:\mega\megamania-master\layout.c
+	"global.h"
+	"layout.h"
 
-1531014372 source:f:\mega\megamania-master\score.c
+1531054974 f:\mega\megamania-master\layout.h
+	"global.h"
+	"utility.h"
+	"sprites.h"
+	"enemies.h"
 	"score.h"
 
-1531048102 f:\mega\megamania-master\score.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531052522 f:\mega\megamania-master\utility.h
+	"global.h"
+
+1531051824 source:f:\mega\megamania-master\score.c
+	"global.h"
+	"score.h"
+
+1531052522 f:\mega\megamania-master\score.h
+	"global.h"
+	"sprites.h"
+	"enemies.h"
+	"layout.h"
 	"utility.h"
 
 1531014372 source:f:\mega\megamania-master\sprites.c
 	"sprites.h"
 
-1531045792 source:f:\mega\megamania-master\main.c
+1531054400 source:f:\mega\megamania-master\main.c
+	"global.h"
+	"utility.h"
+	"enemies.h"
+	"score.h"
+	"layout.h"
+	"sprites.h"
+
+1531051822 source:f:\mega\megamania-master\utility.c
+	"global.h"
+	"utility.h"
+
+1531052522 f:\mega\megamania-master\global.h
 	<SFML/Graphics.h>
 	<string.h>
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	<math.h>
-	"sprites.h"
-	"enemies.h"
-	"structs.h"
-	"score.h"
-	"layout.h"
-	"utility.h"
 
-1531014372 source:f:\mega\megamania-master\utility.c
-	"utility.h"
+1531052236 source:f:\mega\megamania-master\global.c
+	"global.h"
 
