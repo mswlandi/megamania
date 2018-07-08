@@ -24,10 +24,6 @@ int main()
     // Loads all of the game's sprites
     loadGameSprites(&gameObjects);
 
-    // Initializing map names
-    level1.mapName = "map_1.txt";
-    level2.mapName = "map_2.txt";
-
     // Video variables
     sfVideoMode mode = {WIDTH, HEIGHT, 32};
     sfRenderWindow* window;

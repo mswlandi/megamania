@@ -140,9 +140,8 @@ float mouseY;
 TYPE_GAMEOBJECTS gameObjects;
 
 
-// Levels
-TYPE_LEVEL level1;
+// Level buffer
 
-TYPE_LEVEL level2;
+TYPE_LEVEL levelbuffer;
 
-#endif
+#endif // UTILITY_H_INCLUDED

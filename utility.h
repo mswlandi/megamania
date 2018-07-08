@@ -22,6 +22,7 @@ sfText* Utility_TextCreate(char* string, char* fontName, int charSize, sfColor c
 TYPE_BUTTON Utility_CreateButton(char stringText[50], float textSize, sfVector2f position, sfVector2f baseSize, sfColor cBase);
 // This function returns 1 if mouse is on the button. Else, returns 0.
 int Utility_isOnButton(TYPE_BUTTON *button, sfRenderWindow* window);
-
+// This function changes a number as a counter. +0.1/frame.
+float Utility_Counting(float *number, float dtime);
 
 #endif

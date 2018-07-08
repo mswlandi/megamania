@@ -71,3 +71,10 @@ TYPE_BUTTON Utility_CreateButton(char stringText[50], float textSize, sfVector2f
 
     return button;
 }
+
+float Utility_Counting(float *number, float dtime)
+{
+    *number += 1.6*dtime;
+
+    return *number;
+}

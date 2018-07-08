@@ -1,0 +1,635 @@
+# depslib dependency file v1.0
+1522681356 source:/home/grad/mswlandi/CPP/CSFML/csfmltest/main.c
+	<SFML/Graphics.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics.h
+	<SFML/Window.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/CircleShape.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/ConvexShape.h>
+	<SFML/Graphics/Font.h>
+	<SFML/Graphics/Glyph.h>
+	<SFML/Graphics/Image.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/RectangleShape.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/RenderWindow.h>
+	<SFML/Graphics/RenderTexture.h>
+	<SFML/Graphics/Shader.h>
+	<SFML/Graphics/Shape.h>
+	<SFML/Graphics/Sprite.h>
+	<SFML/Graphics/Text.h>
+	<SFML/Graphics/Texture.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Transformable.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/Graphics/VertexArray.h>
+	<SFML/Graphics/View.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window.h
+	<SFML/System.h>
+	<SFML/Window/Context.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/Joystick.h>
+	<SFML/Window/Keyboard.h>
+	<SFML/Window/Mouse.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/Window.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System.h
+	<SFML/Config.h>
+	<SFML/System/Clock.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Mutex.h>
+	<SFML/System/Sleep.h>
+	<SFML/System/Thread.h>
+	<SFML/System/Vector2.h>
+	<SFML/System/Vector3.h>
+
+1425566359 /home/grad/mswlandi/CSFML/include/SFML/Config.h
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Clock.h
+	<SFML/System/Export.h>
+	<SFML/System/Time.h>
+	<SFML/System/Types.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Export.h
+	<SFML/Config.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Time.h
+	<SFML/System/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Types.h
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/InputStream.h
+	<SFML/System/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Mutex.h
+	<SFML/System/Export.h>
+	<SFML/System/Types.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Sleep.h
+	<SFML/System/Export.h>
+	<SFML/System/Time.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Thread.h
+	<SFML/System/Export.h>
+	<SFML/System/Types.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Vector2.h
+	<SFML/System/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/System/Vector3.h
+	<SFML/System/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Context.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Export.h
+	<SFML/Config.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Types.h
+
+1424997309 /home/grad/mswlandi/CSFML/include/SFML/Window/Event.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Joystick.h>
+	<SFML/Window/Keyboard.h>
+	<SFML/Window/Mouse.h>
+	<SFML/Window/Sensor.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Joystick.h
+	<SFML/Window/Export.h>
+	<SFML/Window/JoystickIdentification.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/JoystickIdentification.h
+	<SFML/Window/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Keyboard.h
+	<SFML/Window/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Mouse.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector2.h>
+
+1425566359 /home/grad/mswlandi/CSFML/include/SFML/Window/Sensor.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector3.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/VideoMode.h
+	<SFML/Window/Export.h>
+	<stddef.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/Window.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/WindowHandle.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Window/WindowHandle.h
+	<SFML/Window/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/BlendMode.h
+	<SFML/Graphics/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Export.h
+	<SFML/Config.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/CircleShape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Color.h
+	<SFML/Graphics/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Rect.h
+	<SFML/Graphics/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Transform.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Types.h
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/ConvexShape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Font.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/FontInfo.h>
+	<SFML/Graphics/Glyph.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<stddef.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/FontInfo.h
+	<SFML/Graphics/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Glyph.h
+	<SFML/Graphics/Rect.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Image.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/PrimitiveType.h
+	<SFML/Graphics/Export.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/RectangleShape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/RenderStates.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+
+1425566359 /home/grad/mswlandi/CSFML/include/SFML/Graphics/RenderWindow.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/WindowHandle.h>
+	<SFML/Window/Window.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Vertex.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/RenderTexture.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Shader.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<SFML/System/Vector3.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Shape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Sprite.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Text.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Texture.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Window/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/Transformable.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/System/Vector2.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/VertexArray.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Vertex.h>
+
+1424959482 /home/grad/mswlandi/CSFML/include/SFML/Graphics/View.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1522771906 source:x:\cpp\csfml\csfmltest\main.c
+	<SFML/Graphics.h>
+
+1431788766 x:\csfml\include\sfml\graphics.h
+	<SFML/Window.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/CircleShape.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/ConvexShape.h>
+	<SFML/Graphics/Font.h>
+	<SFML/Graphics/FontInfo.h>
+	<SFML/Graphics/Glyph.h>
+	<SFML/Graphics/Image.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/RectangleShape.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/RenderTexture.h>
+	<SFML/Graphics/RenderWindow.h>
+	<SFML/Graphics/Shader.h>
+	<SFML/Graphics/Shape.h>
+	<SFML/Graphics/Sprite.h>
+	<SFML/Graphics/Text.h>
+	<SFML/Graphics/Texture.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Transformable.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/Graphics/VertexArray.h>
+	<SFML/Graphics/View.h>
+
+1431788766 x:\csfml\include\sfml\window.h
+	<SFML/System.h>
+	<SFML/Window/Context.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/Joystick.h>
+	<SFML/Window/JoystickIdentification.h>
+	<SFML/Window/Keyboard.h>
+	<SFML/Window/Mouse.h>
+	<SFML/Window/Sensor.h>
+	<SFML/Window/Touch.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/Window.h>
+
+1431788766 x:\csfml\include\sfml\system.h
+	<SFML/Config.h>
+	<SFML/System/Clock.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Mutex.h>
+	<SFML/System/Sleep.h>
+	<SFML/System/Thread.h>
+	<SFML/System/Time.h>
+	<SFML/System/Vector2.h>
+	<SFML/System/Vector3.h>
+
+1488418970 x:\csfml\include\sfml\config.h
+
+1431788766 x:\csfml\include\sfml\system\clock.h
+	<SFML/System/Export.h>
+	<SFML/System/Time.h>
+	<SFML/System/Types.h>
+
+1431788766 x:\csfml\include\sfml\system\export.h
+	<SFML/Config.h>
+
+1431788766 x:\csfml\include\sfml\system\time.h
+	<SFML/System/Export.h>
+
+1431788766 x:\csfml\include\sfml\system\types.h
+
+1431788766 x:\csfml\include\sfml\system\inputstream.h
+	<SFML/System/Export.h>
+
+1431788766 x:\csfml\include\sfml\system\mutex.h
+	<SFML/System/Export.h>
+	<SFML/System/Types.h>
+
+1431788766 x:\csfml\include\sfml\system\sleep.h
+	<SFML/System/Export.h>
+	<SFML/System/Time.h>
+
+1431788766 x:\csfml\include\sfml\system\thread.h
+	<SFML/System/Export.h>
+	<SFML/System/Types.h>
+
+1431788766 x:\csfml\include\sfml\system\vector2.h
+	<SFML/System/Export.h>
+
+1431788766 x:\csfml\include\sfml\system\vector3.h
+	<SFML/System/Export.h>
+
+1488418970 x:\csfml\include\sfml\window\context.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/Window/Window.h>
+
+1431788766 x:\csfml\include\sfml\window\export.h
+	<SFML/Config.h>
+
+1431788766 x:\csfml\include\sfml\window\types.h
+
+1488418970 x:\csfml\include\sfml\window\window.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/WindowHandle.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector2.h>
+
+1488418970 x:\csfml\include\sfml\window\event.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Joystick.h>
+	<SFML/Window/Keyboard.h>
+	<SFML/Window/Mouse.h>
+	<SFML/Window/Sensor.h>
+
+1431788766 x:\csfml\include\sfml\window\joystick.h
+	<SFML/Window/Export.h>
+	<SFML/Window/JoystickIdentification.h>
+
+1431788766 x:\csfml\include\sfml\window\joystickidentification.h
+	<SFML/Window/Export.h>
+
+1488418970 x:\csfml\include\sfml\window\keyboard.h
+	<SFML/Window/Export.h>
+
+1431788766 x:\csfml\include\sfml\window\mouse.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector2.h>
+
+1431788766 x:\csfml\include\sfml\window\sensor.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector3.h>
+
+1488418970 x:\csfml\include\sfml\window\videomode.h
+	<SFML/Window/Export.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\window\windowhandle.h
+	<SFML/Window/Export.h>
+
+1431788766 x:\csfml\include\sfml\window\touch.h
+	<SFML/Window/Export.h>
+	<SFML/Window/Types.h>
+	<SFML/System/Vector2.h>
+
+1488418970 x:\csfml\include\sfml\graphics\blendmode.h
+	<SFML/Graphics/Export.h>
+
+1431788766 x:\csfml\include\sfml\graphics\export.h
+	<SFML/Config.h>
+
+1488418970 x:\csfml\include\sfml\graphics\circleshape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\color.h
+	<SFML/Graphics/Export.h>
+
+1431788766 x:\csfml\include\sfml\graphics\rect.h
+	<SFML/Graphics/Export.h>
+
+1488418970 x:\csfml\include\sfml\graphics\transform.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1431788766 x:\csfml\include\sfml\graphics\types.h
+
+1488418970 x:\csfml\include\sfml\graphics\convexshape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1488418970 x:\csfml\include\sfml\graphics\font.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/FontInfo.h>
+	<SFML/Graphics/Glyph.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\fontinfo.h
+	<SFML/Graphics/Export.h>
+
+1431788766 x:\csfml\include\sfml\graphics\glyph.h
+	<SFML/Graphics/Rect.h>
+
+1431788766 x:\csfml\include\sfml\graphics\image.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1488418970 x:\csfml\include\sfml\graphics\primitivetype.h
+	<SFML/Graphics/Export.h>
+
+1488418970 x:\csfml\include\sfml\graphics\rectangleshape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\renderstates.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+
+1488418970 x:\csfml\include\sfml\graphics\rendertexture.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\vertex.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/System/Vector2.h>
+
+1488418970 x:\csfml\include\sfml\graphics\renderwindow.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/RenderStates.h>
+	<SFML/Graphics/Vertex.h>
+	<SFML/Window/Event.h>
+	<SFML/Window/VideoMode.h>
+	<SFML/Window/WindowHandle.h>
+	<SFML/Window/Window.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1488418970 x:\csfml\include\sfml\graphics\shader.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Glsl.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<SFML/System/Vector3.h>
+	<stddef.h>
+
+1488418970 x:\csfml\include\sfml\graphics\glsl.h
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Color.h>
+	<SFML/System/Vector2.h>
+	<SFML/System/Vector3.h>
+
+1488418970 x:\csfml\include\sfml\graphics\shape.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\sprite.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/BlendMode.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
+1488418970 x:\csfml\include\sfml\graphics\text.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Color.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1488418970 x:\csfml\include\sfml\graphics\texture.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Window/Types.h>
+	<SFML/System/InputStream.h>
+	<SFML/System/Vector2.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\transformable.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Transform.h>
+	<SFML/System/Vector2.h>
+
+1431788766 x:\csfml\include\sfml\graphics\vertexarray.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/PrimitiveType.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/Graphics/Vertex.h>
+	<stddef.h>
+
+1431788766 x:\csfml\include\sfml\graphics\view.h
+	<SFML/Graphics/Export.h>
+	<SFML/Graphics/Rect.h>
+	<SFML/Graphics/Types.h>
+	<SFML/System/Vector2.h>
+
