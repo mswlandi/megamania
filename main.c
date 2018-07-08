@@ -35,6 +35,9 @@
 #include "sprites.h"
 #include "enemies.h"
 #include "structs.h"
+#include "score.h"
+#include "layout.h"
+#include "utility.h"
 
 
 /// Defining some useful functions
@@ -43,18 +46,10 @@
 void layoutStage(sfRenderWindow* window, TYPE_LEVEL level);
 // This loads Game Over screen
 void layoutGameOver(sfRenderWindow* window, sfEvent event);
-// This load the sprites of the game by a level. src can be "certinho" or "zuadasso".
-void loadGameSprites(TYPE_ALLSPRITES* gameSprites);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
 int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite);
-// This creates a button with some text
-TYPE_BUTTON createButton(char stringText[50], float textSize, sfVector2f position, sfVector2f baseSize, sfColor cBase);
 // This is the menu of the game
 void gameMenu(sfRenderWindow* window);
-// This shows the credits
-void showCredits (sfRenderWindow* window);
-// This sets the score according the current energy bar, after the level's end
-float scoreByEnergyBar (float energy, float maxEnergy);
 //int fillEnergyBarAnimation(sfRenderWindow* window, TYPE_ALLSPRITES sprites, int dtime, float * energy);
 
 /// Variables
@@ -271,7 +266,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         if(liveEnemies == 0 && !animating)
         {
             animating = 3;
-            scoreAtWin = score + scoreByEnergyBar(energy, ENERGYMAX);
+            scoreAtWin = score + Score_EnergyBar(energy, ENERGYMAX);
         }
 
         // Only executes if there's no animation:
@@ -357,12 +352,12 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
             {
                 // Decrease the energy bar, increase the score.
                 energy -= ENERGYMAX*dtime;
-                score += scoreByEnergyBar(ENERGYMAX*dtime, ENERGYMAX);
+                score += Score_EnergyBar(ENERGYMAX*dtime, ENERGYMAX);
 
                 // Makes sure the energy never gets below 0, and that you don't get more points than you should
                 if(energy < 0)
                 {
-                    score += scoreByEnergyBar(-energy, ENERGYMAX);
+                    score += Score_EnergyBar(-energy, ENERGYMAX);
                     energy = 0;
                 }
                 sfRectangleShape_setSize(gameSprites.fillLifeBar2, (sfVector2f){energy, ENERGYY});
@@ -421,11 +416,16 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
         sfRenderWindow_drawText(window, textForScore, NULL);
         sfRenderWindow_display(window);
     }
-    //score += scoreByEnergyBar(energy, ENERGYMAX);
 }
 
 void layoutGameOver(sfRenderWindow* window, sfEvent event)
 {
+    sfText* scoreLayout;
+    sfText* scoreNb;
+
+    scoreLayout = Score_CreateLayout((sfVector2f){WIDTH/2, HEIGHT/6}, 40);
+    scoreNb = Score_TextCreate(score, (sfVector2f){WIDTH/2, HEIGHT/4}, 30);
+
     do
     {
         /// Code to close the window
@@ -439,6 +439,8 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
         sfSleep(sfMilliseconds(10));
         sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
         sfRenderWindow_drawSprite(window, gameSprites.gameover, NULL);
+        sfRenderWindow_drawText(window, scoreLayout, NULL);
+        sfRenderWindow_drawText(window, scoreNb, NULL);
         sfRenderWindow_display(window);
     } while(!(sfMouse_isButtonPressed(sfMouseLeft) && sfRenderWindow_hasFocus(window) && sfMouse_getPosition(window).y > 0));
     //Mouse position Y is used to drag the window when the gameover screen is on.
@@ -447,69 +449,6 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
     Enemies_Set(&level1, gameSprites.enemies, &nEnemies, &liveEnemies);
     score = 0;
     numberlifes = 3;
-}
-
-void loadGameSprites(TYPE_ALLSPRITES* gameSprites)
-{
-    /// Initializing background
-    gameSprites->menuBackground = sfSprite_createFromFile("background.png",
-                                                        (sfVector2f){3.125, 2.3475},
-                                                        (sfVector2f){WIDTH/2, HEIGHT/2});
-
-    gameSprites->ship.shipSprite = sfSprite_createFromFile("nave.png",
-                                                         (sfVector2f){0.8,0.8},
-                                                         (sfVector2f){WIDTH/2, 450});
-
-    // Fire
-    gameSprites->fire = sfSprite_createFromFile("fire.png",
-                                            (sfVector2f){0.5,0.5},
-                                            (sfVector2f){-40, -40});
-
-    // Enemy fire
-    gameSprites->enemyFire = sfSprite_createFromFile("fire.png",
-                                            (sfVector2f){0.5,0.5},
-                                            (sfVector2f){-40, -40});
-    sfSprite_setColor(gameSprites->enemyFire, sfColor_fromRGB(255, 100, 255));
-
-    // Background
-    gameSprites->background = sfSprite_createFromFile("background.png",
-                                                  (sfVector2f){3.125, 2.3475},
-                                                  (sfVector2f){WIDTH/2, HEIGHT/2});
-
-    // Lifes
-    gameSprites->life = sfSprite_createFromFile("life.png",
-                                            (sfVector2f){1,1},
-                                            (sfVector2f){350,575});
-
-    // Life bar
-    gameSprites->lifebar = sfSprite_createFromFile("lifebar.png",
-                                               (sfVector2f){2, 1},
-                                               (sfVector2f){WIDTH/2, 525});
-
-    gameSprites->gameover = sfSprite_createFromFile("gameover.png",
-                                                  (sfVector2f){1,1},
-                                                  (sfVector2f){WIDTH/2, HEIGHT/2});
-
-    gameSprites->enemyBlack = sfSprite_createFromFile("enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyRed = sfSprite_createFromFile("enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyGreen = sfSprite_createFromFile("enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyBlue = sfSprite_createFromFile("enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-
-    gameSprites->fillLifeBar = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->fillLifeBar, (sfVector2f){436, 35});
-    sfRectangleShape_setPosition(gameSprites->fillLifeBar, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites->fillLifeBar, sfColor_fromRGB(255,255,255));
-
-    gameSprites->fillLifeBar2 = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->fillLifeBar2, (sfVector2f){energy, ENERGYY});
-    sfRectangleShape_setPosition(gameSprites->fillLifeBar2, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites->fillLifeBar2, sfColor_fromRGB(100,0,0));
-
-    // GUI
-    gameSprites->base = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->base, (sfVector2f){WIDTH, 100});
-    sfRectangleShape_setPosition(gameSprites->base, (sfVector2f){0, 500});
-    sfRectangleShape_setFillColor(gameSprites->base, sfColor_fromRGB(150,0,0));
 }
 
 int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite)
@@ -548,6 +487,9 @@ void gameMenu(sfRenderWindow* window)
     int i; // Count
     int flagButton = -1; // 0 - Play / 1 - Options / 2 - Credits
     int gameoverFlag = 0; // If it's 0, you don't want to play again after the game over screen. If it's 1, you want.
+
+    FILE *highscores;
+    int positionScore = 0; // If it's 0, your score didn't enter in the highscores
     sfEvent event;
 
     TYPE_MENU patternMenu;
@@ -563,13 +505,13 @@ void gameMenu(sfRenderWindow* window)
     sfText_setPosition(patternMenu.megamaniaLogo, (sfVector2f){WIDTH/2, HEIGHT/6});
 
     /// Initializing play button
-    patternMenu.buttons[0] = createButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
+    patternMenu.buttons[0] = Utility_CreateButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     /// Initializing option button
-    patternMenu.buttons[1] = createButton("O P T I O N S", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
+    patternMenu.buttons[1] = Utility_CreateButton("S C O R E B O A R D", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     /// Initializing credits button
-    patternMenu.buttons[2] = createButton("C R E D I T S", 40, (sfVector2f){WIDTH/2, 540}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
+    patternMenu.buttons[2] = Utility_CreateButton("C R E D I T S", 40, (sfVector2f){WIDTH/2, 540}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     /// Loop of the screen
     while(sfRenderWindow_isOpen(window))
@@ -585,18 +527,8 @@ void gameMenu(sfRenderWindow* window)
         /// Checking if mouse is on a button
         for(i = 0; i < 3; i++)
         {
-            if((sfMouse_getPosition(window).y <= (370 + i*110) && sfMouse_getPosition(window).y >= (270 + i*110)) &&
-               (sfMouse_getPosition(window).x <= 600 && sfMouse_getPosition(window).x >= 200))
-            {
-                sfRectangleShape_setOutlineColor(patternMenu.buttons[i].base, sfColor_fromRGB( 255, 255, 255));
-                // Check click
-                if(sfMouse_isButtonPressed(sfMouseLeft))
-                {
-                    flagButton = i;
-                }
-            }
-            else
-                sfRectangleShape_setOutlineColor(patternMenu.buttons[i].base, sfColor_fromRGB( 0, 0, 0));
+            if(Utility_isOnButton(&patternMenu.buttons[i], window))
+                flagButton = i;
         }
         switch(flagButton)
         {
@@ -630,13 +562,20 @@ void gameMenu(sfRenderWindow* window)
                                 liveEnemies = nEnemies;
                             }
                         }while(gameoverFlag);
+                        // Verifying if there is a new highscore
+                        positionScore = Score_AddHighScore(highscores, score);
+                        if(positionScore)
+                            printf("Congratulation!! Your position was: %d\n", positionScore);
+
                         score = 0;
                         flagButton = -1;
                         break;
 
-            case 1:     break;
+            case 1:     Layout_Highscores(window, gameSprites.background);
+                        flagButton = -1;
+                        break;
 
-            case 2:     showCredits(window);
+            case 2:     Layout_Credits(window, gameSprites.background);
                         flagButton = -1;
                         break;
 
@@ -658,119 +597,3 @@ void gameMenu(sfRenderWindow* window)
         sfRenderWindow_display(window);
     }
 }
-
-TYPE_BUTTON createButton(char stringText[50], float textSize, sfVector2f position, sfVector2f baseSize, sfColor cBase)
-{
-    TYPE_BUTTON button;
-
-    sfFont* font;
-    font = sfFont_createFromFile("Quantify Bold v2.6.ttf"); // Font of the utton
-
-        // Text of button
-    button.text = sfText_create();
-    sfText_setCharacterSize(button.text, textSize);
-    sfText_setString(button.text, stringText);
-    sfText_setFont(button.text, font);
-    sfText_setOrigin(button.text, (sfVector2f){sfText_getLocalBounds(button.text).width/2, sfText_getLocalBounds(button.text).height/2});   // The origin will be at the center of the text
-    sfText_setPosition(button.text, position);
-        // Base of button
-    button.base = sfRectangleShape_create();
-    sfRectangleShape_setSize(button.base, baseSize);
-    sfRectangleShape_setOrigin(button.base, (sfVector2f){baseSize.x/2, baseSize.y/2});  // The origin will be at the center of the sprite
-    sfRectangleShape_setFillColor(button.base, cBase);
-    sfRectangleShape_setOutlineColor(button.base, sfColor_fromRGB( 0, 0, 0));   // Setting the outlinecolor to black
-    sfRectangleShape_setOutlineThickness(button.base, 1);
-    sfRectangleShape_setPosition(button.base, (sfVector2f){ position.x, position.y});
-
-    return button;
-}
-
-void showCredits (sfRenderWindow* window)
-{
-    sfEvent event;
-
-    TYPE_BUTTON backButton;
-    int flagButton = 0; // If it's 0, you didn't click on the button. Else, you did.
-
-    sfFont* font;
-
-    sfText* creators;   // It talks about who creates this game
-    sfText* spritesPack;    // Where we pick these sprites
-    sfText* why;        // Why we did it
-
-    // Setting font
-    font = sfFont_createFromFile("Quantify Bold v2.6.ttf"); // Font of the text
-
-    /// Setting texts
-        // Set creators
-    creators = sfText_create();
-    sfText_setCharacterSize(creators, 20);
-    sfText_setString(creators, "C R E A T O R S: \nMarcos Samuel Landi\nHenry Bernardo K. de Avila.");
-    sfText_setFont(creators, font);
-    sfText_setPosition(creators, (sfVector2f){WIDTH/8, 200});
-        // Set spritesPack
-    spritesPack = sfText_create();
-    sfText_setCharacterSize(spritesPack, 20);
-    sfText_setString(spritesPack, "S P R I T E ' S  P A C K :\n Space Shooter (Redux, plus fonts and sounds)\nby Kenney Vleugels (www.kenney.nl).");
-    sfText_setFont(spritesPack, font);
-    sfText_setPosition(spritesPack, (sfVector2f){WIDTH/8, 300});
-        // Set why
-    why = sfText_create();
-    sfText_setCharacterSize(why, 20);
-    sfText_setString(why, "W H Y  H A V E  Y O U  D O N E  T H I S ?\n  Well, this game is the final project of\n Programming and Algorythms, a subject in UFRGS.");
-    sfText_setFont(why, font);
-    sfText_setPosition(why, (sfVector2f){WIDTH/8, 400});
-
-    // Setting back's button
-    backButton = createButton("B A C K", 40, (sfVector2f){WIDTH - 200, 100}, (sfVector2f){200, 100}, sfColor_fromRGB(18, 16, 18));
-
-    do
-    {
-        /// Code to close the window
-        while(sfRenderWindow_pollEvent(window, &event))
-        {
-            // Close window : exit
-            if (event.type == sfEvtClosed)
-                sfRenderWindow_close(window);
-        }
-
-        if((sfMouse_getPosition(window).y <= 150 && sfMouse_getPosition(window).y >= 50) &&
-                   (sfMouse_getPosition(window).x <= 700 && sfMouse_getPosition(window).x >= 500))
-        {
-            sfRectangleShape_setOutlineColor(backButton.base, sfColor_fromRGB( 255, 255, 255));
-            // Check click
-            if(sfMouse_isButtonPressed(sfMouseLeft))
-            {
-                flagButton = 1;
-            }
-        }
-        else
-            sfRectangleShape_setOutlineColor(backButton.base, sfColor_fromRGB( 0, 0, 0));
-
-
-        /// Drawing on the screen
-        sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
-            // Background
-        sfRenderWindow_drawSprite(window, gameSprites.background, NULL);
-            // BackButton
-        sfRenderWindow_drawRectangleShape(window, backButton.base, NULL);
-        sfRenderWindow_drawText(window, backButton.text, NULL);
-            // Why
-        sfRenderWindow_drawText(window, why, NULL);
-            // Sprites pack
-        sfRenderWindow_drawText(window, spritesPack, NULL);
-            // Creators
-        sfRenderWindow_drawText(window, creators, NULL);
-        sfRenderWindow_display(window);
-    }while(!flagButton);
-}
-
-float scoreByEnergyBar (float energy, float maxEnergy)
-{
-    float answer;
-
-    answer = energy/(maxEnergy/40) * 50;    // We want the energy bar to have 40 parts, so we divide it by 40 and divide the current energy by this
-                                            // fraction, that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined at the PDF)
-    return answer;
-}
-

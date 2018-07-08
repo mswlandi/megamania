@@ -39,7 +39,6 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="../CSFML/include" />
-			<Add directory="../megamania-master" />
 		</Compiler>
 		<Linker>
 			<Add library="../CSFML/lib/gcc/libcsfml-graphics.a" />
@@ -57,6 +56,10 @@
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="score.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="score.h" />
 		<Unit filename="sprites.c">
 			<Option compilerVar="CC" />
 		</Unit>

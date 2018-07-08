@@ -146,7 +146,6 @@ void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int 
 void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemies, int levelSpeed)
 {
     int aux;
-    int maxcont;
 
     srand(time(NULL));
 
