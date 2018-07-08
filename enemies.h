@@ -1,12 +1,6 @@
 #ifndef ENEMIES_H_INCLUDED
 #define ENEMIES_H_INCLUDED
 
-// Default headers
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-// CSFML header
-#include <SFML/Graphics.h>
 #include "global.h"
 
 // This creates one enemy and returns it.
@@ -32,4 +26,4 @@ void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
 int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite);
 
-#endif // ENEMIES_H_INCLUDED
+#endif

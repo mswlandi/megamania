@@ -1,7 +1,6 @@
 #ifndef UTILITY_H_INCLUDED
 #define UTILITY_H_INCLUDED
 
-// Our headers
 #include "global.h"
 
 // This function creates a block of text
@@ -12,4 +11,4 @@ TYPE_BUTTON Utility_CreateButton(char stringText[50], float textSize, sfVector2f
 int Utility_isOnButton(TYPE_BUTTON *button, sfRenderWindow* window);
 
 
-#endif // UTILITY_H_INCLUDED
+#endif

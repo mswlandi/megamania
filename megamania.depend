@@ -1836,24 +1836,20 @@
 	"enemies.h"
 	"score.h"
 
-1531052522 g:\mega\megamania-master\utility.h
+1531064612 g:\mega\megamania-master\utility.h
 	"global.h"
 
-1531063926 g:\mega\megamania-master\sprites.h
+1531064612 g:\mega\megamania-master\sprites.h
 	"global.h"
 	"utility.h"
 	"enemies.h"
 	"score.h"
 	"layout.h"
 
-1531063926 g:\mega\megamania-master\enemies.h
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<SFML/Graphics.h>
+1531064612 g:\mega\megamania-master\enemies.h
 	"global.h"
 
-1531052522 g:\mega\megamania-master\score.h
+1531064612 g:\mega\megamania-master\score.h
 	"global.h"
 	"sprites.h"
 	"enemies.h"

@@ -1,10 +1,3 @@
-// Video's constants
-#define WIDTH 800
-#define HEIGHT 600
-// Energy's constants
-#define ENERGYMAX 436
-#define ENERGYY 35
-
 #include "sprites.h"
 
 sfSprite* sfSprite_createFromFile(const char* filename, sfVector2f scale, sfVector2f pos)

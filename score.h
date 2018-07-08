@@ -1,7 +1,6 @@
 #ifndef SCORE_H_INCLUDED
 #define SCORE_H_INCLUDED
 
-// Our headers
 #include "global.h"
 #include "sprites.h"
 #include "enemies.h"

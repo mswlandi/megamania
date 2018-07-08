@@ -21,4 +21,4 @@ void loadgameObjects(TYPE_GAMEOBJECTS* gameObjects);
 // This function cleans (probably) every objec that has a destroy function in the game
 void cleanGameStuff(TYPE_GAMEOBJECTS* gameObjects, sfRenderWindow* window);
 
-#endif // SPRITES_H_INCLUDED
+#endif
