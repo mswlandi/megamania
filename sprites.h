@@ -1,13 +1,11 @@
 #ifndef SPRITES_H_INCLUDED
 #define SPRITES_H_INCLUDED
 
-// Default headers
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-// CSFML header
-#include <SFML/Graphics.h>
-#include "structs.h"
+#include "global.h"
+#include "utility.h"
+#include "enemies.h"
+#include "score.h"
+#include "layout.h"
 
 
 // This bundles together a sprite with a texture, and the origin in the middle.

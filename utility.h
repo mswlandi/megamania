@@ -1,14 +1,8 @@
 #ifndef UTILITY_H_INCLUDED
 #define UTILITY_H_INCLUDED
 
-// Default headers
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-// CSFML header
-#include <SFML/Graphics.h>
 // Our headers
-#include "structs.h"
+#include "global.h"
 
 // This function creates a block of text
 sfText* Text_Create(char* string, char* fontName, int charSize, sfColor color, sfVector2f position);

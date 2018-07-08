@@ -1,3 +1,4 @@
+#include "global.h"
 #include "utility.h"
 
 sfText* Text_Create(char* string, char* fontName, int charSize, sfColor color, sfVector2f position)

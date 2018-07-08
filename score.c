@@ -1,3 +1,4 @@
+#include "global.h"
 #include "score.h"
 
 int Score_AddHighScore(FILE *highscores, int score)

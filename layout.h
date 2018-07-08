@@ -1,15 +1,12 @@
 #ifndef LAYOUT_H_INCLUDED
 #define LAYOUT_H_INCLUDED
 
-// Default headers
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-// CSFML header
-#include <SFML/Graphics.h>
 // Our headers
-#include "structs.h"
+#include "global.h"
 #include "utility.h"
+#include "sprites.h"
+#include "enemies.h"
+#include "score.h"
 
 // This creates a button with some text
 TYPE_BUTTON Layout_CreateButton(char stringText[50], float textSize, sfVector2f position, sfVector2f baseSize, sfColor cBase);
@@ -19,5 +16,11 @@ int Layout_isOnButton(TYPE_BUTTON *button, sfRenderWindow* window);
 void Layout_Highscores(sfRenderWindow* window, sfSprite* background);
 // This function shows the credits screen
 void Layout_Credits(sfRenderWindow* window, sfSprite* background);
+// This loads all the stage (player ship, enemies, background, logic, ..., using a lot of others functions)
+void layoutStage(sfRenderWindow* window, TYPE_LEVEL level);
+// This is the menu of the game
+void gameMenu(sfRenderWindow* window);
+// This loads Game Over screen
+void layoutGameOver(sfRenderWindow* window, sfEvent event);
 
 #endif // LAYOUT_H_INCLUDED

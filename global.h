@@ -1,7 +1,37 @@
-#ifndef STRUCTS_H_INCLUDED
-#define STRUCTS_H_INCLUDED
+#ifndef GLOBAL_H_INCLUDED
+#define GLOBAL_H_INCLUDED
 
+/// Constants
+// Video's constants
+#define WIDTH 800
+#define HEIGHT 600
+// Energy's bar constants
+#define ENERGYMAX 436
+#define ENERGYY 35
+#define BARSPEED 10.9 // 10.9 - standard
+// Enemies' constants
+#define MAXENEMIES 20
+#define DIST_ENEMY_X 10
+#define DIST_ENEMY_Y 50
+#define SPEED_ENEMY 200
+#define ENEMYFIRE_SPEED 300
+#define FRAMES_TO_DIR 2000
+#define TIME_TO_FALL 1.65 // How much time, approximately, it takes for an enemy fire to reach the ground
+// Button's constants
+#define BUTTON_WIDTH 400
+#define BUTTON_HEIGHT 100
+// Levels' constants
+#define MAX_LEVELS
+
+// SFML headers
 #include <SFML/Graphics.h>
+
+// Default headers
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
 
 /// Structs
 
@@ -79,4 +109,28 @@ typedef struct str_level
     float lastShot;
 } TYPE_LEVEL;
 
-#endif // STRUCTS_H_INCLUDED
+/// Variables
+
+// General variables
+float energy;
+int numberlifes;
+int nEnemies;
+int liveEnemies;
+int score;
+
+// Mouse variables
+float mouseX;
+float mouseY;
+
+// Sprites
+TYPE_ALLSPRITES gameSprites; // It's a global variable yet, but we want to put it in the main function, maybe
+
+
+// Levels
+TYPE_LEVEL level1;
+
+TYPE_LEVEL level2;
+
+TYPE_LEVEL chosenLevel; // We didn't use it yet
+
+#endif // UTILITY_H_INCLUDED

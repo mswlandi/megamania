@@ -1,13 +1,4 @@
-// Enemies' constants
-#define MAXENEMIES 20
-#define DIST_ENEMY_X 10
-#define DIST_ENEMY_Y 50
-#define SPEED_ENEMY 200
-#define ENEMYFIRE_SPEED 300
-// Video's constants
-#define WIDTH 800
-#define HEIGHT 600
-
+#include "global.h"
 #include "enemies.h"
 #include "sprites.h"
 
@@ -238,4 +229,35 @@ void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies)
     {
         enemies[i].fire.flag = 0;
     }
+}
+
+int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite)
+{
+    int i;
+
+    sfFloatRect enemyRect;
+    sfFloatRect spriteRect = sfSprite_getGlobalBounds(sprite);
+
+    int numberOfEnemyDead = -1; // If there isn't an enemy dead in this array, it will be -1.
+                                // Else, it will be the number of the enemy dead in it's array.
+
+    float sizeEnemyX = sfSprite_getLocalBounds(gameSprites.enemyBlack).width;
+    float sizeEnemyY = sfSprite_getLocalBounds(gameSprites.enemyBlack).height;
+
+    for(i = 0; i < sizeArray; i++)
+    {
+        // The top-left corner is calculated according to the position,
+        // which is at the center of the sprite.
+        enemyRect.top = enemies[i].posY - sizeEnemyY/2;
+        enemyRect.left = enemies[i].posX - sizeEnemyX/2;
+        enemyRect.width = sizeEnemyX;
+        enemyRect.height = sizeEnemyY;
+
+        if(sfFloatRect_intersects(&enemyRect, &spriteRect, NULL))
+        {
+            numberOfEnemyDead = i;
+        }
+    }
+
+    return numberOfEnemyDead;
 }
