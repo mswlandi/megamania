@@ -677,7 +677,8 @@
 	<SFML/Graphics.h>
 	<string.h>
 
-1531028084 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\layout.c
+1531083449 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\layout.c
+	"global.h"
 	"layout.h"
 
 1431774364 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\csfml\include\sfml\graphics.h
@@ -1007,53 +1008,44 @@
 	<SFML/Graphics/Types.h>
 	<SFML/System/Vector2.h>
 
-1531026723 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\main.c
-	<SFML/Graphics.h>
-	<string.h>
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<math.h>
-	"sprites.h"
+1531083449 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\main.c
+	"global.h"
+	"utility.h"
 	"enemies.h"
-	"structs.h"
 	"score.h"
 	"layout.h"
-	"utility.h"
+	"sprites.h"
 
-1531025865 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\sprites.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531070894 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\sprites.h
+	"global.h"
+	"utility.h"
+	"enemies.h"
+	"score.h"
+	"layout.h"
 
 1530907928 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\structs.h
 	<SFML/Graphics.h>
 
-1530907928 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\enemies.h
-	<stdio.h>
-	<stdlib.h>
-	<time.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531079124 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\enemies.h
+	"global.h"
 
-1530977048 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\enemies.c
+1531083105 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\enemies.c
+	"global.h"
 	"enemies.h"
 	"sprites.h"
 
-1531025807 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\sprites.c
+1531070894 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\sprites.c
 	"sprites.h"
 
-1531018876 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\score.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
-	"text.h"
+1531070894 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\score.h
+	"global.h"
+	"sprites.h"
+	"enemies.h"
+	"layout.h"
+	"utility.h"
 
-1531019296 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\score.c
+1531076187 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\score.c
+	"global.h"
 	"score.h"
 
 1531019337 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\text.h
@@ -1064,22 +1056,18 @@
 1531022367 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\text.c
 	"text.h"
 
-1531026723 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\layout.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531075386 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\layout.h
+	"global.h"
 	"utility.h"
+	"sprites.h"
+	"enemies.h"
+	"score.h"
 
-1531026723 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\utility.h
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<SFML/Graphics.h>
-	"structs.h"
+1531080938 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\utility.h
+	"global.h"
 
-1531027851 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\utility.c
+1531081147 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\utility.c
+	"global.h"
 	"utility.h"
 
 1531052872 source:f:\mega\megamania-master\enemies.c
@@ -1879,4 +1867,15 @@
 	"global.h"
 	"enemies.h"
 	"sprites.h"
+
+1531083295 source:c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\global.c
+	"global.h"
+
+1531081521 c:\users\cepht\documents\ufrgs\matérias\algoritmos e programação\jogo\megamania\global.h
+	<SFML/Graphics.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<math.h>
 

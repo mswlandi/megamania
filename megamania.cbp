@@ -50,9 +50,14 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="enemies.h" />
+		<Unit filename="global.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="global.h" />
 		<Unit filename="layout.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="layout.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -64,7 +69,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="sprites.h" />
-		<Unit filename="structs.h" />
 		<Unit filename="utility.c">
 			<Option compilerVar="CC" />
 		</Unit>

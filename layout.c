@@ -37,6 +37,8 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
     int pPressedLastTime = 0;
     int shouldLoop = 1; // Used to indicate whether it should continue looping or not
     int isB = 0; // If direction is 'B', it's 1. Else, 0.
+    int invencibiltyOn = 0; // If it's 0, cheat is disabled. Else, is enabled.
+    int iPressedLastTime = 0;
 
     // Animations
     int animating = 1; // 1 - started stage, 2 - just died
@@ -50,6 +52,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
     int count = 0;
     char directionEnemyMove = level.direction;
     int positionEnemyDead; // The dead enemy in this frame
+    float numberToSin = 0; // If the direction is 'S', this number will be used to move in Y coordinate as sin function.
 
     // Score
     sfFont* font;
@@ -101,6 +104,22 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         {
             pPressedLastTime = 0;
         }
+
+        /// Cheats logic
+        if(sfKeyboard_isKeyPressed(sfKeyI))
+        {
+            if(!iPressedLastTime)
+                invencibiltyOn = !invencibiltyOn;
+
+            if(invencibiltyOn)
+                printf("Invencibility on!!\n");
+            else
+                printf("Invencibility OFF\n");
+
+            iPressedLastTime = 1;
+        }
+        else
+            iPressedLastTime = 0;
 
         if(!level.paused)
         {
@@ -158,7 +177,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
                     count++;
             }
 
-        Enemies_Move(level, gameObjects.enemies, nEnemies, dtime);
+        Enemies_Move(level, gameObjects.enemies, nEnemies, dtime, &numberToSin);
 
         // Enemy fire
         // Did the time come for some enemy to fire?
@@ -185,16 +204,17 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         if(!animating)
         {
             // When the energy ends, you lose a life
-            if(energy <= 0)
+            if(energy <= 0 && !invencibiltyOn)
             {
                 numberlifes--;  // -1 life ;-;
                 animating = 2;
             }
 
-            energy -= BARSPEED*dtime; // To empty the life bar
+            if(!invencibiltyOn)
+                energy -= BARSPEED*dtime; // To empty the life bar
             sfRectangleShape_setSize(gameObjects.fillLifeBar2, (sfVector2f){energy, ENERGYY});
 
-            if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameObjects.enemies, nEnemies, dtime, gameObjects.ship))
+            if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameObjects.enemies, nEnemies, dtime, gameObjects.ship) && !invencibiltyOn)
                 energy = 0;
         }
         /// Animation
@@ -434,6 +454,27 @@ void Layout_GameMenu(sfRenderWindow* window)
                                 Layout_Stage(window, level2);
                             }
 
+                            /// Level 3
+                            if(numberlifes > 0) // It means that the player did not dead 3 times in the second
+                            {
+                                level3.mapName = "map_3.txt";
+                                // Setting the Level 3's enemies
+                                Enemies_Set(&level3, gameObjects.enemies, &nEnemies, &liveEnemies);
+
+                                // Beginning the Level 3
+                                Layout_Stage(window, level3);
+                            }
+
+                            /// Level 4
+                            if(numberlifes > 0) // It means that the player did not dead 3 times in the third level
+                            {
+                                // Setting the Level 4's enemies
+                                Enemies_Set(&level4, gameObjects.enemies, &nEnemies, &liveEnemies);
+
+                                // Beginning the Level 4
+                                Layout_Stage(window, level4);
+                            }
+
                             gameoverFlag = 0; // Making possible to enter in a game over, and then you finish the levels
 
                             if(numberlifes <= 0) // It means that the player dead 3 times, then, he can back and play again the first level
@@ -445,10 +486,14 @@ void Layout_GameMenu(sfRenderWindow* window)
                                 liveEnemies = nEnemies;
                             }
                         }while(gameoverFlag);
+
                         // Verifying if there is a new highscore
                         positionScore = Score_AddHighScore(highscores, score);
                         if(positionScore)
                             printf("Congratulation!! Your position was: %d\n", positionScore);
+
+                            // Winner screen
+                        Layout_JustWon(window, gameObjects.background, positionScore);
 
                         score = 0;
                         flagButton = -1;
@@ -622,3 +667,61 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
     }while(!flagButton);
 }
 
+void Layout_JustWon(sfRenderWindow* window, sfSprite* background, int flagRank)
+{
+    sfEvent event;
+    int flagButton;
+
+    sfText* scoreLayout;
+    sfText* scoreNb;
+    sfText* congratulations;
+    char rankCongrat[50];
+    char nbrRank[20];
+
+    strcpy(rankCongrat, "Congratulations!! You have the ");
+    itoa(flagRank, nbrRank, 10);
+    strcat(nbrRank, " highest score.");
+    strcat(rankCongrat, nbrRank);
+
+    TYPE_BUTTON backButton;
+
+
+    scoreLayout = Score_CreateLayout((sfVector2f){WIDTH/2, HEIGHT/6}, 40);
+    scoreNb = Score_TextCreate(score, (sfVector2f){WIDTH/2, HEIGHT/4}, 30);
+
+    if(flagRank)
+    {
+        congratulations = Utility_TextCreate(rankCongrat, "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, HEIGHT/2});
+    }
+
+    // Setting back's button
+    backButton = Utility_CreateButton("B A C K  T O  M E N U", 40, (sfVector2f){WIDTH - 210, HEIGHT - 100}, (sfVector2f){400, 100}, sfColor_fromRGB(18, 16, 18));
+
+    do
+    {
+        /// Code to close the window
+        while(sfRenderWindow_pollEvent(window, &event))
+        {
+            // Close window : exit
+            if (event.type == sfEvtClosed)
+                sfRenderWindow_close(window);
+        }
+
+        flagButton = Utility_isOnButton(&backButton, window);
+
+        /// Drawing on the screen
+        sfRenderWindow_clear(window, sfColor_fromRGB(0,0,0));
+            // Background
+        sfRenderWindow_drawSprite(window, background, NULL);
+            // Back button
+        sfRenderWindow_drawRectangleShape(window, backButton.base, NULL);
+        sfRenderWindow_drawText(window, backButton.text, NULL);
+            //S C O R E
+        sfRenderWindow_drawText(window, scoreLayout, NULL);
+            //Score
+        sfRenderWindow_drawText(window, scoreNb, NULL);
+        if(flagRank)
+            sfRenderWindow_drawText(window, congratulations, NULL);
+        sfRenderWindow_display(window);
+    }while(!flagButton);
+}

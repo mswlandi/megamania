@@ -28,8 +28,6 @@ int Score_AddHighScore(FILE *highscores, int score)
 
     rewind(highscores);
 
-    printf("Score antes de entrar no while: %d\n", score);
-
     if(!highscores)
         printf("Open highscores.txt error\n");
     else
@@ -50,9 +48,6 @@ int Score_AddHighScore(FILE *highscores, int score)
                 j++;
             }
         }
-
-        for(i = 0; i < 5; i++) // Teste
-            printf("Numero %d: %d\n", i+1, top[i]);
 
         for(i = 0; i < 5; i++)
         {
@@ -113,3 +108,4 @@ float Score_EnergyBar(float energy, float maxEnergy)
                                             // that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined in the PDF)
     return answer;
 }
+

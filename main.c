@@ -25,8 +25,14 @@ int main()
     loadGameSprites(&gameObjects);
 
     // Initializing map names
-    level1.mapName = "map_1.txt";
-    level2.mapName = "map_2.txt";
+    level1.mapName = "map_3.txt";
+    level2.mapName = "map_4.txt";
+    level3.mapName = "map_1.txt";
+    level4.mapName = "map_2.txt";
+
+    puts(level3.mapName);
+    puts(level4.mapName);
+
 
     // Video variables
     sfVideoMode mode = {WIDTH, HEIGHT, 32};

@@ -32,8 +32,10 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
 {
     FILE *map;
 
-    map = fopen(level->mapName, "r"); // It will open the file whose name is a parameter (dir: bin/debug)
+    printf("Entrei no enemies set: %s\n", level->mapName);
     puts(level->mapName);
+    map = fopen(level->mapName, "r"); // It will open the file whose name is a parameter (dir: bin/debug)
+    //puts(level->mapName);
 
     int posXAux = 40;   // starting X position
     int posYAux = 0;
@@ -77,7 +79,7 @@ void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *
     fclose(map);
 }
 
-void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, float dtime)
+void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, float dtime, float *number)
 {
     int i;
     for(i = 0; i < sizeArray; i++)
@@ -85,14 +87,23 @@ void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeAr
         if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
         {
             //Moves the enemy like this: StandardSpeed*levelSpeed/second
-            enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
+            if(level.direction == 'R')
+                enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
+            if(level.direction == 'L')
+                enemies[i].posX -= SPEED_ENEMY*dtime*level.levelSpeed;
+            if(level.direction == 'S')
+            {
+                enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
+                enemies[i].posY += sin(Utility_Counting(number, dtime))*120*dtime;
+            }
+
         }
         else
         {
-            if(level.direction == 'R')
+            if(level.direction == 'R' || level.direction == 'S')
                 enemies[i].posX = 0;
             else if(level.direction == 'L')
-                enemies[i].posX = 800;
+                enemies[i].posX = WIDTH;
         }
     }
 }
