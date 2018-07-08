@@ -410,8 +410,8 @@ void Layout_GameMenu(sfRenderWindow* window)
     // Initializing play button
     patternMenu.buttons[0] = Utility_CreateButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
-    // Initializing option button
-    patternMenu.buttons[1] = Utility_CreateButton("S C O R E B O A R D", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
+    // Initializing highscores button
+    patternMenu.buttons[1] = Utility_CreateButton("H I G H S C O R E S", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     // Initializing credits button
     patternMenu.buttons[2] = Utility_CreateButton("C R E D I T S", 40, (sfVector2f){WIDTH/2, 540}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
@@ -438,12 +438,13 @@ void Layout_GameMenu(sfRenderWindow* window)
             case 0:     /// Level 1
                         do
                         {
+                            // Goes through the maps, loading the maps from the files, that must be named "map_<number>.txt"
                             i = 1;
-                            while(numberlifes > 0 && i<5)
+                            while(numberlifes > 0 && i<=NUMBER_MAPS)
                             {
-                                // Setting the Level 1's enemies
+                                // Setting the Level's enemies
                                 Enemies_Set(&levelbuffer, i, gameObjects.enemies, &nEnemies, &liveEnemies);
-                                // Beginning the Level 1
+                                // Starting the level
                                 Layout_Stage(window, levelbuffer);
 
                                 i++;
@@ -451,15 +452,16 @@ void Layout_GameMenu(sfRenderWindow* window)
 
                             gameoverFlag = 0; // Making possible to enter in a game over, and then you finish the levels
 
+                            // If the player still have lives, this if won't run an the loop will go to the next iteration, effectively
+                            // restarting from level 1.
                             if(numberlifes <= 0) // It means that the player dead 3 times, then, he can back and play again the first level
                             {
-                                // Show Game Over screen
-                                Layout_GameOver(window, event); // Here, you can click and you will starts from beginning again
+                                // Showing Game Over screen - When you click, the game will start again, from level 1.
+                                Layout_GameOver(window, event);
                                 gameoverFlag = 1;
-                                // Setting the enemies to beginning definitions
                                 liveEnemies = nEnemies;
                             }
-                        }while(gameoverFlag);
+                        } while(gameoverFlag);
 
                         // Verifying if there is a new highscore
                         positionScore = Score_AddHighScore(highscores, score);

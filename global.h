@@ -35,7 +35,7 @@
 #define BUTTON_WIDTH 400
 #define BUTTON_HEIGHT 100
 // Levels' constants
-#define MAX_LEVELS
+#define NUMBER_MAPS 4
 
 // SFML headers
 #include <SFML/Graphics.h>
