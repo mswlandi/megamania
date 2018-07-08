@@ -30,6 +30,6 @@ int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies);
 // This destroys all of the enemies' fires
 void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies);
 // This returns the number of enemy in the array, if the sprite given has the same position than that enemy. Else, it returns -1.
-int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite);
+int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite);
 
 #endif // ENEMIES_H_INCLUDED

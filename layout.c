@@ -114,7 +114,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
             isFireable = 1;
 
         // Fire - check collisions
-        positionEnemyDead = isAtSamePoint(gameSprites.enemies, nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
+        positionEnemyDead = Enemies_isAtSamePoint(gameSprites.enemies, nEnemies, gameSprites.fire); // PositionEnemyDead will update every frame
 
         if(positionEnemyDead != -1)
         {

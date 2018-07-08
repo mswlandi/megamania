@@ -231,7 +231,7 @@ void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies)
     }
 }
 
-int isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite)
+int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite)
 {
     int i;
 
