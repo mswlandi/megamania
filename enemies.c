@@ -9,8 +9,8 @@ TYPE_ENEMIES Enemy_Create(int color, int posX, int posY)
     enemy.color = color;
     enemy.posX = posX;  // Making easier to lead with coordinates of enemy
     enemy.posY = posY;
-    enemy.flag = 1;     // Seting him to alive (1)
-    enemy.fire.flag = 0;
+    enemy.isAlive = 1;     // Seting him to alive (1)
+    enemy.fire.isOnScreen = 0;
 
     return enemy;
 }
@@ -71,7 +71,7 @@ void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeAr
     {
         case 'R':   for(i = 0; i < sizeArray; i++)
                     {
-                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].flag == 1)
+                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
                         {
                             enemies[i].posX += SPEED_ENEMY*dtime*level.levelSpeed;
                         }
@@ -83,7 +83,7 @@ void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeAr
                     break;
         case 'L':   for(i = 0; i < sizeArray; i++)
                     {
-                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].flag == 1)
+                        if(enemies[i].posX >= 0 && enemies[i].posX <= 800 && enemies[i].isAlive == 1)
                         {
                             enemies[i].posX -= SPEED_ENEMY*dtime*level.levelSpeed;
                         }
@@ -108,7 +108,7 @@ void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int 
         bufferPos.y = enemies[i].posY;
 
         // This function only draws alive enemys
-        if(enemies[i].flag == 1)
+        if(enemies[i].isAlive == 1)
         {
             switch(enemies[i].color)
             {
@@ -144,9 +144,9 @@ void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemi
     {
         do{
             aux = rand() % numberEnemies;
-        }while(!enemies[aux].flag || enemies[aux].fire.flag);
+        }while(!enemies[aux].isAlive || enemies[aux].fire.isOnScreen);
 
-        enemies[aux].fire.flag = 1;
+        enemies[aux].fire.isOnScreen = 1;
         enemies[aux].fire.posX = enemies[aux].posX;
         enemies[aux].fire.posY = enemies[aux].posY + 40;
     }
@@ -158,7 +158,7 @@ void Enemies_DrawFires(sfRenderWindow *window, sfSprite* sprite, TYPE_ENEMIES en
 
     for(i = 0; i < numberEnemies; i++)
     {
-        if(enemies[i].fire.flag == 1)
+        if(enemies[i].fire.isOnScreen == 1)
         {
             sfSprite_setPosition(sprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY});
             sfRenderWindow_drawSprite(window, sprite, NULL);
@@ -169,11 +169,11 @@ void Enemies_DrawFires(sfRenderWindow *window, sfSprite* sprite, TYPE_ENEMIES en
 int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies, float dtime, TYPE_PLAYERSHIP player)
 {
     int i;
-    int flag = 0; // If it's 1, one of these fires hit the player.
+    int didHit = 0; // If it's 1, one of these fires hit the player.
 
     for(i = 0; i < numberEnemies; i++)
     {
-        if(enemies[i].fire.flag == 1)
+        if(enemies[i].fire.isOnScreen == 1)
         {
             if(enemies[i].fire.posY < HEIGHT &&
                !sfSprite_CollisionPoint(player.shipSprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY}))
@@ -182,15 +182,15 @@ int Enemies_MovingFires(float speedY, TYPE_ENEMIES enemies[], int numberEnemies,
             }
             else
             {
-                enemies[i].fire.flag = 0;
+                enemies[i].fire.isOnScreen = 0;
                 if(sfSprite_CollisionPoint(player.shipSprite, (sfVector2f){enemies[i].fire.posX, enemies[i].fire.posY}))
                 {
-                    flag = 1;
+                    didHit = 1;
                 }
             }
         }
     }
-    return flag;
+    return didHit;
 }
 
 int Enemies_HowManyFires(TYPE_ENEMIES enemies[], int numberEnemies)
@@ -200,7 +200,7 @@ int Enemies_HowManyFires(TYPE_ENEMIES enemies[], int numberEnemies)
 
     for(i = 0; i < numberEnemies; i++)
     {
-        if(enemies[i].fire.flag == 1)
+        if(enemies[i].fire.isOnScreen == 1)
             nbFires++;
     }
 
@@ -214,7 +214,7 @@ int Enemies_canShoot(TYPE_ENEMIES enemies[], int numberEnemies)
 
     for(i=0; i<numberEnemies; i++)
     {
-        if(enemies[i].flag && !enemies[i].fire.flag)
+        if(enemies[i].isAlive && !enemies[i].fire.isOnScreen)
             canThey = 1;
     }
 
@@ -227,7 +227,7 @@ void Enemies_destroyFires(TYPE_ENEMIES enemies[], int numberEnemies)
 
     for(i=0; i<numberEnemies; i++)
     {
-        enemies[i].fire.flag = 0;
+        enemies[i].fire.isOnScreen = 0;
     }
 }
 
@@ -253,7 +253,7 @@ int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite
         enemyRect.width = sizeEnemyX;
         enemyRect.height = sizeEnemyY;
 
-        if(sfFloatRect_intersects(&enemyRect, &spriteRect, NULL))
+        if(sfFloatRect_intersects(&enemyRect, &spriteRect, NULL) && enemies[i].isAlive == 1)
         {
             numberOfEnemyDead = i;
         }

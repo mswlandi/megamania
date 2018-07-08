@@ -118,7 +118,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
 
         if(positionEnemyDead != -1)
         {
-            gameSprites.enemies[positionEnemyDead].flag = 0;    // Killing the enemy
+            gameSprites.enemies[positionEnemyDead].isAlive = 0;    // Killing the enemy
             sfSprite_setPosition(gameSprites.fire, (sfVector2f){-40, -40}); // Setting another position to fire
             isFireable = 1;     // Making possible to fire again
             liveEnemies--;

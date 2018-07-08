@@ -1,37 +1,12 @@
-#ifndef GLOBAL_H_INCLUDED
-#define GLOBAL_H_INCLUDED
+#ifndef STRUCTS_H_INCLUDED
+#define STRUCTS_H_INCLUDED
 
-/// Constants
-// Video's constants
-#define WIDTH 800
-#define HEIGHT 600
-// Energy's bar constants
-#define ENERGYMAX 436
-#define ENERGYY 35
-#define BARSPEED 10.9 // 10.9 - standard
-// Enemies' constants
-#define MAXENEMIES 20
-#define DIST_ENEMY_X 10
-#define DIST_ENEMY_Y 50
-#define SPEED_ENEMY 200
-#define ENEMYFIRE_SPEED 300
-#define FRAMES_TO_DIR 2000
-#define TIME_TO_FALL 1.65 // How much time, approximately, it takes for an enemy fire to reach the ground
-// Button's constants
-#define BUTTON_WIDTH 400
-#define BUTTON_HEIGHT 100
-// Levels' constants
-#define MAX_LEVELS
-
-// SFML headers
 #include <SFML/Graphics.h>
-
-// Default headers
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
+#include "utility.h"
+#include "sprites.h"
+#include "enemies.h"
+#include "score.h"
+#include "layout.h"
 
 /// Structs
 
@@ -53,7 +28,7 @@ typedef struct str_menu
 // Struct for fire
 typedef struct str_fire
 {
-    int isOnScreen; // flag: whether it's on or not (on screen)
+    int flag; // If it's 1, this fire is enabled. Else, it's 0.
     float posX;
     float posY;
 }TYPE_FIRE;
@@ -65,7 +40,7 @@ typedef struct str_enemy
     float posY;
     sfVector2f initialPos;
     int color;
-    int isAlive; // flag: whether or not it's alive
+    int flag; // If this enemy is alive, it's 1.
     TYPE_FIRE fire;
 } TYPE_ENEMIES;
 
@@ -77,8 +52,8 @@ typedef struct str_playership
     float posY;
 } TYPE_PLAYERSHIP;
 
-// Struct that holds all of the game's sprites and some game objects
-typedef struct str_objects
+// Struct that holds all of the game's sprites
+typedef struct str_sprites
 {
     TYPE_PLAYERSHIP ship;
     sfSprite* fire;
@@ -96,7 +71,7 @@ typedef struct str_objects
     sfRectangleShape* fillLifeBar2;
     sfRectangleShape* base;
     TYPE_ENEMIES enemies[];
-} TYPE_GAMEOBJECTS;
+} TYPE_ALLSPRITES;
 
 // Struct which holds all about the logic of level
 typedef struct str_level
@@ -109,28 +84,4 @@ typedef struct str_level
     float lastShot;
 } TYPE_LEVEL;
 
-/// Variables
-
-// General variables
-float energy;
-int numberlifes;
-int nEnemies;
-int liveEnemies;
-int score;
-
-// Mouse variables
-float mouseX;
-float mouseY;
-
-// Sprites
-TYPE_GAMEOBJECTS gameSprites; // It's a global variable yet, but we want to put it in the main function, maybe
-
-
-// Levels
-TYPE_LEVEL level1;
-
-TYPE_LEVEL level2;
-
-TYPE_LEVEL chosenLevel; // We didn't use it yet
-
-#endif // UTILITY_H_INCLUDED
+#endif // STRUCTS_H_INCLUDED

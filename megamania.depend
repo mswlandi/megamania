@@ -1490,7 +1490,7 @@
 1531052236 source:g:\mega\megamania-master\global.c
 	"global.h"
 
-1531057864 g:\mega\megamania-master\global.h
+1531062170 g:\mega\megamania-master\global.h
 	<SFML/Graphics.h>
 	<string.h>
 	<stdio.h>
@@ -1825,7 +1825,7 @@
 	<SFML/Graphics/Types.h>
 	<SFML/System/Vector2.h>
 
-1531054974 source:g:\mega\megamania-master\layout.c
+1531058358 source:g:\mega\megamania-master\layout.c
 	"global.h"
 	"layout.h"
 
@@ -1846,7 +1846,7 @@
 	"score.h"
 	"layout.h"
 
-1531057864 g:\mega\megamania-master\enemies.h
+1531062170 g:\mega\megamania-master\enemies.h
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -1875,4 +1875,12 @@
 1531051822 source:g:\mega\megamania-master\utility.c
 	"global.h"
 	"utility.h"
+
+1531057864 source:g:\mega\megamania-master\sprites.c
+	"sprites.h"
+
+1531059050 source:g:\mega\megamania-master\enemies.c
+	"global.h"
+	"enemies.h"
+	"sprites.h"
 
