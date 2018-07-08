@@ -78,7 +78,7 @@ sfText* Score_TextCreate(int score, sfVector2f posScore, int charSize)
 
     itoa(score, stringScore, 10);
 
-    nbrScore = Text_Create(stringScore, "Quantify Bold v2.6.ttf", charSize, sfColor_fromRGB(255,255,255), posScore);
+    nbrScore = Utility_TextCreate(stringScore, "Quantify Bold v2.6.ttf", charSize, sfColor_fromRGB(255,255,255), posScore);
 
     return nbrScore;
 }
@@ -87,7 +87,7 @@ sfText* Score_CreateLayout(sfVector2f position, int charSize)
 {
     sfText* scoreText;
 
-    scoreText = Text_Create("S C O R E", "Quantify Bold v2.6.ttf", charSize, sfColor_fromRGB(255, 255, 255), position);
+    scoreText = Utility_TextCreate("S C O R E", "Quantify Bold v2.6.ttf", charSize, sfColor_fromRGB(255, 255, 255), position);
 
     return scoreText;
 }

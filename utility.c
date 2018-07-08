@@ -1,7 +1,7 @@
 #include "global.h"
 #include "utility.h"
 
-sfText* Text_Create(char* string, char* fontName, int charSize, sfColor color, sfVector2f position)
+sfText* Utility_TextCreate(char* string, char* fontName, int charSize, sfColor color, sfVector2f position)
 {
     sfText* text;
     sfFont* font;
@@ -46,7 +46,7 @@ TYPE_BUTTON Utility_CreateButton(char stringText[50], float textSize, sfVector2f
     TYPE_BUTTON button;
 
         // Text of button
-    button.text = Text_Create(stringText,"Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255,255,255), position);
+    button.text = Utility_TextCreate(stringText,"Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255,255,255), position);
         // Base of button
     button.base = sfRectangleShape_create();
     sfRectangleShape_setSize(button.base, baseSize);

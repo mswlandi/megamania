@@ -498,18 +498,18 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background)
         // Setting back's button
         backButton = Utility_CreateButton("B A C K", 40, (sfVector2f){WIDTH - 120, 500}, (sfVector2f){200, 100}, sfColor_fromRGB(18, 16, 18));
         // S C O R E
-        scoreSign = Text_Create("H I G H S C O R E", "Quantify Bold v2.6.ttf", 40, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/6});
+        scoreSign = Utility_TextCreate("H I G H S C O R E", "Quantify Bold v2.6.ttf", 40, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/6});
         // Highscores
         for(i = 0; i < 5; i++)
         {
             fscanf(highscores, "%s", strings[i]);
             strcat(positions[i], strings[i]);
         }
-        scoreText1 = Text_Create(positions[0], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3});
-        scoreText2 = Text_Create(positions[1], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 50});
-        scoreText3 = Text_Create(positions[2], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 100});
-        scoreText4 = Text_Create(positions[3], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 150});
-        scoreText5 = Text_Create(positions[4], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 200});
+        scoreText1 = Utility_TextCreate(positions[0], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3});
+        scoreText2 = Utility_TextCreate(positions[1], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 50});
+        scoreText3 = Utility_TextCreate(positions[2], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 100});
+        scoreText4 = Utility_TextCreate(positions[3], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 150});
+        scoreText5 = Utility_TextCreate(positions[4], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 200});
 
 
         fclose(highscores);
@@ -561,15 +561,15 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
 
     /// Setting texts
         // Set creators
-    creators = Text_Create("C R E A T O R S: \n Marcos Samuel Landi\n Henry Bernardo K. de Avila.", "Quantify Bold v2.6.ttf",
+    creators = Utility_TextCreate("C R E A T O R S: \n Marcos Samuel Landi\n Henry Bernardo K. de Avila.", "Quantify Bold v2.6.ttf",
                            20, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH*3/8, 200});
 
         // Set spritesPack
-    spritesPack = Text_Create("S P R I T E ' S  P A C K :\n Space Shooter (Redux, plus fonts and sounds)\n by Kenney Vleugels (www.kenney.nl).", "Quantify Bold v2.6.ttf",
+    spritesPack = Utility_TextCreate("S P R I T E ' S  P A C K :\n Space Shooter (Redux, plus fonts and sounds)\n by Kenney Vleugels (www.kenney.nl).", "Quantify Bold v2.6.ttf",
                            20, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, 300});
 
         // Set why
-    why = Text_Create("W H Y  H A V E  Y O U  D O N E  T H I S ?\n Well, this game is the final project (coursework)\n of the UFRGS' Programming and Algorythms course.", "Quantify Bold v2.6.ttf",
+    why = Utility_TextCreate("W H Y  H A V E  Y O U  D O N E  T H I S ?\n Well, this game is the final project (coursework)\n of the UFRGS' Programming and Algorythms course.", "Quantify Bold v2.6.ttf",
                            20, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, 400});
 
     // Setting back's button
