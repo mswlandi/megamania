@@ -41,7 +41,7 @@ void Enemies_Set(TYPE_LEVEL* level, int numberLevel, TYPE_ENEMIES enemies[], int
 
     printf("Entrei no enemies set: %s\n", levelname);
     puts(levelname);
-    map = fopen(levelname, "r"); // It will open the file whose name is a parameter (dir: bin/debug)
+    map = fopen(levelname, "r");
 
     int posXAux = 40;   // starting X position
     int posYAux = 0;

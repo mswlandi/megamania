@@ -438,8 +438,9 @@ void Layout_GameMenu(sfRenderWindow* window)
             case 0:     /// Level 1
                         do
                         {
+                            // Goes through the maps, loading the maps from the files, that must be named "map_<number>.txt"
                             i = 1;
-                            while(numberlifes > 0 && i<5)
+                            while(numberlifes > 0 && i<=NUMBER_MAPS)
                             {
                                 // Setting the Level 1's enemies
                                 Enemies_Set(&levelbuffer, i, gameObjects.enemies, &nEnemies, &liveEnemies);
