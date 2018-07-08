@@ -380,7 +380,7 @@ void Layout_GameOver(sfRenderWindow* window, sfEvent event)
     //Mouse position Y is used to drag the window when the gameover screen is on.
 
     // Setting the enemies to the first level (if you reach Layout_GameOver, you've died 3 times)
-    Enemies_Set(&level1, gameObjects.enemies, &nEnemies, &liveEnemies);
+    Enemies_Set(&levelbuffer, 1, gameObjects.enemies, &nEnemies, &liveEnemies);
     score = 0;
     numberlifes = 3;
 }
@@ -438,41 +438,15 @@ void Layout_GameMenu(sfRenderWindow* window)
             case 0:     /// Level 1
                         do
                         {
-                            // Setting the Level 1's enemies
-                            Enemies_Set(&level1, gameObjects.enemies, &nEnemies, &liveEnemies);
-
-                            // Beginning the Level 1
-                            Layout_Stage(window, level1);
-
-                            /// Level 2
-                            if(numberlifes > 0) // It means that the player did not dead 3 times in the first level
+                            i = 1;
+                            while(numberlifes > 0 && i<5)
                             {
-                                // Setting the Level 2's enemies
-                                Enemies_Set(&level2, gameObjects.enemies, &nEnemies, &liveEnemies);
+                                // Setting the Level 1's enemies
+                                Enemies_Set(&levelbuffer, i, gameObjects.enemies, &nEnemies, &liveEnemies);
+                                // Beginning the Level 1
+                                Layout_Stage(window, levelbuffer);
 
-                                // Beginning the Level 2
-                                Layout_Stage(window, level2);
-                            }
-
-                            /// Level 3
-                            if(numberlifes > 0) // It means that the player did not dead 3 times in the second
-                            {
-                                level3.mapName = "map_3.txt";
-                                // Setting the Level 3's enemies
-                                Enemies_Set(&level3, gameObjects.enemies, &nEnemies, &liveEnemies);
-
-                                // Beginning the Level 3
-                                Layout_Stage(window, level3);
-                            }
-
-                            /// Level 4
-                            if(numberlifes > 0) // It means that the player did not dead 3 times in the third level
-                            {
-                                // Setting the Level 4's enemies
-                                Enemies_Set(&level4, gameObjects.enemies, &nEnemies, &liveEnemies);
-
-                                // Beginning the Level 4
-                                Layout_Stage(window, level4);
+                                i++;
                             }
 
                             gameoverFlag = 0; // Making possible to enter in a game over, and then you finish the levels
@@ -490,7 +464,7 @@ void Layout_GameMenu(sfRenderWindow* window)
                         // Verifying if there is a new highscore
                         positionScore = Score_AddHighScore(highscores, score);
                         if(positionScore)
-                            printf("Congratulation!! Your position was: %d\n", positionScore);
+                            printf("Congratulations!! Your position was: %d\n", positionScore);
 
                             // Winner screen
                         Layout_JustWon(window, gameObjects.background, positionScore);

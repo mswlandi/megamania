@@ -1879,3 +1879,69 @@
 	<time.h>
 	<math.h>
 
+1531088852 source:g:\mega\megamania-akahenry-morescenarios\enemies.c
+	"global.h"
+	"enemies.h"
+	"sprites.h"
+
+1531089098 g:\mega\megamania-akahenry-morescenarios\global.h
+	<SFML/Graphics.h>
+	<string.h>
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<math.h>
+
+1531089078 g:\mega\megamania-akahenry-morescenarios\enemies.h
+	"global.h"
+
+1531084334 g:\mega\megamania-akahenry-morescenarios\sprites.h
+	"global.h"
+	"utility.h"
+	"enemies.h"
+	"score.h"
+	"layout.h"
+
+1531084334 g:\mega\megamania-akahenry-morescenarios\utility.h
+	"global.h"
+
+1531084334 g:\mega\megamania-akahenry-morescenarios\score.h
+	"global.h"
+	"sprites.h"
+	"enemies.h"
+	"layout.h"
+	"utility.h"
+
+1531084334 g:\mega\megamania-akahenry-morescenarios\layout.h
+	"global.h"
+	"utility.h"
+	"sprites.h"
+	"enemies.h"
+	"score.h"
+
+1531084334 source:g:\mega\megamania-akahenry-morescenarios\global.c
+	"global.h"
+
+1531088898 source:g:\mega\megamania-akahenry-morescenarios\layout.c
+	"global.h"
+	"layout.h"
+
+1531084334 source:g:\mega\megamania-akahenry-morescenarios\score.c
+	"global.h"
+	"score.h"
+
+1531084334 source:g:\mega\megamania-akahenry-morescenarios\sprites.c
+	"sprites.h"
+
+1531084334 source:g:\mega\megamania-akahenry-morescenarios\utility.c
+	"global.h"
+	"utility.h"
+
+1531088522 source:g:\mega\megamania-akahenry-morescenarios\main.c
+	"global.h"
+	"utility.h"
+	"enemies.h"
+	"score.h"
+	"layout.h"
+	"sprites.h"
+

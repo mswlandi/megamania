@@ -18,8 +18,8 @@
 
 // This is an useful function that makes it shorter to create an enemy
 TYPE_ENEMIES Enemy_Create(int color, int posX, int posY);
-// This set the enemies by a level, which has the name of the map in its content
-void Enemies_Set(TYPE_LEVEL* level, TYPE_ENEMIES enemies[], int *nEnemies, int *liveEnemies);
+// This set the enemies of a level, according to the map number. "map_" + numberLevel + ".txt" will be loaded
+void Enemies_Set(TYPE_LEVEL* level, int numberLevel, TYPE_ENEMIES enemies[], int *nEnemies, int *liveEnemies);
 // This draws the enemies, one by one, if it's alive.
 void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, TYPE_GAMEOBJECTS gameObjects);
 // This moves the enemies according the level
