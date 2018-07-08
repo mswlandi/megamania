@@ -1,15 +1,11 @@
 #ifndef SCORE_H_INCLUDED
 #define SCORE_H_INCLUDED
 
-
-// Default headers
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-// CSFML header
-#include <SFML/Graphics.h>
 // Our headers
-#include "structs.h"
+#include "global.h"
+#include "sprites.h"
+#include "enemies.h"
+#include "layout.h"
 #include "utility.h"
 
 // This function adds a new highscore to TOP 5
