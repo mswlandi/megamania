@@ -28,20 +28,15 @@ TYPE_ENEMIES Enemy_Create(int color, int posX, int posY)
     return enemy;
 }
 
-void Enemies_Set(TYPE_LEVEL* level, int numberLevel, TYPE_ENEMIES enemies[], int *nEnemies, int *liveEnemies)
+int Enemies_Set(TYPE_LEVEL* level, int numberLevel, TYPE_ENEMIES enemies[], int *nEnemies, int *liveEnemies)
 {
+    int answer = 1;
+
     FILE *map;
 
     char levelname[50] = "map_";
     char numLevelChar[2];
     char pontotxt[6] = ".txt";
-
-    strcat(levelname, itoa(numberLevel, numLevelChar, 10));
-    strcat(levelname, pontotxt);
-
-    printf("Entrei no enemies set: %s\n", levelname);
-    puts(levelname);
-    map = fopen(levelname, "r");
 
     int posXAux = 40;   // starting X position
     int posYAux = 0;
@@ -49,40 +44,56 @@ void Enemies_Set(TYPE_LEVEL* level, int numberLevel, TYPE_ENEMIES enemies[], int
     char direction;     // It's the second char in the file map
     char buffer = '\n';
 
-    rewind(map);
+    // These two lines are to turn levelname = "map_(number).txt"
+    strcat(levelname, itoa(numberLevel, numLevelChar, 10));
+    strcat(levelname, pontotxt);
 
-    fseek(map, 0, SEEK_SET);
-    fscanf(map, "%d", &speed);  // It will put the first char, as a number, in speed
-    level->levelSpeed = speed;
-    fseek(map, 2, SEEK_SET);    // Jumping to second char of the file
-    direction = getc(map);      // Getting the second char of the file, which is the direction of movement of the enemies
-    level->direction = direction;
+    puts(levelname);
+    map = fopen(levelname, "r"); // It will open the file whose name is a level name (dir: bin/debug)
 
-    *nEnemies = 0;
-    *liveEnemies = 0;
-
-    while(!feof(map))
+    if(!map)
     {
-       buffer = getc(map);
-       switch(buffer)
-       {
-           case '\n':   posYAux += DIST_ENEMY_Y;    // A new line means we have to increase the Y position, and also
-                        posXAux = 40;               // go back to the starting X position
-                        break;
-
-           case ' ':    posXAux += DIST_ENEMY_X;    // Blanks means more space between the enemies
-                        break;
-
-           case 'x':    enemies[*nEnemies] = Enemy_Create(rand()%4, posXAux, posYAux);    // Setting the color to a random one (4 possibilities)
-                        enemies[*nEnemies].initialPos = (sfVector2f){posXAux, posYAux};
-                        *nEnemies += 1;
-                        *liveEnemies += 1;
-                        break;
-
-           default:     break;
-       }
+        printf("Error to open: %s", levelname);
+        answer = 0;
     }
-    fclose(map);
+    else
+    {
+        rewind(map);
+
+        fseek(map, 0, SEEK_SET);
+        fscanf(map, "%d", &speed);  // It will put the first char, as a number, in speed
+        level->levelSpeed = speed;
+        fseek(map, 2, SEEK_SET);    // Jumping to second char of the file
+        direction = getc(map);      // Getting the second char of the file, which is the direction of movement of the enemies
+        level->direction = direction;
+
+        *nEnemies = 0;
+        *liveEnemies = 0;
+
+        while(!feof(map))
+        {
+           buffer = getc(map);
+           switch(buffer)
+           {
+               case '\n':   posYAux += DIST_ENEMY_Y;    // A new line means we have to increase the Y position, and also
+                            posXAux = 40;               // go back to the starting X position
+                            break;
+
+               case ' ':    posXAux += DIST_ENEMY_X;    // Blanks means more space between the enemies
+                            break;
+
+               case 'x':    enemies[*nEnemies] = Enemy_Create(rand()%4, posXAux, posYAux);    // Setting the color to a random one (4 possibilities)
+                            enemies[*nEnemies].initialPos = (sfVector2f){posXAux, posYAux};
+                            *nEnemies += 1;
+                            *liveEnemies += 1;
+                            break;
+
+               default:     break;
+           }
+        }
+        fclose(map);
+    }
+    return answer;
 }
 
 void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, float dtime, float *number)
