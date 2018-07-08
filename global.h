@@ -77,8 +77,8 @@ typedef struct str_playership
     float posY;
 } TYPE_PLAYERSHIP;
 
-// Struct that holds all of the game's sprites
-typedef struct str_sprites
+// Struct that holds all of the game's sprites and some game objects
+typedef struct str_objects
 {
     TYPE_PLAYERSHIP ship;
     sfSprite* fire;
@@ -96,7 +96,7 @@ typedef struct str_sprites
     sfRectangleShape* fillLifeBar2;
     sfRectangleShape* base;
     TYPE_ENEMIES enemies[];
-} TYPE_ALLSPRITES;
+} TYPE_GAMEOBJECTS;
 
 // Struct which holds all about the logic of level
 typedef struct str_level
@@ -123,7 +123,7 @@ float mouseX;
 float mouseY;
 
 // Sprites
-TYPE_ALLSPRITES gameSprites; // It's a global variable yet, but we want to put it in the main function, maybe
+TYPE_GAMEOBJECTS gameSprites; // It's a global variable yet, but we want to put it in the main function, maybe
 
 
 // Levels

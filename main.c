@@ -22,7 +22,7 @@ int main()
     window = sfRenderWindow_create(mode, "Megamania", sfResize | sfClose, NULL);
 
     // Playing level
-    gameMenu(window);
+    Layout_GameMenu(window);
 
     // Cleanup resources
     sfSprite_destroy(gameSprites.ship.shipSprite);

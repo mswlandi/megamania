@@ -1,7 +1,7 @@
 #include "global.h"
 #include "layout.h"
 
-void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
+void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
 {
     /// Initializing stuff when the layout opens
     // Time variables
@@ -314,7 +314,7 @@ void layoutStage(sfRenderWindow* window, TYPE_LEVEL level)
     }
 }
 
-void layoutGameOver(sfRenderWindow* window, sfEvent event)
+void Layout_GameOver(sfRenderWindow* window, sfEvent event)
 {
     sfText* scoreLayout;
     sfText* scoreNb;
@@ -347,7 +347,7 @@ void layoutGameOver(sfRenderWindow* window, sfEvent event)
     numberlifes = 3;
 }
 
-void gameMenu(sfRenderWindow* window)
+void Layout_GameMenu(sfRenderWindow* window)
 {
     int i; // Count
     int flagButton = -1; // 0 - Play / 1 - Options / 2 - Credits
@@ -404,7 +404,7 @@ void gameMenu(sfRenderWindow* window)
                             Enemies_Set(&level1, gameSprites.enemies, &nEnemies, &liveEnemies);
 
                             // Beginning the Level 1
-                            layoutStage(window, level1);
+                            Layout_Stage(window, level1);
 
                             /// Level 2
                             if(numberlifes > 0) // It means that the player did not dead 3 times in the first level
@@ -413,7 +413,7 @@ void gameMenu(sfRenderWindow* window)
                                 Enemies_Set(&level2, gameSprites.enemies, &nEnemies, &liveEnemies);
 
                                 // Beginning the Level 2
-                                layoutStage(window, level2);
+                                Layout_Stage(window, level2);
                             }
 
                             gameoverFlag = 0; // Making possible to enter in a game over, and then you finish the levels
@@ -421,7 +421,7 @@ void gameMenu(sfRenderWindow* window)
                             if(numberlifes <= 0) // It means that the player dead 3 times, then, he can back and play again the first level
                             {
                                 // Show Game Over screen
-                                layoutGameOver(window, event); // Here, you can click and you will starts from beginning again
+                                Layout_GameOver(window, event); // Here, you can click and you will starts from beginning again
                                 gameoverFlag = 1;
                                 // Setting the enemies to beginning definitions
                                 liveEnemies = nEnemies;

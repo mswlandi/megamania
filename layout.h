@@ -17,10 +17,10 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background);
 // This function shows the credits screen
 void Layout_Credits(sfRenderWindow* window, sfSprite* background);
 // This loads all the stage (player ship, enemies, background, logic, ..., using a lot of others functions)
-void layoutStage(sfRenderWindow* window, TYPE_LEVEL level);
+void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level);
 // This is the menu of the game
-void gameMenu(sfRenderWindow* window);
+void Layout_GameMenu(sfRenderWindow* window);
 // This loads Game Over screen
-void layoutGameOver(sfRenderWindow* window, sfEvent event);
+void Layout_GameOver(sfRenderWindow* window, sfEvent event);
 
 #endif // LAYOUT_H_INCLUDED
