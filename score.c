@@ -109,7 +109,7 @@ float Score_EnergyBar(float energy, float maxEnergy)
 {
     float answer;
 
-    answer = energy/(maxEnergy/40) * 50;    // We want the energy bar to have 40 parts, so we divide it by 40 and divide the current energy by this
-                                            // fraction, that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined at the PDF)
+    answer = energy/(maxEnergy/40) * 50;    // We want the energy bar to have 40 parts, so we divide it by 40 and divide the current energy by this fraction,
+                                            // that tells us how many "slices" of energy we have. each slice is worth 50 energy (which is defined in the PDF)
     return answer;
 }

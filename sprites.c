@@ -75,7 +75,7 @@ void drawLifes(sfRenderWindow* window, sfSprite* life, int* numL)
     }
 }
 
-void loadgameObjects(TYPE_GAMEOBJECTS* gameObjects)
+void loadGameSprites(TYPE_GAMEOBJECTS* gameObjects)
 {
     /// Initializing background
     gameObjects->menuBackground = sfSprite_createFromFile("background.png",
