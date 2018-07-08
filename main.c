@@ -8,7 +8,7 @@
 int main()
 {
     // Loads all of the game's sprites
-    loadGameSprites(&gameSprites);
+    loadgameObjects(&gameObjects);
 
     // Initializing map names
     level1.mapName = "map_1.txt";
@@ -24,11 +24,8 @@ int main()
     // Playing level
     Layout_GameMenu(window);
 
-    // Cleanup resources
-    sfSprite_destroy(gameSprites.ship.shipSprite);
-    sfSprite_destroy(gameSprites.fire);
-    sfRenderWindow_destroy(window);
-
+    // Cleaning everything
+    cleanGameStuff(&gameObjects, window);
 
     return 0;
 }

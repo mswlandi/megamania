@@ -123,7 +123,7 @@ float mouseX;
 float mouseY;
 
 // Sprites
-TYPE_GAMEOBJECTS gameSprites; // It's a global variable yet, but we want to put it in the main function, maybe
+TYPE_GAMEOBJECTS gameObjects;
 
 
 // Levels

@@ -68,65 +68,85 @@ void drawLifes(sfRenderWindow* window, sfSprite* life, int* numL)
     }
 }
 
-void loadGameSprites(TYPE_GAMEOBJECTS* gameSprites)
+void loadgameObjects(TYPE_GAMEOBJECTS* gameObjects)
 {
     /// Initializing background
-    gameSprites->menuBackground = sfSprite_createFromFile("background.png",
+    gameObjects->menuBackground = sfSprite_createFromFile("background.png",
                                                         (sfVector2f){3.125, 2.3475},
                                                         (sfVector2f){WIDTH/2, HEIGHT/2});
 
-    gameSprites->ship.shipSprite = sfSprite_createFromFile("nave.png",
+    gameObjects->ship.shipSprite = sfSprite_createFromFile("nave.png",
                                                          (sfVector2f){0.8,0.8},
                                                          (sfVector2f){WIDTH/2, 450});
 
     // Fire
-    gameSprites->fire = sfSprite_createFromFile("fire.png",
+    gameObjects->fire = sfSprite_createFromFile("fire.png",
                                             (sfVector2f){0.5,0.5},
                                             (sfVector2f){-40, -40});
 
     // Enemy fire
-    gameSprites->enemyFire = sfSprite_createFromFile("fire.png",
+    gameObjects->enemyFire = sfSprite_createFromFile("fire.png",
                                             (sfVector2f){0.5,0.5},
                                             (sfVector2f){-40, -40});
-    sfSprite_setColor(gameSprites->enemyFire, sfColor_fromRGB(255, 100, 255));
+    sfSprite_setColor(gameObjects->enemyFire, sfColor_fromRGB(255, 100, 255));
 
     // Background
-    gameSprites->background = sfSprite_createFromFile("background.png",
+    gameObjects->background = sfSprite_createFromFile("background.png",
                                                   (sfVector2f){3.125, 2.3475},
                                                   (sfVector2f){WIDTH/2, HEIGHT/2});
 
     // Lifes
-    gameSprites->life = sfSprite_createFromFile("life.png",
+    gameObjects->life = sfSprite_createFromFile("life.png",
                                             (sfVector2f){1,1},
                                             (sfVector2f){350,575});
 
     // Life bar
-    gameSprites->lifebar = sfSprite_createFromFile("lifebar.png",
+    gameObjects->lifebar = sfSprite_createFromFile("lifebar.png",
                                                (sfVector2f){2, 1},
                                                (sfVector2f){WIDTH/2, 525});
 
-    gameSprites->gameover = sfSprite_createFromFile("gameover.png",
+    gameObjects->gameover = sfSprite_createFromFile("gameover.png",
                                                   (sfVector2f){1,1},
                                                   (sfVector2f){WIDTH/2, HEIGHT/2});
 
-    gameSprites->enemyBlack = sfSprite_createFromFile("enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyRed = sfSprite_createFromFile("enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyGreen = sfSprite_createFromFile("enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
-    gameSprites->enemyBlue = sfSprite_createFromFile("enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameObjects->enemyBlack = sfSprite_createFromFile("enemyBlack.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameObjects->enemyRed = sfSprite_createFromFile("enemyBlue.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameObjects->enemyGreen = sfSprite_createFromFile("enemyRed.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
+    gameObjects->enemyBlue = sfSprite_createFromFile("enemyGreen.png", (sfVector2f){ 0.7, 0.7}, (sfVector2f){-100, -100});
 
-    gameSprites->fillLifeBar = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->fillLifeBar, (sfVector2f){436, 35});
-    sfRectangleShape_setPosition(gameSprites->fillLifeBar, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites->fillLifeBar, sfColor_fromRGB(255,255,255));
+    gameObjects->fillLifeBar = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameObjects->fillLifeBar, (sfVector2f){436, 35});
+    sfRectangleShape_setPosition(gameObjects->fillLifeBar, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameObjects->fillLifeBar, sfColor_fromRGB(255,255,255));
 
-    gameSprites->fillLifeBar2 = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->fillLifeBar2, (sfVector2f){ENERGYMAX, ENERGYY});
-    sfRectangleShape_setPosition(gameSprites->fillLifeBar2, (sfVector2f){182, 507.5});
-    sfRectangleShape_setFillColor(gameSprites->fillLifeBar2, sfColor_fromRGB(100,0,0));
+    gameObjects->fillLifeBar2 = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameObjects->fillLifeBar2, (sfVector2f){ENERGYMAX, ENERGYY});
+    sfRectangleShape_setPosition(gameObjects->fillLifeBar2, (sfVector2f){182, 507.5});
+    sfRectangleShape_setFillColor(gameObjects->fillLifeBar2, sfColor_fromRGB(100,0,0));
 
     // GUI
-    gameSprites->base = sfRectangleShape_create();
-    sfRectangleShape_setSize(gameSprites->base, (sfVector2f){WIDTH, 100});
-    sfRectangleShape_setPosition(gameSprites->base, (sfVector2f){0, 500});
-    sfRectangleShape_setFillColor(gameSprites->base, sfColor_fromRGB(150,0,0));
+    gameObjects->base = sfRectangleShape_create();
+    sfRectangleShape_setSize(gameObjects->base, (sfVector2f){WIDTH, 100});
+    sfRectangleShape_setPosition(gameObjects->base, (sfVector2f){0, 500});
+    sfRectangleShape_setFillColor(gameObjects->base, sfColor_fromRGB(150,0,0));
+}
+
+void cleanGameStuff(TYPE_GAMEOBJECTS* gameObjects, sfRenderWindow* window)
+{
+    sfSprite_destroy(gameObjects->ship.shipSprite);
+    sfSprite_destroy(gameObjects->fire);
+    sfSprite_destroy(gameObjects->enemyFire);
+    sfSprite_destroy(gameObjects->menuBackground);
+    sfSprite_destroy(gameObjects->background);
+    sfSprite_destroy(gameObjects->life);
+    sfSprite_destroy(gameObjects->lifebar);
+    sfSprite_destroy(gameObjects->gameover);
+    sfSprite_destroy(gameObjects->enemyBlack);
+    sfSprite_destroy(gameObjects->enemyRed);
+    sfSprite_destroy(gameObjects->enemyBlue);
+    sfSprite_destroy(gameObjects->enemyGreen);
+    sfSprite_destroy(gameObjects->fillLifeBar);
+    sfSprite_destroy(gameObjects->fillLifeBar2);
+    sfSprite_destroy(gameObjects->base);
+    sfRenderWindow_destroy(window);
 }

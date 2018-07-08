@@ -17,6 +17,8 @@ int outOfScreen(sfSprite* sprite, float hScreen, float wScreen);
 // This draws the lifes on the screen (uses sfSprite_createFromFile).
 void drawLifes(sfRenderWindow* window, sfSprite* life, int* numL);
 // This function loads all the sprites that we use in the game
-void loadGameSprites(TYPE_GAMEOBJECTS* gameSprites);
+void loadgameObjects(TYPE_GAMEOBJECTS* gameObjects);
+// This function cleans (probably) every objec that has a destroy function in the game
+void cleanGameStuff(TYPE_GAMEOBJECTS* gameObjects, sfRenderWindow* window);
 
 #endif // SPRITES_H_INCLUDED

@@ -97,7 +97,7 @@ void Enemies_Move(TYPE_LEVEL level, TYPE_ENEMIES enemies[MAXENEMIES], int sizeAr
     }
 }
 
-void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, TYPE_GAMEOBJECTS gameSprites)
+void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int sizeArray, TYPE_GAMEOBJECTS gameObjects)
 {
     int i;
     sfVector2f bufferPos;
@@ -113,21 +113,21 @@ void Enemies_Draw(sfRenderWindow* window, TYPE_ENEMIES enemies[MAXENEMIES], int 
             switch(enemies[i].color)
             {
             case 1:
-                sfSprite_setPosition(gameSprites.enemyRed, bufferPos);
-                sfRenderWindow_drawSprite(window, gameSprites.enemyRed, NULL);
+                sfSprite_setPosition(gameObjects.enemyRed, bufferPos);
+                sfRenderWindow_drawSprite(window, gameObjects.enemyRed, NULL);
                 break;
             case 2:
-                sfSprite_setPosition(gameSprites.enemyGreen, bufferPos);
-                sfRenderWindow_drawSprite(window, gameSprites.enemyGreen, NULL);
+                sfSprite_setPosition(gameObjects.enemyGreen, bufferPos);
+                sfRenderWindow_drawSprite(window, gameObjects.enemyGreen, NULL);
                 break;
             case 3:
-                sfSprite_setPosition(gameSprites.enemyGreen, bufferPos);
-                sfRenderWindow_drawSprite(window, gameSprites.enemyGreen, NULL);
+                sfSprite_setPosition(gameObjects.enemyGreen, bufferPos);
+                sfRenderWindow_drawSprite(window, gameObjects.enemyGreen, NULL);
                 break;
             // If its anything else (including 0), it's gonna be black
             default:
-                sfSprite_setPosition(gameSprites.enemyBlack, bufferPos);
-                sfRenderWindow_drawSprite(window, gameSprites.enemyBlack, NULL);
+                sfSprite_setPosition(gameObjects.enemyBlack, bufferPos);
+                sfRenderWindow_drawSprite(window, gameObjects.enemyBlack, NULL);
 
             }
         }
@@ -241,8 +241,8 @@ int Enemies_isAtSamePoint(TYPE_ENEMIES* enemies, int sizeArray, sfSprite* sprite
     int numberOfEnemyDead = -1; // If there isn't an enemy dead in this array, it will be -1.
                                 // Else, it will be the number of the enemy dead in it's array.
 
-    float sizeEnemyX = sfSprite_getLocalBounds(gameSprites.enemyBlack).width;
-    float sizeEnemyY = sfSprite_getLocalBounds(gameSprites.enemyBlack).height;
+    float sizeEnemyX = sfSprite_getLocalBounds(gameObjects.enemyBlack).width;
+    float sizeEnemyY = sfSprite_getLocalBounds(gameObjects.enemyBlack).height;
 
     for(i = 0; i < sizeArray; i++)
     {
