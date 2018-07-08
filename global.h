@@ -115,7 +115,6 @@ typedef struct str_objects
 // Struct which holds all about the logic of level
 typedef struct str_level
 {
-    char* mapName;
     int levelSpeed;
     char direction; // Can be 'R', to right, 'L', to left, or 'B', to both synchronously.
     int numberEnemies;
