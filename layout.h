@@ -37,4 +37,4 @@ void Layout_GameMenu(sfRenderWindow* window);
 // This loads Game Over screen
 void Layout_GameOver(sfRenderWindow* window, sfEvent event);
 
-#endif // LAYOUT_H_INCLUDED
+#endif

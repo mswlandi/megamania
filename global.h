@@ -145,4 +145,4 @@ TYPE_LEVEL level1;
 
 TYPE_LEVEL level2;
 
-#endif // UTILITY_H_INCLUDED
+#endif

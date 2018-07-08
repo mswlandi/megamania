@@ -29,4 +29,4 @@ sfText* Score_CreateLayout(sfVector2f position, int charSize);
 // This sets the score according the current energy bar, after the level's end
 float Score_EnergyBar (float energy, float maxEnergy);
 
-#endif // SCORE_H_INCLUDED
+#endif
