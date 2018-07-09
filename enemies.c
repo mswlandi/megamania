@@ -1,11 +1,11 @@
 /*
-    Este Programa foi feito para o nosso trabalho final da cadeira de Algoritmos e ProgramaÁ„o da UFRGS, em 2018/1.
-    … um clone do jogo Megamania, originalmente lanÁado para Atari 2600, utilizando a linguagem C e uma biblioteca gr·fica.
+    Este Programa foi feito para o nosso trabalho final da cadeira de Algoritmos e Programa√ß√£o da UFRGS, em 2018/1.
+    √â um clone do jogo Megamania, originalmente lan√ßado para Atari 2600, utilizando a linguagem C e uma biblioteca gr√°fica.
 
-    A lÛgica de execuÁ„o do programa, junto com o resto da descriÁ„o do trabalho, est· descrita no documento do trabalho
-    sob o tÌtulo "A LÛgica do Jogo".
+    A l√≥gica de execu√ß√£o do programa, junto com o resto da descri√ß√£o do trabalho, est√° descrita no documento do trabalho
+    sob o t√≠tulo "A L√≥gica do Jogo".
 
-    Este arquivo, junto com enemies.h, descreve as funÁıes relacionadas aos inimigos, com o prefixo ìEnemies_î.
+    Este arquivo, junto com enemies.h, descreve as fun√ß√µes relacionadas aos inimigos, com o prefixo ‚ÄúEnemies_‚Äù.
 
     Autores: Henry de Avila e Marcos Landi
 
@@ -168,7 +168,7 @@ void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemi
 
     srand(time(NULL));
 
-    // If no one could shoot, but someone still alive, this would be an infinite loop
+    // If no one could shoot, but someone's still alive, this would be an infinite loop
     if(Enemies_canShoot(enemies, numberEnemies))
     {
         // Yes, with a lower ammount of enemies, the longer this loop could take, but
