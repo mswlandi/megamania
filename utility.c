@@ -36,10 +36,11 @@ int Utility_isOnButton(TYPE_BUTTON *button, sfRenderWindow* window)
 {
     int flagButton = 0;
 
-    if((sfMouse_getPosition(window).y <= (sfRectangleShape_getPosition(button->base).y + sfRectangleShape_getLocalBounds(button->base).height/2)
+    if(((sfMouse_getPosition(window).y <= (sfRectangleShape_getPosition(button->base).y + sfRectangleShape_getLocalBounds(button->base).height/2)
         && sfMouse_getPosition(window).y >= (sfRectangleShape_getPosition(button->base).y - sfRectangleShape_getLocalBounds(button->base).height/2))
         && (sfMouse_getPosition(window).x <= (sfRectangleShape_getPosition(button->base).x + sfRectangleShape_getLocalBounds(button->base).width/2)
         && sfMouse_getPosition(window).x >= (sfRectangleShape_getPosition(button->base).x - sfRectangleShape_getLocalBounds(button->base).width/2)))
+        && sfRenderWindow_hasFocus(window))
         {
             sfRectangleShape_setOutlineColor(button->base, sfColor_fromRGB( 255, 255, 255));
             // Check click

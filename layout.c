@@ -92,7 +92,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
 
         /// Pause Logic
         // Makes sure you don't pause and unpause every frame when the button is pressed
-        if(sfKeyboard_isKeyPressed(sfKeyP))
+        if(sfKeyboard_isKeyPressed(sfKeyP) && sfRenderWindow_hasFocus(window))
         {
             if(!pPressedLastTime)
             {
@@ -106,13 +106,13 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         }
 
         /// Cheats logic
-        if(sfKeyboard_isKeyPressed(sfKeyI))
+        if(sfKeyboard_isKeyPressed(sfKeyI) && sfRenderWindow_hasFocus(window))
         {
             if(!iPressedLastTime)
                 invencibiltyOn = !invencibiltyOn;
 
             if(invencibiltyOn)
-                printf("Invencibility on!!\n");
+                printf("Invencibility ON\n");
             else
                 printf("Invencibility OFF\n");
 
@@ -390,6 +390,7 @@ void Layout_GameMenu(sfRenderWindow* window)
     int i;
     int flagButton = -1; // 0 - Play, 1 - Options, 2 - Credits
     int gameoverFlag = 0; // If it's 0, you don't want to play again after the game over screen. If it's 1, you want.
+    int stillGameLevels = 1; // If it's 1, there are more levels to play. Else, it's 0.
 
     FILE *highscores;
     int positionScore = 0; // If it's 0, your score didn't enter in the highscores
@@ -410,7 +411,7 @@ void Layout_GameMenu(sfRenderWindow* window)
     // Initializing play button
     patternMenu.buttons[0] = Utility_CreateButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
-    // Initializing highscores button
+    // Initializing option button
     patternMenu.buttons[1] = Utility_CreateButton("H I G H S C O R E S", 40, (sfVector2f){WIDTH/2, 430}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
 
     // Initializing credits button
@@ -438,37 +439,37 @@ void Layout_GameMenu(sfRenderWindow* window)
             case 0:     /// Level 1
                         do
                         {
-                            // Goes through the maps, loading the maps from the files, that must be named "map_<number>.txt"
                             i = 1;
-                            while(numberlifes > 0 && i<=NUMBER_MAPS)
+                            while(numberlifes > 0 && stillGameLevels)
                             {
-                                // Setting the Level's enemies
-                                Enemies_Set(&levelbuffer, i, gameObjects.enemies, &nEnemies, &liveEnemies);
-                                // Starting the level
-                                Layout_Stage(window, levelbuffer);
+                                // Setting the Level 1's enemies
+                                stillGameLevels = Enemies_Set(&levelbuffer, i, gameObjects.enemies, &nEnemies, &liveEnemies);
 
-                                i++;
+                                if(stillGameLevels)
+                                {
+                                    // Beginning the Level 1
+                                    Layout_Stage(window, levelbuffer);
+
+                                    i++;
+                                }
                             }
 
                             gameoverFlag = 0; // Making possible to enter in a game over, and then you finish the levels
 
-                            // If the player still have lives, this if won't run an the loop will go to the next iteration, effectively
-                            // restarting from level 1.
                             if(numberlifes <= 0) // It means that the player dead 3 times, then, he can back and play again the first level
                             {
-                                // Showing Game Over screen - When you click, the game will start again, from level 1.
-                                Layout_GameOver(window, event);
+                                // Show Game Over screen
+                                Layout_GameOver(window, event); // Here, you can click and you will starts from beginning again
                                 gameoverFlag = 1;
+                                // Setting the enemies to beginning definitions
                                 liveEnemies = nEnemies;
                             }
-                        } while(gameoverFlag);
+                        }while(gameoverFlag);
 
                         // Verifying if there is a new highscore
                         positionScore = Score_AddHighScore(highscores, score);
-                        if(positionScore)
-                            printf("Congratulations!! Your position was: %d\n", positionScore);
 
-                            // Winner screen
+                        // Winner screen
                         Layout_JustWon(window, gameObjects.background, positionScore);
 
                         score = 0;
@@ -605,11 +606,11 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
 
         // Set spritesPack
     spritesPack = Utility_TextCreate("S P R I T E ' S  P A C K :\n Space Shooter (Redux, plus fonts and sounds)\n by Kenney Vleugels (www.kenney.nl).", "Quantify Bold v2.6.ttf",
-                           20, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, 300});
+                           20, sfColor_fromRGB(255,255,255), (sfVector2f){(WIDTH*3/8 + 82), 300});
 
         // Set why
     why = Utility_TextCreate("W H Y  H A V E  Y O U  D O N E  T H I S ?\n Well, this game is the final project (coursework)\n of the UFRGS' Programming and Algorythms course.", "Quantify Bold v2.6.ttf",
-                           20, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, 400});
+                           20, sfColor_fromRGB(255,255,255), (sfVector2f){(WIDTH*3/8 + 110.5), 400});
 
     // Setting back's button
     backButton = Utility_CreateButton("B A C K", 40, (sfVector2f){WIDTH - 200, 100}, (sfVector2f){200, 100}, sfColor_fromRGB(18, 16, 18));
