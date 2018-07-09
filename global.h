@@ -37,6 +37,8 @@
 // Levels' constants
 #define MAX_LEVELS
 
+/// Headers
+
 // SFML headers
 #include <SFML/Graphics.h>
 
@@ -59,9 +61,8 @@ typedef struct str_button
 // Struct for menu
 typedef struct str_menu
 {
-    sfFont* font;
     sfText* megamaniaLogo;
-    TYPE_BUTTON buttons[3]; // 0 - PLAY / 1 - OPTIONS / 2 - CREDITS
+    TYPE_BUTTON buttons[3]; // 0 - PLAY / 1 - HIGHSCORES / 2 - CREDITS
 } TYPE_MENU;
 
 // Struct for fire
@@ -116,7 +117,7 @@ typedef struct str_objects
 typedef struct str_level
 {
     int levelSpeed;
-    char direction; // Can be 'R', to right, 'L', to left, or 'B', to both synchronously.
+    char direction; // Can be 'R', to right, 'L', to left, or 'B', to both synchronously, or 'S' to senoidal movement.
     int numberEnemies;
     int paused;
     float lastShot;
@@ -126,9 +127,9 @@ typedef struct str_level
 
 // General variables
 float energy;
-int numberlifes;
+int numberlifes;    // It represents the current player's number of lifes.
 int nEnemies;
-int liveEnemies;
+int liveEnemies;    // It represents the current number of enemies on the screen
 int score;
 
 // Mouse variables
@@ -137,7 +138,6 @@ float mouseY;
 
 // Sprites
 TYPE_GAMEOBJECTS gameObjects;
-
 
 // Level buffer
 

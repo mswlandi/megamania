@@ -152,8 +152,8 @@ void cleanGameStuff(TYPE_GAMEOBJECTS* gameObjects, sfRenderWindow* window)
     sfSprite_destroy(gameObjects->enemyRed);
     sfSprite_destroy(gameObjects->enemyBlue);
     sfSprite_destroy(gameObjects->enemyGreen);
-    sfSprite_destroy(gameObjects->fillLifeBar);
-    sfSprite_destroy(gameObjects->fillLifeBar2);
-    sfSprite_destroy(gameObjects->base);
+    sfRectangleShape_destroy(gameObjects->fillLifeBar);
+    sfRectangleShape_destroy(gameObjects->fillLifeBar2);
+    sfRectangleShape_destroy(gameObjects->base);
     sfRenderWindow_destroy(window);
 }

@@ -12,7 +12,6 @@
 
     08/07/2018
 */
-#include "global.h"
 #include "layout.h"
 
 void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
@@ -37,7 +36,7 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
     int pPressedLastTime = 0;
     int shouldLoop = 1; // Used to indicate whether it should continue looping or not
     int isB = 0; // If direction is 'B', it's 1. Else, 0.
-    int invencibiltyOn = 0; // If it's 0, cheat is disabled. Else, is enabled.
+    int invencibilityOn = 0; // If it's 0, cheat is disabled. Else, is enabled.
     int iPressedLastTime = 0;
 
     // Animations
@@ -54,27 +53,21 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
     int positionEnemyDead; // The dead enemy in this frame
     float numberToSin = 0; // If the direction is 'S', this number will be used to move in Y coordinate as sin function.
 
-    // Score
-    sfFont* font;
-    font = sfFont_createFromFile("Quantify Bold v2.6.ttf");
+    // Text for score
     char scoreString[7];
     itoa(score, scoreString, 10);
     sfText* textForScore;
-    textForScore = sfText_create();
-
-    // Initializing textForScore
-    sfText_setOrigin(textForScore, (sfVector2f){sfText_getLocalBounds(textForScore).width/2, sfText_getLocalBounds(textForScore).height/2});
-    sfText_setFont(textForScore, font);
-    sfText_setPosition(textForScore, (sfVector2f){650, 550});
-    sfText_setFillColor(textForScore, sfColor_fromRGB(255, 255, 255));
-    sfText_setCharacterSize(textForScore, 40);
-    sfText_setString(textForScore, scoreString);
+    textForScore = Utility_TextCreate(scoreString, "Quantify Bold v2.6.ttf", 40, sfColor_fromRGB(255, 255, 255), (sfVector2f){650, 550});
 
     // Energy Bar
     energy = 0;
 
+    // Checking if level's direction is 'B'
     if(directionEnemyMove == 'B')
         isB = 1;
+
+    // Initializing position
+    sfSprite_setPosition(gameObjects.ship.shipSprite, (sfVector2f){WIDTH/2, 450});
 
     /// Loop of the layout
     // The shouldLoop is off when the stage ends or repeats, that is, when the player dies, or when he wins
@@ -85,7 +78,10 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         {
             // Close window : exit
             if (event.type == sfEvtClosed)
+            {
                 sfRenderWindow_close(window);
+                exit(0);
+            }
         }
 
         /// Logic of the layout
@@ -106,12 +102,13 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         }
 
         /// Cheats logic
+        // Makes sure you don't turn on and turn off every frame when the button is pressed
         if(sfKeyboard_isKeyPressed(sfKeyI) && sfRenderWindow_hasFocus(window))
         {
             if(!iPressedLastTime)
-                invencibiltyOn = !invencibiltyOn;
+                invencibilityOn = !invencibilityOn;
 
-            if(invencibiltyOn)
+            if(invencibilityOn)
                 printf("Invencibility ON\n");
             else
                 printf("Invencibility OFF\n");
@@ -204,17 +201,17 @@ void Layout_Stage(sfRenderWindow* window, TYPE_LEVEL level)
         if(!animating)
         {
             // When the energy ends, you lose a life
-            if(energy <= 0 && !invencibiltyOn)
+            if(energy <= 0 && !invencibilityOn)
             {
                 numberlifes--;  // -1 life ;-;
                 animating = 2;
             }
 
-            if(!invencibiltyOn)
+            if(!invencibilityOn)
                 energy -= BARSPEED*dtime; // To empty the life bar
             sfRectangleShape_setSize(gameObjects.fillLifeBar2, (sfVector2f){energy, ENERGYY});
 
-            if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameObjects.enemies, nEnemies, dtime, gameObjects.ship) && !invencibiltyOn)
+            if(Enemies_MovingFires(ENEMYFIRE_SPEED, gameObjects.enemies, nEnemies, dtime, gameObjects.ship) && !invencibilityOn)
                 energy = 0;
         }
         /// Animation
@@ -357,7 +354,10 @@ void Layout_GameOver(sfRenderWindow* window, sfEvent event)
     sfText* scoreLayout;
     sfText* scoreNb;
 
+    /// Creating texts
+    // S C O R E
     scoreLayout = Score_CreateLayout((sfVector2f){WIDTH/2, HEIGHT/6}, 40);
+    // Score numbers
     scoreNb = Score_TextCreate(score, (sfVector2f){WIDTH/2, HEIGHT/4}, 30);
 
     do
@@ -367,7 +367,10 @@ void Layout_GameOver(sfRenderWindow* window, sfEvent event)
         {
             // Close window : exit
             if (event.type == sfEvtClosed)
+            {
                 sfRenderWindow_close(window);
+                exit(0);
+            }
         }
 
         sfSleep(sfMilliseconds(10));
@@ -398,15 +401,8 @@ void Layout_GameMenu(sfRenderWindow* window)
 
     TYPE_MENU patternMenu;
 
-    patternMenu.font = sfFont_createFromFile("Quantify Bold v2.6.ttf");
-
-    /// Initializing megamania logo
-    patternMenu.megamaniaLogo = sfText_create();
-    sfText_setCharacterSize(patternMenu.megamaniaLogo, 60);
-    sfText_setString(patternMenu.megamaniaLogo, "M E G A M A N I A");
-    sfText_setFont(patternMenu.megamaniaLogo, patternMenu.font);
-    sfText_setOrigin(patternMenu.megamaniaLogo, (sfVector2f){sfText_getLocalBounds(patternMenu.megamaniaLogo).width/2, sfText_getLocalBounds(patternMenu.megamaniaLogo).height/2});
-    sfText_setPosition(patternMenu.megamaniaLogo, (sfVector2f){WIDTH/2, HEIGHT/6});
+    // Initializing megamania logo
+    patternMenu.megamaniaLogo = Utility_TextCreate("M E G A M A N I A", "Quantify Bold v2.6.ttf", 60, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, HEIGHT/6});
 
     // Initializing play button
     patternMenu.buttons[0] = Utility_CreateButton("P L A Y", 40, (sfVector2f){WIDTH/2, 320}, (sfVector2f){BUTTON_WIDTH, BUTTON_HEIGHT}, sfColor_fromRGB( 18, 16, 18));
@@ -437,6 +433,8 @@ void Layout_GameMenu(sfRenderWindow* window)
         switch(flagButton)
         {
             case 0:     /// Level 1
+                        // Initializing flag
+                        stillGameLevels = 1;
                         do
                         {
                             i = 1;
@@ -516,8 +514,8 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background)
     sfText* scoreText3;
     sfText* scoreText4;
     sfText* scoreText5;
-    char strings[5][50];
-    char positions[5][10];
+    char strings[5][30];
+    char positions[5][30];
 
     sfEvent event;
 
@@ -551,7 +549,6 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background)
         scoreText4 = Utility_TextCreate(positions[3], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 150});
         scoreText5 = Utility_TextCreate(positions[4], "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255, 255, 255), (sfVector2f){WIDTH/2, HEIGHT/3 + 200});
 
-
         fclose(highscores);
 
         // Displaying the window
@@ -562,7 +559,10 @@ void Layout_Highscores(sfRenderWindow* window, sfSprite* background)
             {
                 // Close window : exit
                 if (event.type == sfEvtClosed)
+                {
                     sfRenderWindow_close(window);
+                    exit(0);
+                }
             }
 
             /// Code to check if mouse is on the button
@@ -592,7 +592,7 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
 {
     sfEvent event;
 
-    TYPE_BUTTON backButton;
+    TYPE_BUTTON backButton; // "Back to menu" button
     int flagButton = 0; // If it's 0, you didn't click on the button. Else, you did.
 
     sfText* creators;   // It talks about who creates this game
@@ -622,7 +622,10 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
         {
             // Close window : exit
             if (event.type == sfEvtClosed)
+            {
                 sfRenderWindow_close(window);
+                exit(0);
+            }
         }
 
         flagButton = Utility_isOnButton(&backButton, window);
@@ -647,6 +650,8 @@ void Layout_Credits(sfRenderWindow* window, sfSprite* background)
 void Layout_JustWon(sfRenderWindow* window, sfSprite* background, int flagRank)
 {
     sfEvent event;
+
+    TYPE_BUTTON backButton; // "Back to menu" button
     int flagButton;
 
     sfText* scoreLayout;
@@ -655,17 +660,21 @@ void Layout_JustWon(sfRenderWindow* window, sfSprite* background, int flagRank)
     char rankCongrat[50];
     char nbrRank[20];
 
+    // Resetting lives for the next playthrough
+    numberlifes = 3;
+
+    // Creating congratulations string to put in the text
     strcpy(rankCongrat, "Congratulations!! You have the ");
     itoa(flagRank, nbrRank, 10);
     strcat(nbrRank, " highest score.");
     strcat(rankCongrat, nbrRank);
 
-    TYPE_BUTTON backButton;
-
-
+    // S C O R E
     scoreLayout = Score_CreateLayout((sfVector2f){WIDTH/2, HEIGHT/6}, 40);
+    // Score number
     scoreNb = Score_TextCreate(score, (sfVector2f){WIDTH/2, HEIGHT/4}, 30);
 
+    // Create congratulations text
     if(flagRank)
     {
         congratulations = Utility_TextCreate(rankCongrat, "Quantify Bold v2.6.ttf", 30, sfColor_fromRGB(255,255,255), (sfVector2f){WIDTH/2, HEIGHT/2});
@@ -681,9 +690,13 @@ void Layout_JustWon(sfRenderWindow* window, sfSprite* background, int flagRank)
         {
             // Close window : exit
             if (event.type == sfEvtClosed)
+            {
                 sfRenderWindow_close(window);
+                exit(0);
+            }
         }
 
+        // Checking if mouse is on button
         flagButton = Utility_isOnButton(&backButton, window);
 
         /// Drawing on the screen
