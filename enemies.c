@@ -168,7 +168,7 @@ void Enemies_Shooting(TYPE_ENEMIES enemies[], int numberEnemies, int livingEnemi
 
     srand(time(NULL));
 
-    // If no one could shoot, but some enemy still be alive, this would be an infinite loop
+    // If no one could shoot, but someone still alive, this would be an infinite loop
     if(Enemies_canShoot(enemies, numberEnemies))
     {
         // Yes, with a lower ammount of enemies, the longer this loop could take, but

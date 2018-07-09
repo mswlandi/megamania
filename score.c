@@ -17,13 +17,14 @@
 int Score_AddHighScore(FILE *highscores, int score)
 {
     int top[5] = {0};
-    int i = 0;
-    int j = 0;
-    int answer = 0;
+    int i = 0;  // Count
+    int j = 0;  // Count
+    int answer = 0; // It's the position this score deserves
     int scoreBuffer = 0;
     char stringBuffer[60];
     char buffer;
 
+    // Opening file
     highscores = fopen("highscores.txt", "r+");
 
     rewind(highscores);
@@ -32,13 +33,14 @@ int Score_AddHighScore(FILE *highscores, int score)
         printf("Open highscores.txt error\n");
     else
     {
+        /// Reading highscores.txt
         while(!feof(highscores))
         {
             buffer = getc(highscores);
             if(buffer != '\n')
             {
                 stringBuffer[i] = buffer;
-                stringBuffer[i+1] = '\0';
+                stringBuffer[i+1] = '\0';   // Putting an end after the last number of the score
                 i++;
             }
             else
@@ -49,6 +51,7 @@ int Score_AddHighScore(FILE *highscores, int score)
             }
         }
 
+        /// Comparing highscores.txt with given score
         for(i = 0; i < 5; i++)
         {
             if(score > top[i])
@@ -58,7 +61,7 @@ int Score_AddHighScore(FILE *highscores, int score)
                 top[i] = score;
                 for(j = (i+1); j < 5; j++)
                 {
-                    score = top[j]; // Score is being used as a buffer
+                    score = top[j]; // Score is being used as a buffer here
                     top[j] = scoreBuffer;
                     scoreBuffer = score;
                 }
@@ -66,6 +69,7 @@ int Score_AddHighScore(FILE *highscores, int score)
             }
         }
 
+        /// Writing in highscores.txt
         rewind(highscores);
         for(i = 0; i < 5; i++)
         {

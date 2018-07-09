@@ -19,8 +19,10 @@ sfText* Utility_TextCreate(char* string, char* fontName, int charSize, sfColor c
     sfText* text;
     sfFont* font;
 
+    /// Creating font
     font = sfFont_createFromFile(fontName);
 
+    /// Creatig text
     text = sfText_create();
     sfText_setString(text, string);
     sfText_setFont(text, font);
